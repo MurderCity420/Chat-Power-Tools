@@ -12,8 +12,8 @@
 // @grant        GM_deleteValue
 // @grant        GM_listValues
 // @grant        unsafeWindow
-// @downloadURL  https://raw.githubusercontent.com/MurderCity420/OMGChat-Power-Tools/main/OMGChat-Power-Tools.user.js
-// @updateURL    https://raw.githubusercontent.com/MurderCity420/OMGChat-Power-Tools/main/OMGChat-Power-Tools.user.js
+// @downloadURL  https://raw.githubusercontent.com/MurderCity420/Chat-Power-Tools/main/Chat-Power-Tools.user.js
+// @updateURL    https://raw.githubusercontent.com/MurderCity420/Chat-Power-Tools/main/Chat-Power-Tools.user.js
 // ==/UserScript==
 
 unsafeWindow.PT_ICONS = {
