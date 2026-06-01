@@ -2,7 +2,7 @@
 
 A feature-rich Tampermonkey userscript for OMGChat that adds an unlimited ignore list, keyword filtering, favorites, mention alerts, and much more.
 
-**Current Version: 0.0.76**
+**Current Version: 0.0.78**
 
 ---
 
