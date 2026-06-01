@@ -72,7 +72,7 @@ Chrome and Edge require one extra setting before userscripts will run.
 
 Click the button below. Tampermonkey will open a page asking you to confirm the install.
 
-**➡️ [Install Chat Power Tools](https://raw.githubusercontent.com/MurderCity420/OMGChat-Power-Tools/main/OMGChat-Power-Tools.user.js)**
+**➡️ [Install Chat Power Tools](https://raw.githubusercontent.com/MurderCity420/Chat-Power-Tools/main/Chat-Power-Tools.user.js)**
 
 Click **Install** on the confirmation page.
 
