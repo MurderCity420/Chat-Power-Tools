@@ -35,6 +35,7 @@ Choose how a message that mentions you is marked:
 | **Strong highlight** | Solid background tint |
 | **Bold** | Bold text |
 | **Box** | Full border around the message |
+| ![Highlight types](../screenshots/highlight-types.png) |
 
 **Highlight color** can be the default red, the **sender's username color**, or a **custom color** (custom colors are contrast-checked against your chat background so they stay readable).
 

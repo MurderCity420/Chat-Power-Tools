@@ -16,9 +16,11 @@ Each user can be placed in one of three cumulative tiers, set with checkboxes on
 | **Ignored** | Hides all their messages | + Alerts |
 | **Blocked** | Server-side block (they can't see you, you can't see them) | + Ignored + Alerts |
 
-The tiers are **cumulative** — checking **Ignored** auto-checks **Alerts**; checking **Blocked** auto-checks both lower boxes. Unchecking a lower box clears the higher ones.
+The tiers are **cumulative** — checking **Ignored** auto-checks **Alerts**; checking **Blocked** auto-checks both lower boxes. Unchecking a lower box clears the higher ones. If you uncheck **Alerts** on someone who's Ignored or Blocked, you'll get a confirmation first (since it removes them from that list entirely).
 
 Checking **Blocked** also **blocks the user on the site** and adds them to your Blocks tab. Unchecking it **unblocks them on the server** again.
+
+Each row shows a **member / guest / mod** badge and a colored left edge by tier. **Click a username** to open their profile in a new tab. **Click a column header** (Alerts / Ignored / Blocked) to filter the list to that tier; click the active header again to show all.
 
 | The Ignored tab — Name / Alerts / Ignored / Blocked / Remove |
 |:---:|
@@ -49,7 +51,7 @@ Other options on the Ignored tab:
 |:---:|
 | ![Blocks tab](../screenshots/blocks-tab.png) |
 
-**You Block** (left) shows your server block list, **newest first** to match the site, with a **Member / Guest** badge on each entry:
+**You Block** (left) shows your server block list, **newest first** to match the site, with a **member / guest / mod** badge on each entry and a clickable username (opens their profile in a new tab):
 
 - **Unblock** — removes them server-side (and from your tiers).
 - **Filter** box to search.

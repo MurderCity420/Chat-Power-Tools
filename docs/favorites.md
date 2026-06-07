@@ -16,6 +16,16 @@ Type a username and click **Add**, or use the in-chat menu: click a user's name/
 
 ---
 
+## The Favorites & Friends list
+
+The list shows everyone you've marked, with a **member / guest / mod** badge and a colored left edge:
+
+- 🟡 **Fav Only** · 🔵 **Friend Only** · 🟢 **Friend & Fav**
+
+Click any of those labels at the top to **filter** the list to that group; click **All** to show everyone. Each row's dropdown switches a user between Fav / Friend / both. **Click a username** to open their profile in a new tab.
+
+---
+
 ## Highlight style & color
 
 Same four styles as [Alerts](alerts.md):
