@@ -41,6 +41,7 @@ A feature-rich Tampermonkey userscript for **OMGChat** (cammedia) that adds an u
 ### Getting going
 - **[Installation](docs/installation.md)** — install Tampermonkey and the script
 - **[Getting Started](docs/getting-started.md)** — the panel, tabs, and basics
+- **[Syncing your settings](docs/syncing-settings.md)** — back up & sync via OneDrive or Google Drive
 - **[Updating & Uninstalling](docs/updating-and-uninstalling.md)**
 
 ### Using each tab

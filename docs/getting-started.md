@@ -44,6 +44,8 @@ The panel is organized into tabs. Click a tab to switch to it; the data-backed t
 
 Every toggle and list is stored locally by Tampermonkey the moment you change it — there's no "Save" button. Your settings persist across reloads.
 
+> Want the same settings on another computer or browser? See **[Syncing your settings](syncing-settings.md)** — back them up to OneDrive or Google Drive.
+
 > **Multiple accounts, one browser?** Tampermonkey storage is shared across every OMGChat account you use in the same browser. Block-related auto-actions are **account-scoped** so one account won't act on another's lists, but favorites/keywords/etc. are shared. See [Ignored & Blocks](ignore-and-blocks.md) for details.
 
 ---

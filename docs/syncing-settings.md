@@ -1,0 +1,136 @@
+# Syncing your settings (OneDrive / Google Drive)
+
+[← Back to README](../README.md) · [All docs](getting-started.md)
+
+Your Chat Power Tools settings — favorites, ignore/block tiers, keywords, alerts, fan-mail templates, and everything else — are stored **by Tampermonkey**, inside your browser. Tampermonkey can automatically **back those up to a cloud drive** and restore them on another computer or browser. This keeps your setup identical everywhere you chat.
+
+> **You almost certainly already have one of these:**
+> - If you have a **Gmail / Google** account → you have **Google Drive**.
+> - If you have an **Outlook / Hotmail / Microsoft** account → you have **OneDrive**.
+>
+> Use whichever you already have. No new sign-ups needed.
+
+This syncs **everything Tampermonkey stores** — the Chat Power Tools script itself *and* all of its saved settings.
+
+---
+
+## Before you start
+
+- Tampermonkey must be installed (see [Installation](installation.md)).
+- Do this on the computer that already has your settings the way you like them — that becomes the "source".
+- Some cloud options only appear when Tampermonkey is in **Advanced** config mode (see the tip at the end if you don't see them).
+
+---
+
+## Step 1 — Open Tampermonkey's settings
+
+1. Click the **Tampermonkey icon** in your toolbar.
+2. Click **Dashboard**.
+3. Click the **Settings** tab at the top.
+
+| Tampermonkey → Dashboard → Settings |
+|:---:|
+| ![Tampermonkey settings tab](../screenshots/sync-settings-tab.png) |
+
+---
+
+## Step 2 — Find the Backup → Cloud section
+
+Scroll down to the **Backup** section. You'll see a **Cloud** row with buttons for each provider — **Google Drive**, **OneDrive**, **Dropbox**, and **WebDAV**.
+
+| The Backup / Cloud section |
+|:---:|
+| ![Backup cloud section](../screenshots/sync-backup-cloud.png) |
+
+> Wording and layout vary slightly between Tampermonkey versions and browsers — look for **Backup**, **Cloud**, or **Sync**.
+
+---
+
+## Step 3 — Connect your cloud drive
+
+### Option A — Google Drive *(Gmail users)*
+
+1. Click the **Google Drive** button in the Cloud row.
+2. A Google sign-in window opens. Choose your Google account.
+3. Click **Allow** to let Tampermonkey store backups in your Drive.
+
+| Google Drive authorization |
+|:---:|
+| ![Google Drive authorize](../screenshots/sync-gdrive-authorize.png) |
+
+### Option B — OneDrive *(Outlook / Microsoft users)*
+
+1. Click the **OneDrive** button in the Cloud row.
+2. A Microsoft sign-in window opens. Choose your Microsoft account.
+3. Click **Yes / Accept** to let Tampermonkey store backups in your OneDrive.
+
+| OneDrive authorization |
+|:---:|
+| ![OneDrive authorize](../screenshots/sync-onedrive-authorize.png) |
+
+After authorizing, Tampermonkey remembers the connection.
+
+---
+
+## Step 4 — Make your first backup
+
+Click **Backup to cloud** (sometimes shown as an upload ⬆️ icon next to the provider). Tampermonkey uploads your scripts and their settings to the drive.
+
+To keep it updated automatically, turn on **Automatic** backup (and set how often, if asked).
+
+| Backup to cloud + automatic toggle |
+|:---:|
+| ![Backup to cloud](../screenshots/sync-backup-now.png) |
+
+✅ Your settings are now safely in your cloud drive.
+
+---
+
+## Step 5 — Restore on another device
+
+On the second computer or browser:
+
+1. Install Tampermonkey ([Installation](installation.md)).
+2. Open **Dashboard → Settings → Backup → Cloud**.
+3. Connect the **same** cloud provider (Step 3) — sign in with the **same account**.
+4. Click **Restore from cloud** (the download ⬇️ icon).
+
+| Restore from cloud |
+|:---:|
+| ![Restore from cloud](../screenshots/sync-restore-cloud.png) |
+
+Refresh OMGChat — Chat Power Tools and all your settings appear, identical to your other device.
+
+> **Heads-up:** *Restore* replaces that device's Tampermonkey data with the cloud copy. If both devices have settings you care about, back up the "good" one and restore *onto* the other — not the reverse.
+
+---
+
+## Keeping devices in sync going forward
+
+- With **Automatic** backup on, the device where you make changes uploads them on a schedule.
+- On the other device, run **Restore from cloud** when you want to pull the latest, then refresh OMGChat.
+- Tampermonkey does **not** merge two devices — the most recent backup wins. Pick one device as your "main" and restore onto the others.
+
+---
+
+## What gets synced
+
+| Synced ✅ | Not synced ❌ |
+|---|---|
+| The Chat Power Tools script | Anything outside Tampermonkey |
+| All your settings (favorites, tiers, keywords, alerts, fan mail…) | Your OMGChat login/session |
+| Other userscripts you have | — |
+| The 3-day diagnostic log *(if present at backup time)* | — |
+
+---
+
+## Troubleshooting
+
+- **Don't see the Cloud buttons?** Set **Config mode** to **Advanced** at the top of the Settings tab, then re-check the Backup section.
+- **Sign-in window blocked?** Allow pop-ups for the Tampermonkey dashboard, then try again.
+- **Settings didn't change after Restore?** Refresh (or fully close and reopen) your OMGChat tab — Tampermonkey applies restored data on the next page load.
+- **Two accounts in one browser?** Tampermonkey storage is shared across all OMGChat accounts in that browser, so a restore brings settings for all of them.
+
+---
+
+> **No-setup alternative:** the script can also mirror your settings through your OMGChat **profile** automatically (same account, any device) — see [Log & Sync](logs-and-sync.md). The cloud method on this page is broader: it backs up the whole script + settings and works across different accounts and browsers.

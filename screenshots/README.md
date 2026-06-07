@@ -28,6 +28,12 @@ Drop the documentation images here. Every file below is referenced as a placehol
 | `advanced-tab.png` | advanced | The Advanced tab |
 | `emoji-picker.png` | advanced | The modern emoji picker open |
 | `log-tab.png` | logs-and-sync | The diagnostic Log tab |
+| `sync-settings-tab.png` | syncing-settings | Tampermonkey Dashboard → Settings tab |
+| `sync-backup-cloud.png` | syncing-settings | The Backup → Cloud section with provider buttons |
+| `sync-gdrive-authorize.png` | syncing-settings | Google Drive sign-in / authorize window |
+| `sync-onedrive-authorize.png` | syncing-settings | OneDrive (Microsoft) sign-in / authorize window |
+| `sync-backup-now.png` | syncing-settings | "Backup to cloud" + automatic toggle |
+| `sync-restore-cloud.png` | syncing-settings | "Restore from cloud" on the second device |
 | `update-dashboard.png` | updating | Tampermonkey dashboard update icon |
 | `disable-toggle.png` | updating | Tampermonkey menu enable/disable toggle |
 
