@@ -12,6 +12,8 @@ Your Chat Power Tools settings — favorites, ignore/block tiers, keywords, aler
 
 This syncs **everything Tampermonkey stores** — the Chat Power Tools script itself *and* all of its saved settings.
 
+> Until you've done this, the panel header shows a **⚠ Set up settings backup** reminder linking here. Once you've finished, click **✓ done** on that reminder (or tick **"Settings backup is set up"** on the Advanced tab) to hide it. Untick it anytime to bring the reminder back.
+
 ---
 
 ## Before you start
