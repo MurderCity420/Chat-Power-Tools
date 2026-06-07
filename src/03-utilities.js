@@ -61,6 +61,36 @@
     function inFriend(user)            { return !!getUser(user).friend;                        }
     function inFriendsOrFavorites(user){ return inFriend(user) || inFavorites(user);           }
 
+    // Whether the LOGGED-IN account is itself a moderator or a model. The site
+    // only lets mods/models block other mods; we detect this from our own
+    // add_user payload (see installAddUserListener) and cache it as a setting.
+    function amIModOrModel()           { return !!settings.iAmMod || !!settings.iAmModel;       }
+
+    // Copy text to the clipboard. navigator.clipboard can be missing or blocked
+    // inside the page context (and accessing .writeText then throws synchronously,
+    // so a trailing .catch never attaches) — fall back to a hidden textarea +
+    // execCommand. Returns a Promise<boolean> of whether the copy succeeded.
+    function copyToClipboard(text) {
+        const fallback = () => {
+            try {
+                const ta = document.createElement('textarea');
+                ta.value = text;
+                ta.style.cssText = 'position:fixed;left:-9999px;top:0;opacity:0';
+                document.body.appendChild(ta);
+                ta.focus(); ta.select();
+                const ok = document.execCommand('copy');
+                ta.remove();
+                return ok;
+            } catch (e) { return false; }
+        };
+        try {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                return navigator.clipboard.writeText(text).then(() => true, () => fallback());
+            }
+        } catch (e) {}
+        return Promise.resolve(fallback());
+    }
+
     function detectMyUsername() {
         if (settings.myUsernameOverride) return lc(settings.myUsernameOverride);
         try {

@@ -378,6 +378,23 @@
                 ${rows}
             </div>
             <div class="pt-section">
+                <h3>Maintenance</h3>
+                <button id="pt-admin-rescrape">Re-scrape all accounts</button>
+                <div style="color:#888;font-size:11px;margin-top:4px">
+                    Re-fetches member type, mod / model status, and rename info for every tracked account. Not normally needed — useful while testing when something doesn't update. The login scan also reports here.
+                </div>
+                <button id="pt-admin-inspect-blocks" style="margin-top:8px">Inspect blocks page (diagnostic)</button>
+                <div style="color:#888;font-size:11px;margin-top:4px">
+                    Fetches my_blocks.php and copies its block form details to your clipboard (and the Log tab) — used to debug persistent blocking. Paste the result to the developer.
+                </div>
+                <div id="pt-scrape-progress" style="display:none;margin-top:8px">
+                    <div style="height:14px;background:#111;border:1px solid #444;border-radius:7px;overflow:hidden">
+                        <div id="pt-scrape-fill" style="height:100%;width:0;background:#3a7;transition:width 0.2s"></div>
+                    </div>
+                    <div id="pt-scrape-text" style="color:#aaa;font-size:11px;margin-top:3px"></div>
+                </div>
+            </div>
+            <div class="pt-section">
                 <h3>Re-lock</h3>
                 <button id="pt-admin-lock" style="background:#722;color:white">Lock admin now</button>
                 <div style="color:#888;font-size:11px;margin-top:4px">
@@ -401,6 +418,25 @@
                 saveSetting('tabVisibility', settings.tabVisibility);
                 refreshTabVisibility();
             });
+        });
+
+        const rescrapeBtn = pane.querySelector('#pt-admin-rescrape');
+        if (rescrapeBtn) rescrapeBtn.addEventListener('click', () => { rescrapeAllAccounts(); });
+        // Reflect any scrape already in progress (e.g. the login scan).
+        try { updateScrapeProgressUI(); } catch (e) {}
+
+        const inspectBtn = pane.querySelector('#pt-admin-inspect-blocks');
+        if (inspectBtn) inspectBtn.addEventListener('click', async () => {
+            inspectBtn.disabled = true;
+            const prev = inspectBtn.textContent;
+            inspectBtn.textContent = 'Inspecting…';
+            try {
+                await inspectBlocksForm();
+                inspectBtn.textContent = 'Copied to clipboard — see Log tab';
+            } catch (e) {
+                inspectBtn.textContent = 'Failed — see Log tab';
+            }
+            setTimeout(() => { inspectBtn.textContent = prev; inspectBtn.disabled = false; }, 3000);
         });
 
         pane.querySelector('#pt-admin-lock').addEventListener('click', () => {

@@ -140,6 +140,67 @@
         }
     }
 
+    // Persistent (server-side) BLOCK — survives reloads, works even when the
+    // target isn't in the room. The socket `user_blockUser` emit only persists
+    // for a user the server can resolve to a live session (someone present), so
+    // for blocking by name we replicate the site's my_blocks.php "Block User"
+    // form: POST action=search do=Block search=<name> with a fresh visit token.
+    // (The profile page uses a simpler `ajax_block.php` { u, visit }; we use the
+    // my_blocks.php form because its path is known and matches the unblock POST.)
+    async function blockViaBlocksPage(username, cb) {
+        const u = lc(username);
+        if (!u) { if (cb) cb('error'); return; }
+        try {
+            // Fetch the page once to get a fresh visit (CSRF) token.
+            let visit = '';
+            const pg = await fetch(location.origin + BLOCKS_PAGE_PATH, { credentials: 'include' });
+            const phtml = await pg.text();
+            try {
+                const d0 = new DOMParser().parseFromString(phtml, 'text/html');
+                const v = d0.querySelector('input[name="visit"]');
+                if (v) visit = (v.getAttribute('value') || v.value || '');
+            } catch (e) {}
+            const body = new URLSearchParams();
+            body.set('visit', visit);
+            body.set('display', '');
+            body.set('page', '1');
+            body.set('action', 'search');
+            body.set('do', 'Block');
+            body.set('fid', '');
+            body.set('nick', '');
+            body.set('search', username); // server matches by name (case-insensitive)
+            body.set('first', 'all');
+            const resp = await fetch(location.origin + BLOCKS_PAGE_PATH, {
+                method: 'POST',
+                credentials: 'include',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                referrer: location.origin + BLOCKS_PAGE_PATH,
+                body: body.toString()
+            });
+            const html = await resp.text();
+            if (visit) _lastBlocksVisit = visit;
+            // Confirm: the username now appears as a cell in the returned block
+            // list (not just echoed in the search box), or an explicit message.
+            const esc = u.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            const ok = new RegExp('>\\s*' + esc + '\\s*<', 'i').test(html) || /has been (added|blocked)/i.test(html);
+            if (ok) { ptLog('Blocks', 'Blocked "' + u + '" persistently (my_blocks.php do=Block).'); if (cb) cb('ok'); }
+            else { ptLog('Blocks', 'Block "' + u + '": POST sent, no confirmation in response.'); if (cb) cb('error'); }
+            _blocksPageFetched = false; // force a fresh read next time the Blocks tab opens
+        } catch (e) {
+            ptLog('Blocks', 'Block "' + u + '" error: ' + (e && e.message ? e.message : e));
+            if (cb) cb('error');
+        }
+    }
+
+    // Block immediately for the session AND persist server-side. Use for blocks
+    // initiated by name (Blocks-tab box, Blocked tier) where the target may not
+    // be in the room. Guest auto-block stays socket-only (those users ARE present
+    // and get released shortly anyway).
+    function blockUserPersistent(username, cb) {
+        try { blockUserLocal(username, true); } catch (e) {}
+        blockViaBlocksPage(username, cb);
+    }
+
     // Periodic guest cleanup. Guest accounts are temporary; once one is on your
     // block list it just wastes a slot on the server-enforced 100-cap (and the
     // oldest real blocks get pushed off). The site auto-releases a guest block

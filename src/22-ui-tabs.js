@@ -1,10 +1,30 @@
     // Filter state for the Favorites and Ignored lists (persist across re-renders).
     let _favFilter = 'all';      // 'all' | 'fav' | 'friend' | 'both'
     let _ignoredFilter = 'all';  // 'all' | 'alerts' | 'ignored' | 'blocked'
+    let _favText = '';           // free-text search box on the Favorites tab
+    let _ignoredText = '';       // free-text search box on the Ignored tab
     let _panelRenderGeneration = 0;
 
     // A user's public profile URL (opens in a new tab).
-    function profileUrl(u) { return location.origin + '/1/profiles/' + encodeURIComponent(lc(u)); }
+    function profileUrl(u) { return location.origin + '/1/profile/' + encodeURIComponent(lc(u)); }
+
+    // Hover tooltip for a username. We track renames, so show any former names
+    // ("formerly: a, b, c"). Falls back to just the current name.
+    function nameTitleAttr(u) {
+        const p = getUser(u).prevNames;
+        return (Array.isArray(p) && p.length) ? (lc(u) + ' — formerly: ' + p.join(', ')) : lc(u);
+    }
+
+    // Free-text search match for the list filter boxes: matches the current
+    // username OR any tracked former username (renames). `q` is the (lowercased)
+    // query; empty query matches everything.
+    function matchesText(user, q) {
+        if (!q) return true;
+        q = String(q).toLowerCase();
+        if (lc(user).includes(q)) return true;
+        const p = getUser(user).prevNames;
+        return Array.isArray(p) && p.some((n) => String(n).toLowerCase().includes(q));
+    }
 
     function renderPanelLists() {
         const panel = document.getElementById('pt-panel');
@@ -25,13 +45,6 @@
 
         ip.innerHTML = `
             <div class="pt-section">
-                <h3>Add user</h3>
-                <div class="pt-row">
-                    <input type="text" id="pt-ignored-input" placeholder="username">
-                    <button id="pt-ignored-add">Add to Ignored</button>
-                </div>
-            </div>
-            <div class="pt-section">
                 <h3>Display mode for hidden content</h3>
                 <div class="pt-row">
                     <select id="pt-displaymode">
@@ -50,13 +63,22 @@
                 </div>
             </div>
             <div class="pt-section">
+                <div class="pt-row" style="gap:8px">
+                    <div style="display:flex;flex:1;min-width:0;gap:6px">
+                        <input type="text" id="pt-ignored-input" placeholder="username" style="flex:1;min-width:0">
+                        <button id="pt-ignored-add">Ignore</button>
+                    </div>
+                    <input type="text" id="pt-ignored-search" placeholder="Search / filter…" style="flex:1;min-width:0;background:#111;color:#eee;border:1px solid #444;padding:4px 6px;border-radius:3px;font-size:12px">
+                </div>
+            </div>
+            <div class="pt-section">
                 <h3>Users (${_entries.length})</h3>
                 <table class="pt-tier-table">
                     <thead>
                         <tr>
                             <th style="text-align:left">Name</th>
-                            <th class="pt-igfilter" data-f="alerts" style="color:#fa8;cursor:pointer" title="Show only Alerts-tier users">Alerts</th>
-                            <th class="pt-igfilter" data-f="ignored" style="color:#bbb;cursor:pointer" title="Show only Ignored-tier users">Ignored</th>
+                            <th class="pt-igfilter" data-f="alerts" style="color:#ffd24d;cursor:pointer" title="Show only Alerts-tier users">Alerts</th>
+                            <th class="pt-igfilter" data-f="ignored" style="color:#ff9933;cursor:pointer" title="Show only Ignored-tier users">Ignored</th>
                             <th class="pt-igfilter" data-f="blocked" style="color:#f88;cursor:pointer" title="Show only Blocked-tier users">Blocked</th>
                             <th></th>
                         </tr>
@@ -78,20 +100,26 @@
             });
         });
 
-        // Build the table rows (filtered)
+        // Build the table rows, honouring the active tier filter (header click)
+        // and the text search box. A closure so the search box can re-render only
+        // the rows — keeping focus in the input.
         const list = ip.querySelector('#pt-ignored-list'); // <tbody>
-        const _shown = (_ignoredFilter === 'all') ? _entries : _entries.filter((e) => e.tier === _ignoredFilter);
-        if (_shown.length === 0) {
-            list.innerHTML = '<tr><td colspan="5" class="pt-empty">' + (_entries.length ? 'No users match this filter.' : 'No one here yet.') + '</td></tr>';
-        } else {
-            const TIER_COLORS = { alerts: '#fa8', ignored: '#888', blocked: '#f88' };
+        function fillIgnoredRows() {
+            let _shown = (_ignoredFilter === 'all') ? _entries : _entries.filter((e) => e.tier === _ignoredFilter);
+            if (_ignoredText) _shown = _shown.filter((e) => matchesText(e.user, _ignoredText));
+            list.innerHTML = '';
+            if (_shown.length === 0) {
+                list.innerHTML = '<tr><td colspan="5" class="pt-empty">' + (_entries.length ? 'No users match this filter.' : 'No one here yet.') + '</td></tr>';
+                return;
+            }
+            const TIER_COLORS = { alerts: '#ffd24d', ignored: '#ff9933', blocked: '#f88' };
             _shown.forEach(({ user, tier }) => {
                 const tr = document.createElement('tr');
 
                 const nameTd = document.createElement('td');
                 nameTd.innerHTML = memberBadgeHtml(user) +
-                    '<a class="pt-name-link" href="' + profileUrl(user) + '" target="_blank" rel="noopener noreferrer">' + escapeHtml(user) + '</a>';
-                nameTd.title = user;
+                    '<a class="pt-name-link" draggable="false" href="' + profileUrl(user) + '" target="_blank" rel="noopener noreferrer">' + escapeHtml(user) + '</a>';
+                nameTd.title = nameTitleAttr(user);
                 nameTd.style.cssText = 'max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;' +
                     'border-left:3px solid ' + (TIER_COLORS[tier] || 'transparent') + ';padding-left:6px';
 
@@ -115,6 +143,16 @@
                 cbA.checked = (tier === 'alerts' || tier === 'ignored' || tier === 'blocked');
                 cbI.checked = (tier === 'ignored' || tier === 'blocked');
                 cbB.checked = (tier === 'blocked');
+
+                // Mods can't be blocked unless you're a mod/model yourself, or you've
+                // turned on "Allow Mod Blocking" (Features → Blocking). Leave the box
+                // enabled when it's already checked so you can always UNblock — only a
+                // fresh block of a mod is disallowed.
+                if (getUser(user).mod && !cbB.checked && !amIModOrModel() && !settings.allowModBlocking) {
+                    cbB.disabled = true;
+                    cbB.style.cursor = 'not-allowed';
+                    cbB.title = 'This user is a moderator. Enable "Allow Mod Blocking" (Features → Blocking) to block them.';
+                }
 
                 const apply = () => setUserTier(user, cbB.checked ? 'blocked' : cbI.checked ? 'ignored' : cbA.checked ? 'alerts' : '');
                 cbA.addEventListener('change', () => {
@@ -149,6 +187,7 @@
                 list.appendChild(tr);
             });
         }
+        fillIgnoredRows();
 
         ip.querySelector('#pt-ignored-add').addEventListener('click', () => {
             const inp = ip.querySelector('#pt-ignored-input');
@@ -158,6 +197,11 @@
         ip.querySelector('#pt-ignored-input').addEventListener('keydown', (e) => {
             if (e.key === 'Enter') ip.querySelector('#pt-ignored-add').click();
         });
+        const igSearch = ip.querySelector('#pt-ignored-search');
+        if (igSearch) {
+            igSearch.value = _ignoredText;
+            igSearch.addEventListener('input', () => { _ignoredText = igSearch.value.trim().toLowerCase(); fillIgnoredRows(); });
+        }
         const sel = ip.querySelector('#pt-displaymode');
         sel.value = settings.displayMode;
         sel.addEventListener('change', () => {
@@ -206,9 +250,12 @@
             </div>
             <div class="pt-section">
                 <h3>Add favorite user</h3>
-                <div class="pt-row">
-                    <input type="text" id="pt-fav-input" placeholder="username">
-                    <button id="pt-fav-add">Add</button>
+                <div class="pt-row" style="gap:8px">
+                    <div style="display:flex;flex:1;min-width:0;gap:6px">
+                        <input type="text" id="pt-fav-input" placeholder="username" style="flex:1;min-width:0">
+                        <button id="pt-fav-add">Add</button>
+                    </div>
+                    <input type="text" id="pt-fav-search" placeholder="Search / filter…" style="flex:1;min-width:0;background:#111;color:#eee;border:1px solid #444;padding:4px 6px;border-radius:3px;font-size:12px">
                 </div>
             </div>
             <div class="pt-section">
@@ -264,11 +311,14 @@
             .filter(([, d]) => d.fav || d.friend)
             .map(([u, d]) => ({ user: u, type: (d.fav && d.friend) ? 'both' : d.fav ? 'fav' : 'friend' }))
             .sort((a, b) => a.user.localeCompare(b.user));
-        const _favShown = (_favFilter === 'all') ? _combined : _combined.filter((e) => e.type === _favFilter);
-
-        if (_favShown.length === 0) {
-            flist.innerHTML = '<li class="pt-empty">' + (_combined.length ? 'No one matches this filter.' : 'No favorites or friends yet.') + '</li>';
-        } else {
+        function fillFavRows() {
+            let _favShown = (_favFilter === 'all') ? _combined : _combined.filter((e) => e.type === _favFilter);
+            if (_favText) _favShown = _favShown.filter((e) => matchesText(e.user, _favText));
+            flist.innerHTML = '';
+            if (_favShown.length === 0) {
+                flist.innerHTML = '<li class="pt-empty">' + (_combined.length ? 'No one matches this filter.' : 'No favorites or friends yet.') + '</li>';
+                return;
+            }
             _favShown.forEach(({ user, type }) => {
                 const li = document.createElement('li');
                 li.style.borderLeft = '3px solid ' + TYPE_COLORS[type];
@@ -276,45 +326,31 @@
 
                 const nameSpan = document.createElement('span');
                 nameSpan.style.cssText = 'flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:flex;align-items:center';
+                nameSpan.title = nameTitleAttr(user);
                 nameSpan.innerHTML = memberBadgeHtml(user) +
-                    '<a class="pt-name-link" href="' + profileUrl(user) + '" target="_blank" rel="noopener noreferrer">' + escapeHtml(user) + '</a>';
-
-                const typeSel = document.createElement('select');
-                typeSel.style.cssText = 'background:#111;color:#eee;border:1px solid #444;border-radius:3px;padding:2px 4px;font-size:11px;margin:0 4px';
-                [['fav','Fav Only'],['both','Friend & Fav'],['friend','Friend Only']].forEach(([val, label]) => {
-                    const opt = document.createElement('option');
-                    opt.value = val; opt.textContent = label;
-                    if (val === type) opt.selected = true;
-                    typeSel.appendChild(opt);
-                });
-
-                const removeBtn = document.createElement('button');
-                removeBtn.textContent = 'Remove';
+                    '<a class="pt-name-link" draggable="false" href="' + profileUrl(user) + '" target="_blank" rel="noopener noreferrer">' + escapeHtml(user) + '</a>';
 
                 li.appendChild(nameSpan);
-                li.appendChild(typeSel);
-                li.appendChild(removeBtn);
 
-                typeSel.addEventListener('change', () => {
-                    const t = typeSel.value;
-                    const patch = {};
-                    if (t === 'fav')    { patch.fav = true;      patch.friend = undefined; }
-                    else if (t === 'friend') { patch.fav = undefined; patch.friend = true; }
-                    else                { patch.fav = true;      patch.friend = true; }
-                    patchUser(user, patch);
-                    saveUsersSoon();
-                    renderPanelLists();
-                });
-
-                removeBtn.addEventListener('click', () => {
-                    patchUser(user, { fav: undefined, friend: undefined, fid: undefined });
-                    saveUsersSoon();
-                    renderPanelLists();
-                });
+                // Remove is only meaningful for Favorites — it clears the Fav flag
+                // and nothing else. Friends are pulled from the site (the star list)
+                // and can't be removed here, so Friend-Only rows get no button.
+                if (type === 'fav' || type === 'both') {
+                    const removeBtn = document.createElement('button');
+                    removeBtn.textContent = 'Remove';
+                    removeBtn.title = 'Remove from Favorites (does not change their Friend/star status on the site)';
+                    removeBtn.addEventListener('click', () => {
+                        patchUser(user, { fav: undefined });
+                        saveUsersSoon();
+                        renderPanelLists();
+                    });
+                    li.appendChild(removeBtn);
+                }
 
                 flist.appendChild(li);
             });
         }
+        fillFavRows();
 
         fp.querySelector('#pt-fav-add').addEventListener('click', () => {
             const inp = fp.querySelector('#pt-fav-input');
@@ -324,6 +360,11 @@
         fp.querySelector('#pt-fav-input').addEventListener('keydown', (e) => {
             if (e.key === 'Enter') fp.querySelector('#pt-fav-add').click();
         });
+        const favSearch = fp.querySelector('#pt-fav-search');
+        if (favSearch) {
+            favSearch.value = _favText;
+            favSearch.addEventListener('input', () => { _favText = favSearch.value.trim().toLowerCase(); fillFavRows(); });
+        }
 
         // Resolve member type / mod flag for everyone shown in the Favorites and
         // Ignored lists so their badges populate, then re-render once. Guarded by
@@ -531,11 +572,14 @@
                 </div>
                 <div class="pt-toggle" style="margin-top:6px"><input type="checkbox" id="pt-autorateback"><label for="pt-autorateback">Auto rate back <span class="pt-info" data-tip="When on, automatically rates people back. Use the options below to control who gets rated.">i</span></label></div>
                 <div id="pt-autorate-sub" style="padding-left:24px;border-left:2px solid #333;margin:2px 0 6px">
-                    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:6px">
-                        <span style="color:#aaa;font-size:11px">Rate 5's back for:</span>
-                        <label style="color:#ccc;font-size:12px"><input type="radio" name="pt-rate5-target" value="all"> All users</label>
-                        <label style="color:#ccc;font-size:12px"><input type="radio" name="pt-rate5-target" value="friends_favs"> Friends &amp; Favorites</label>
-                        <label style="color:#ccc;font-size:12px"><input type="radio" name="pt-rate5-target" value="favs_only"> Favorites Only</label>
+                    <div style="margin-bottom:6px">
+                        <div style="color:#aaa;font-size:11px;margin-bottom:4px">Rate 5's back for:</div>
+                        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+                            <label style="color:#ccc;font-size:12px"><input type="radio" name="pt-rate5-target" value="all"> All Users</label>
+                            <label style="color:#ccc;font-size:12px"><input type="radio" name="pt-rate5-target" value="friends_favs"> Friends &amp; Favorites</label>
+                            <label style="color:#ccc;font-size:12px"><input type="radio" name="pt-rate5-target" value="friends_only"> Friends Only</label>
+                            <label style="color:#ccc;font-size:12px"><input type="radio" name="pt-rate5-target" value="favs_only"> Favorites Only</label>
+                        </div>
                     </div>
                     <div class="pt-toggle"><input type="checkbox" id="pt-autorate-4"><label for="pt-autorate-4">Auto-rate all 4's with a 4 <span class="pt-info" data-tip="If someone rates you a 4, rate them a 4 back. Applies to everyone.">i</span></label></div>
                 </div>
@@ -555,6 +599,7 @@
                 </div>
                 <div id="pt-sync-block-status" style="font-size:11px;margin-top:4px;color:#888"></div>
                 <div class="pt-toggle" style="margin-top:6px"><input type="checkbox" id="pt-auto-block-ignored"><label for="pt-auto-block-ignored">Auto re-block accounts set to Blocked <span class="pt-info" data-tip="Only affects users you've set to the Blocked tier — NOT users set to Alerts or Ignored. Every 30 seconds, if a Blocked-tier user enters the room while not currently blocked (the 100-user server cap pushed them off), they are automatically re-blocked. Account-scoped: only re-blocks people the currently logged-in account blocked.">i</span></label></div>
+                <div class="pt-toggle" style="margin-top:6px"><input type="checkbox" id="pt-allow-mod-block"><label for="pt-allow-mod-block">Allow Mod Blocking <span class="pt-info" data-tip="By default only mods/models can block a moderator. Turn this on to block mods anyway. The server won't keep a mod block (it doesn't use one of your 100 slots), so it's re-applied automatically at every login — it shows in your console and Blocks tab but is session-only.">i</span></label></div>
             </div>
         `;
 
@@ -682,6 +727,16 @@
         autoBlkChk.addEventListener('change', () => {
             saveSetting('autoBlockIgnored', autoBlkChk.checked);
             if (autoBlkChk.checked) updateBlockedBackup();
+        });
+
+        const allowModBlk = fp.querySelector('#pt-allow-mod-block');
+        allowModBlk.checked = !!settings.allowModBlocking;
+        allowModBlk.addEventListener('change', () => {
+            saveSetting('allowModBlocking', allowModBlk.checked);
+            // Re-render the Ignored list so the Blocked checkboxes for mods
+            // enable/disable to match, and re-apply any mod blocks immediately.
+            try { renderPanelLists(); } catch (e) {}
+            if (allowModBlk.checked) { try { reapplyModBlocks(); } catch (e) {} }
         });
     }
 
@@ -821,20 +876,21 @@
         function renderBlockList(listEl, items, filter, makeRow, sortMode) {
             listEl.innerHTML = '';
             const f = (filter || '').toLowerCase();
-            let ordered = items.filter((u) => !f || String(u).toLowerCase().includes(f));
+            let ordered = items.filter((u) => matchesText(u, f));
             if (sortMode === 'alpha') {
                 ordered = ordered.slice().sort();
             } else if (sortMode === 'newest-first') {
-                // Sort by the order my_blocks.php?action=all lists them — that page
-                // is the site's own newest-first ordering, so this matches the
-                // console exactly. _blocksPageOrder is populated after the page
-                // fetch resolves (renderLeft re-runs then). Until then, fall back
-                // to the in-memory _BLOCKED_USERS order. Users not on the page
-                // (session-only blocks) sort to the end, preserving their order.
+                // Sort by the order my_blocks.php lists them — that page is the
+                // site's own newest-first ordering, so this matches the console
+                // exactly. _blocksPageOrder is populated after the page fetch
+                // resolves (renderLeft re-runs then). Users NOT on the page are
+                // session-only blocks not yet persisted server-side (e.g. one you
+                // just added by name) — they're the newest, so sort them to the
+                // TOP (negative index) where you'd expect a fresh block to appear.
                 if (_blocksPageOrder && _blocksPageOrder.length) {
                     const pos = (u) => {
                         const i = _blocksPageOrder.indexOf(lc(u));
-                        return i === -1 ? Number.MAX_SAFE_INTEGER : i;
+                        return i === -1 ? -1 : i;
                     };
                     ordered = ordered.slice().sort((a, b) => pos(a) - pos(b));
                 }
@@ -865,7 +921,7 @@
                 if (settings.revealBlockedYou) {
                     buttons += `<button class="pt-bl-view">${isHidden() ? 'Hide' : 'View'}</button>`;
                 }
-                li.innerHTML = `<span>${memberBadgeHtml(u)}<a class="pt-name-link" href="${profileUrl(u)}" target="_blank" rel="noopener noreferrer">${escapeHtml(u)}</a></span><div class="pt-btn-group">${buttons}</div>`;
+                li.innerHTML = `<span title="${escapeHtml(nameTitleAttr(u))}">${memberBadgeHtml(u)}<a class="pt-name-link" draggable="false" href="${profileUrl(u)}" target="_blank" rel="noopener noreferrer">${escapeHtml(u)}</a></span><div class="pt-btn-group">${buttons}</div>`;
                 li.querySelector('.pt-bl-unblock').addEventListener('click', (e) => {
                     const btn = e.currentTarget;
                     btn.textContent = '...';
@@ -926,9 +982,12 @@
                 alert('You\'ve hit the 100-user block cap. Use Ignored to mute more users (one-way).');
                 return;
             }
-            blockUserLocal(u, true);
+            blockUserLocal(u, true);          // instant session block
             addInp.value = '';
             renderBlockedYou();
+            // Persist server-side (works even if they're not in the room). The
+            // socket emit alone only persists for users currently connected.
+            blockViaBlocksPage(u, () => { _blocksPageFetched = false; renderBlockedYou(); });
         };
         addBtn.addEventListener('click', doAdd);
         addInp.addEventListener('keydown', (e) => { if (e.key === 'Enter') doAdd(); });
@@ -942,7 +1001,7 @@
                 if (settings.revealBlockedYou) {
                     const isHidden = () => W.Chat && Array.isArray(W.Chat._BLOCKED_YOU) &&
                         !W.Chat._BLOCKED_YOU.includes(u);
-                    li.innerHTML = `<span style="flex:1">${escapeHtml(u)}</span><div class="pt-btn-group"><button class="pt-by-view">${isHidden() ? 'Hide' : 'View'}</button></div>`;
+                    li.innerHTML = `<span style="flex:1" title="${escapeHtml(nameTitleAttr(u))}">${escapeHtml(u)}</span><div class="pt-btn-group"><button class="pt-by-view">${isHidden() ? 'Hide' : 'View'}</button></div>`;
                     li.querySelector('.pt-by-view').addEventListener('click', (e) => {
                         const btn = e.currentTarget;
                         if (W.Chat && Array.isArray(W.Chat._BLOCKED_YOU)) {
@@ -959,7 +1018,7 @@
                         }
                     });
                 } else {
-                    li.innerHTML = `<span style="flex:1">${escapeHtml(u)}</span>`;
+                    li.innerHTML = `<span style="flex:1" title="${escapeHtml(nameTitleAttr(u))}">${escapeHtml(u)}</span>`;
                 }
                 return li;
             }, 'chronological-desc');
@@ -967,9 +1026,15 @@
         byFilter.addEventListener('input', renderRight);
         renderRight();
 
-        pane.querySelector('#pt-by-copy').addEventListener('click', () => {
-            // Copy in newest-first order to match what's displayed
-            navigator.clipboard.writeText(blockingYou.slice().reverse().join('\n')).catch(() => {});
+        pane.querySelector('#pt-by-copy').addEventListener('click', (e) => {
+            const btn = e.currentTarget;
+            // Copy in newest-first order to match what's displayed.
+            const text = blockingYou.slice().reverse().join('\n');
+            if (!text) { btn.textContent = 'Nothing to copy'; setTimeout(() => { btn.textContent = 'Copy'; }, 1200); return; }
+            Promise.resolve(copyToClipboard(text)).then((ok) => {
+                btn.textContent = ok ? 'Copied ' + blockingYou.length : 'Copy failed';
+                setTimeout(() => { btn.textContent = 'Copy'; }, 1200);
+            });
         });
         // Refresh re-reads BOTH server-side arrays and re-scans member types.
         // Also clears the member-type cache so badges are re-fetched from profiles.
@@ -1035,10 +1100,13 @@
         }
     }
 
-    // Add/remove a user from the chat's server-side block list. We push
-    // directly to _BLOCKED_USERS since receiveMessage checks that array
-    // by indexOf — same behavior as the site's own blockUser, just without
-    // a hashid (which we don't have for a user typed in by name).
+    // Add/remove a user from the chat's server-side block list. We push directly
+    // to _BLOCKED_USERS since receiveMessage checks that array by indexOf, and
+    // emit the SAME event the site's own block uses (and that the guest
+    // auto-block uses successfully): { username, report, comments }. The server
+    // persists this reliably for a user it can resolve to a live session (e.g.
+    // someone in the room); a typed name who isn't currently in chat may only be
+    // blocked for the session.
     function blockUserLocal(username, block) {
         const u = lc(username);
         if (!u || !W.Chat || !Array.isArray(W.Chat._BLOCKED_USERS)) return;
@@ -1046,7 +1114,6 @@
         if (block && idx === -1) {
             W.Chat._BLOCKED_USERS.push(u);
             try {
-                // Correct payload: { username, report, comments }
                 if (W.Socket && W.Socket._IO)
                     W.Socket._IO.emit('user_blockUser', { username: u, report: '0', comments: '' });
             } catch (e) {}

@@ -144,6 +144,8 @@
                                         shouldRate = true;
                                     } else if (target === 'friends_favs') {
                                         shouldRate = inFriendsOrFavorites(rater);
+                                    } else if (target === 'friends_only') {
+                                        shouldRate = inFriend(rater);
                                     } else if (target === 'favs_only') {
                                         shouldRate = inFavorites(rater);
                                     }
@@ -245,8 +247,40 @@
                 // No member signal at all → it's a guest. Saves a profile scrape.
                 patch.type = isMember ? 'member' : 'guest';
             }
-            // Moderators are members but flagged for later features.
-            if (truthy(data.isMod) && !getUser(u).mod) patch.mod = true;
+            // Moderators and models are members but flagged for the mod-blocking
+            // rules. A "model" is a Verified account — the site exposes that as
+            // isModel and/or isVerified, so treat either as model. add_user fires
+            // every time a user enters the room and carries explicit booleans, so
+            // it's our authoritative, self-refreshing source: gaining or losing
+            // Mod / Verified Model status is picked up automatically. We only act
+            // when the field is actually present in the payload, so a partial event
+            // can never wrongly clear a flag. patchUser clears a flag when passed
+            // false, so set/clear is just the live boolean.
+            const has = (k) => Object.prototype.hasOwnProperty.call(data, k);
+            if (has('isMod')) {
+                const m = truthy(data.isMod);
+                if (m !== !!getUser(u).mod) patch.mod = m;
+            }
+            if (has('isModel') || has('isVerified')) {
+                const md = truthy(data.isModel) || truthy(data.isVerified);
+                if (md !== !!getUser(u).model) patch.model = md;
+            }
+
+            // Track OUR OWN mod/model status from our own add_user event — only
+            // mods/models may block a mod, so this gates the Blocked checkbox.
+            const me = detectMyUsername();
+            if (me && u === me) {
+                let gateChanged = false;
+                if (has('isMod')) {
+                    const m = truthy(data.isMod);
+                    if (m !== !!settings.iAmMod) { saveSetting('iAmMod', m); gateChanged = true; }
+                }
+                if (has('isModel') || has('isVerified')) {
+                    const md = truthy(data.isModel) || truthy(data.isVerified);
+                    if (md !== !!settings.iAmModel) { saveSetting('iAmModel', md); gateChanged = true; }
+                }
+                if (gateChanged) { try { renderPanelLists(); } catch (e) {} }
+            }
 
             if (Object.keys(patch).length) { patchUser(u, patch); saveUsersSoon(); }
 

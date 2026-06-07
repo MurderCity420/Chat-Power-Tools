@@ -31,7 +31,7 @@
     // SETTINGS - all persisted via GM_setValue
     // ============================================================
     const DEFAULTS = {
-        // Single unified user store. Each entry: { tier?, fav?, friend?, fid?, uid?, color?, alias?, type?, mod?, blockedBy? }
+        // Single unified user store. Each entry: { tier?, fav?, friend?, fid?, uid?, color?, alias?, type?, mod?, model?, blockedBy?, prevNames? }
         // tier: 'alerts'|'ignored'|'blocked'  fav: true  type: 'guest'|'member'
         // mod: true — a moderator (treated as a member; flagged for later features)
         // blockedBy: [account usernames] that own this 'blocked' backup entry
@@ -54,7 +54,7 @@
         hideAllRatings: false,
         hideAllTips: false,
         autoRateBack: false,
-        autoRate5Target: 'all',    // 'all' | 'friends_favs' | 'favs_only'
+        autoRate5Target: 'all',    // 'all' | 'friends_favs' | 'friends_only' | 'favs_only'
         autoRate4Back: false,
         lastFriendScan: 0,         // unix ms of last my_stars.php scan
         friendCount: 0,            // friend count at last scan (for quick change detection)
@@ -72,6 +72,9 @@
         viewerSort: 'none',
         autoSyncBlockToIgnored: false,
         autoBlockIgnored: false,
+        allowModBlocking: false,        // lets a non-mod/model block a moderator; re-applied each login since the server won't persist it
+        iAmMod: false,                  // detected from our own add_user payload — are WE a moderator?
+        iAmModel: false,                // detected from our own add_user payload — are WE a model?
         autoBlockGuestCammers: false,
         autoBlockGuestUnblockMs: 60000,
         autoUnblockGuestBlocks: true,   // periodically scan my_blocks.php and unblock any Guest-type entries

@@ -66,12 +66,25 @@
         if (tier === prev) return;
         const wasBlocked = prev === 'blocked';
 
+        // The site only lets mods/models block other mods. For everyone else a
+        // "block a mod" silently fails server-side. Refuse it unless the user has
+        // turned on Allow Mod Blocking (which re-applies the client-side block at
+        // every login). Unblocking a mod is always allowed.
+        if (tier === 'blocked' && getUser(k).mod && !amIModOrModel() && !settings.allowModBlocking) {
+            ptLog('Blocks', 'Refused to block "' + k + '": target is a moderator and "Allow Mod Blocking" is off.');
+            _applyUserChange({ render: true }); // re-render so the checkbox snaps back
+            return;
+        }
+
         if (tier === 'blocked') {
             const me = detectMyUsername();
             const owners = Array.isArray(getUser(k).blockedBy) ? getUser(k).blockedBy.slice() : [];
             if (me && !owners.includes(me)) owners.push(me);
             patchUser(k, { tier: 'blocked', blockedBy: owners.length ? owners : undefined });
-            blockUserLocal(k, true); // server-side block + appears on the Blocks tab
+            blockUserLocal(k, true); // instant session block
+            // Persist server-side so it survives logout (socket emit only persists
+            // for users currently in the room; this works even when they're not).
+            try { blockViaBlocksPage(k, function () {}); } catch (e) {}
             ptLog('Blocks', 'Set "' + k + '" to Blocked (server-side block).');
         } else if (tier === 'ignored' || tier === 'alerts') {
             patchUser(k, { tier: tier, blockedBy: undefined });
@@ -138,6 +151,31 @@
                 blockUserLocal(u, true);
             }
         }
+    }
+
+    // Re-apply blocks on moderators. A non-mod/model can't persist a mod block on
+    // the server, so it survives only for the session — gone after logout. When
+    // "Allow Mod Blocking" is on (or we're a mod/model), re-apply the client-side
+    // block at login for every mod we've tiered as Blocked. This doesn't consume a
+    // server block slot; it just re-creates the session block (visible in console
+    // and the Blocks tab) the same way checking the Blocked box does.
+    function reapplyModBlocks() {
+        if (!settings.users) return;
+        if (!settings.allowModBlocking && !amIModOrModel()) return;
+        const me = detectMyUsername();
+        if (!me) return;
+        const currentlyBlocked = new Set(
+            (W.Chat && Array.isArray(W.Chat._BLOCKED_USERS)) ? W.Chat._BLOCKED_USERS.map(lc) : []
+        );
+        let n = 0;
+        for (const [u, d] of Object.entries(settings.users)) {
+            if (d.tier === 'blocked' && getUser(u).mod && !currentlyBlocked.has(u)
+                && Array.isArray(d.blockedBy) && d.blockedBy.includes(me)) {
+                blockUserLocal(u, true);
+                n++;
+            }
+        }
+        if (n) ptLog('Blocks', 'Re-applied ' + n + ' moderator block(s) (do not persist server-side).');
     }
 
     function syncBlockListToIgnored() {

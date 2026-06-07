@@ -65,6 +65,9 @@
                     purgeGuestTiers(); // strip any guests already sitting in a tier
                     syncBlockListToIgnored();
                     updateBlockedBackup();
+                    // Mod blocks don't persist on the server (for non-mods), so
+                    // re-apply them client-side now that we're logged in.
+                    reapplyModBlocks();
                     if (settings.autoUnblockGuestBlocks) sweepGuestBlocks();
                     setInterval(syncBlockListToIgnored, 30 * 60 * 1000);
                     setInterval(updateBlockedBackup, 30 * 60 * 1000);
@@ -77,13 +80,17 @@
                     (async () => {
                         const blocked = (W.Chat && Array.isArray(W.Chat._BLOCKED_USERS))
                             ? W.Chat._BLOCKED_USERS.slice() : [];
+                        const total = blocked.length;
+                        if (total) setScrapeProgress(0, total, 'Initial scan (blocked users)');
                         for (let i = 0; i < blocked.length; i += 4) {
                             const batch = blocked.slice(i, i + 4);
                             await Promise.all(batch.map((u) => fetchMemberType(lc(u))));
+                            if (total) setScrapeProgress(Math.min(i + 4, total), total, 'Initial scan (blocked users)');
                             if (i + 4 < blocked.length) {
                                 await new Promise((r) => setTimeout(r, 1000));
                             }
                         }
+                        if (total) { setScrapeProgress(total, total, 'Initial scan complete'); setTimeout(() => setScrapeProgress(0, 0, ''), 4000); }
                     })();
                     // Auto Block Ignored: poll every 30s for backed-up users who
                     // re-enter the room but fell off the server block list.

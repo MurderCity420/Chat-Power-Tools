@@ -16,6 +16,7 @@
         guest:  'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAASCAYAAAC9+TVUAAAA20lEQVR42mMYBUSC7gwxpv7MSYz9mbeA+CsQ/2Lsz3oBpDcx9GWYETagL0sFqPgVEP/HgX8w9Gcb4TUDaOMxmAagaxYxTEgRZ+hJEwHyNwLxIyDezdCfEYvbhN5sNSQbPzLMTOPCVETYK74IQzLOIlyX+QHNSzdwGzIh0w+ucELmOXINUUdS+Imhu4QbNbwy7+A3BKHwFDxg+zIXM0zOkWKYlCvKMCEjBxQzRBnCMDFDB6joPUgxLsw0IXMp4QDuyZYHKpwO1HAXiL9BXfCAqT9jGUNvluNobiQMAGanldd5ztOVAAAAAElFTkSuQmCC',
         member: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAASCAYAAAC9+TVUAAABcWlDQ1BpY2MAAHjaldE7SEJRHMfxr1oUURRUENFwB6slISqiMSySIEHUQKuh+/AF3qvcq7Q4Bq1CQ48lq6GludaG1iAIekA0NTYVtYTc7kFKCQz6Tx/+5/wP5/wOuCtZVbdaxkE3CmY44Jdi8RWp7ZlWemihn1FZtfLByEKUpvVxiwvgxifO4n/VpSUsFVwSMKvmzYLjdWB6o5AX3gX61LSsOT4Fxkzngo7vRV+p+UU4JYwbYTMannPcB0ipBisNVtOm7ngK8Gq6oTmO1awJl4T1bFGlVi6gM2EsR0QfGCLAIkFCSCgUyZClgI8MBhIWYQL4m8wPIuZDFFHIkkFFYp4cOjJiHvEHv7O1kpMTALg6/dD6ZNtvw9C2DdWybX8e2nb1CDyPcGHU53MVmHkHT7ne8x5A9yacXdZ7yg6cb8HAQ142ZQA8gDuZhNcT6IpD7zV0rIrcftY5voNoCZauYG8fRlLQvdbk3e2Nuf215zu/L15zcp/8iQn7AAABJUlEQVR42mMYBQRAQwMTw4TMGMb+jA2MfZn3GPszvwHxPyD+ARR7DMSrGSblyuA1AKhxM1DDToa+LDeG/kxPIPs/w8QsK4ZpmYIMfRkRQP4fpv7MfpxmABUFgmxjWBXKDOZPyEoFanoJMhxqCQuQ/x7kUtyG9GarMUzJFoZxmfqz5jJNyJwHtUCaqS9zDtCFhSQFD9DWayDvwDBDX7oJaQHcXyAAClCgzR4Mk3OkQAEMDItFpBkyIcMdqPEjQ18hJ8RrGZ1A/l+GiRk6ROmHapqA7H9Q7IACFYi3wMVmprFi1z0xTQ7oimCg07sZOtL4GRpC2RCxl5UPCZvMKJBLGfozHLDETro+UNFnpMD8ytCfbgmX/8/ACHThfKD4M1ByGM2Z+AEAljF2NfgVTQYAAAAASUVORK5CYII=',
         mod:    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAASCAYAAAC9+TVUAAABcWlDQ1BpY2MAAHjaldE7SEJRHMfxr1oUURRUENFwB6slISqiMSySIEHUQKuh+/AF3qvcq7Q4Bq1CQ48lq6GludaG1iAIekA0NTYVtYTc7kFKCQz6Tx/+5/wP5/wOuCtZVbdaxkE3CmY44Jdi8RWp7ZlWemihn1FZtfLByEKUpvVxiwvgxifO4n/VpSUsFVwSMKvmzYLjdWB6o5AX3gX61LSsOT4Fxkzngo7vRV+p+UU4JYwbYTMannPcB0ipBisNVtOm7ngK8Gq6oTmO1awJl4T1bFGlVi6gM2EsR0QfGCLAIkFCSCgUyZClgI8MBhIWYQL4m8wPIuZDFFHIkkFFYp4cOjJiHvEHv7O1kpMTALg6/dD6ZNtvw9C2DdWybX8e2nb1CDyPcGHU53MVmHkHT7ne8x5A9yacXdZ7yg6cb8HAQ142ZQA8gDuZhNcT6IpD7zV0rIrcftY5voNoCZauYG8fRlLQvdbk3e2Nuf215zu/L15zcp/8iQn7AAABMUlEQVR42mMYfEAn/1q4dv7VE5oF1wJ08i+LqxXfFAHyo4D4CogG8UHiIHmQOp28q2EoBqiX3eAFSrwG4v/E4yuvtLOu8MAN0c6/FgeSIBXr5F2LhRuilXd1LjmGgPQhueTqNmTJ1bue///z99//5jn3wfzCCXf+//z19//u469RXZJ/dSuSIVfWoRsCAh8///qf3nXr/+t3P0BchCEIvAZhSMHVmeiG/AW65OWbH2AXfPj06/+373+wuWQGcsBmYXjnz7//KR0QV5RMugNyFaYheVczEAFbeFUbmyFIYlgN0c69ogXSjxwuZ0g05BRCNyKa/UlMbH44kv7V9UQasI4BFwAlY6BBZwkYcAaW3PEapFVwdSU2A0DiIHnic3XBZQdg1K8FZUwQrZt73Z6mxQgArnvm8BOL92gAAAAASUVORK5CYII=',
+        verified: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAASCAYAAAC9+TVUAAABcWlDQ1BpY2MAAHjaldE7SEJRHMfxr1oUURRUENFwB6slISqiMSySIEHUQKuh+/AF3qvcq7Q4Bq1CQ48lq6GludaG1iAIekA0NTYVtYTc7kFKCQz6Tx/+5/wP5/wOuCtZVbdaxkE3CmY44Jdi8RWp7ZlWemihn1FZtfLByEKUpvVxiwvgxifO4n/VpSUsFVwSMKvmzYLjdWB6o5AX3gX61LSsOT4Fxkzngo7vRV+p+UU4JYwbYTMannPcB0ipBisNVtOm7ngK8Gq6oTmO1awJl4T1bFGlVi6gM2EsR0QfGCLAIkFCSCgUyZClgI8MBhIWYQL4m8wPIuZDFFHIkkFFYp4cOjJiHvEHv7O1kpMTALg6/dD6ZNtvw9C2DdWybX8e2nb1CDyPcGHU53MVmHkHT7ne8x5A9yacXdZ7yg6cb8HAQ142ZQA8gDuZhNcT6IpD7zV0rIrcftY5voNoCZauYG8fRlLQvdbk3e2Nuf215zu/L15zcp/8iQn7AAAA6klEQVR42mMYBQz/GxqYrm2Pzrq+I7qOLANu7IqQurYjevfVHdGN/1eFMpNswPXtkZZAAx5c2RkdQpYLgM4PBBrw5trOKDvyDNgZHQ404OPVHTG25IXBjihHoAHfr+6I8ifLgMu7YzWBBry/tj2mlCwDbm6OFAEacB/olXUEFV/ZH8oDVLwNGOePr26LMETERPRqoPiLqztChUiJ+9dAfPvKqlC2q9ujQoHs/yRHJVBjHkjj1Z3Rbdd2xLwCsg+SHAaPV4VyQl3zH+yK7ZE2ZAUmUHML1JCTDOSCGztjFYEGrDi/P0GA7rkaADB5hWtmwM23AAAAAElFTkSuQmCC',
     };
     const _memberTypeFetched = new Set(); // usernames already fetched this session
     let _blocksPageFetched = false;        // whether my_blocks.php bulk scrape has run this session
@@ -32,7 +33,20 @@
         const oldData = settings.users[oldName];
         if (!oldData) return;
         // Merge old record into new (preserve any existing new-name data)
-        settings.users[newName] = Object.assign({}, oldData, settings.users[newName] || {});
+        const merged = Object.assign({}, oldData, settings.users[newName] || {});
+        // Keep a history of former usernames (an account can rename ~once/month,
+        // ~12/year). Combine both records' histories + the old name, drop the
+        // current name, dedupe case-insensitively, and cap at 24 (≈2 years).
+        const hist = [].concat(oldData.prevNames || [],
+                               (settings.users[newName] || {}).prevNames || [],
+                               [oldName]);
+        const seen = new Set();
+        const prevNames = hist.map(lc).filter((n) => n && n !== newName && !seen.has(n) && seen.add(n)).slice(-24);
+        // Only keep rename history for people worth tracking: blocked / ignored
+        // (tier), friends, or favorites. Strangers who rename in chat aren't kept.
+        const qualifies = !!(merged.tier || merged.fav || merged.friend);
+        if (qualifies && prevNames.length) merged.prevNames = prevNames; else delete merged.prevNames;
+        settings.users[newName] = merged;
         delete settings.users[oldName];
         saveUsersSoon();
         if (oldData.tier === 'ignored') syncIgnoredToChat();
@@ -89,9 +103,17 @@
         const u = lc(username);
         const t = getMemberType(u);
         if (t !== 'guest' && t !== 'member') return '';
-        // Mods are members but get the mod badge.
-        const kind = (t === 'member' && getUser(u).mod) ? 'mod' : t;
-        const label = kind === 'guest' ? 'Guest' : kind === 'mod' ? 'Mod' : 'Member';
+        const rec = getUser(u);
+        // Priority: Mod > Verified Model > plain member/guest. A model can also be
+        // a mod; we show the mod badge in that case since it's the block-relevant
+        // status (you can't block a mod, but you can block a non-mod model).
+        const kind = (t === 'member' && rec.mod)   ? 'mod'
+                   : (t === 'member' && rec.model) ? 'verified'
+                   : t;
+        const label = kind === 'guest' ? 'Guest'
+                    : kind === 'mod' ? 'Mod'
+                    : kind === 'verified' ? 'Verified Model'
+                    : 'Member';
         return '<img class="pt-member-badge" src="' + MEMBER_BADGE_URL[kind] +
                '" title="' + label + '" alt="' + label + '"> ';
     }
@@ -131,16 +153,109 @@
         ptLog('Scrape', msg);
     }
 
+    // --- Scrape progress (surfaced by the Admin tab progress bar) ---
+    // Any long-running scrape — the login bootstrap or the manual re-scrape —
+    // reports here. The UI updater is a no-op when the Admin pane isn't mounted.
+    let _scrapeProg = { done: 0, total: 0, label: '' };
+    function setScrapeProgress(done, total, label) {
+        _scrapeProg = { done: done | 0, total: total | 0, label: label || '' };
+        try { updateScrapeProgressUI(); } catch (e) {}
+    }
+    function updateScrapeProgressUI() {
+        const wrap = document.getElementById('pt-scrape-progress');
+        if (!wrap) return;
+        const p = _scrapeProg;
+        if (!p.total) { wrap.style.display = 'none'; return; }
+        wrap.style.display = '';
+        const pct = p.total ? Math.round(100 * p.done / p.total) : 0;
+        const fill = document.getElementById('pt-scrape-fill');
+        const txt = document.getElementById('pt-scrape-text');
+        if (fill) fill.style.width = pct + '%';
+        if (txt) txt.textContent = (p.label || 'Scraping') + ': ' + p.done + ' / ' + p.total + ' (' + pct + '%)';
+    }
+
+    // Manually re-scrape every tracked account (settings.users + live blocks),
+    // forcing a fresh profile fetch so member type, mod/model status, and rename
+    // info all refresh. Reports to the shared progress bar. Admin-only / testing.
+    let _rescrapeRunning = false;
+    async function rescrapeAllAccounts() {
+        if (_rescrapeRunning) return;
+        _rescrapeRunning = true;
+        try {
+            const set = new Set();
+            for (const name of Object.keys(settings.users || {})) set.add(lc(name));
+            ((W.Chat && Array.isArray(W.Chat._BLOCKED_USERS)) ? W.Chat._BLOCKED_USERS : []).forEach((u) => set.add(lc(u)));
+            const list = Array.from(set).filter(Boolean);
+            const total = list.length;
+            ptLog('Scrape', 'Manual re-scrape of ' + total + ' account(s) started.');
+            setScrapeProgress(0, total, 'Re-scraping accounts');
+            for (let i = 0; i < total; i += 4) {
+                await Promise.all(list.slice(i, i + 4).map((u) => fetchMemberType(u, true)));
+                setScrapeProgress(Math.min(i + 4, total), total, 'Re-scraping accounts');
+                if (i + 4 < total) await new Promise((r) => setTimeout(r, 600));
+            }
+            setScrapeProgress(total, total, 'Re-scrape complete');
+            ptLog('Scrape', 'Manual re-scrape complete (' + total + ' account(s)).');
+            try { renderPanelLists(); } catch (e) {}
+            try { renderBlockedYou(); } catch (e) {}
+            setTimeout(() => setScrapeProgress(0, 0, ''), 4000); // hide the bar
+        } finally { _rescrapeRunning = false; }
+    }
+
+    // Diagnostic: fetch my_blocks.php and dump its block form(s) + any block-ish
+    // controls/handlers to the Log and the clipboard. Runs entirely on the chat
+    // page (same-origin fetch), so there's no second-tab/console juggling. Used
+    // to reverse-engineer the persistent "block by name" request.
+    async function inspectBlocksForm() {
+        const out = [];
+        const log = (s) => { out.push(s); try { ptLog('Capture', s); } catch (e) {} };
+        try {
+            const resp = await fetch(location.origin + '/1/omgchat/members/my_blocks.php', { credentials: 'include' });
+            const html = await resp.text();
+            const doc = new DOMParser().parseFromString(html, 'text/html');
+            log('=== my_blocks.php FORMS ===');
+            doc.querySelectorAll('form').forEach((f, i) => {
+                log('FORM#' + i + ' id=' + (f.id || '') + ' action=' + (f.getAttribute('action') || '') + ' method=' + (f.getAttribute('method') || 'GET'));
+                f.querySelectorAll('input,select,textarea,button').forEach((el) => {
+                    log('  ' + el.tagName + ' name=' + (el.name || '') + ' type=' + (el.type || '') + ' value=' + String(el.value || '').slice(0, 50) + (el.getAttribute('onclick') ? ' onclick=' + el.getAttribute('onclick').slice(0, 150) : ''));
+                });
+            });
+            log('=== block-ish controls (onclick/text/href) ===');
+            doc.querySelectorAll('a,button,input,span,div').forEach((el) => {
+                const oc = el.getAttribute && el.getAttribute('onclick');
+                const txt = (el.value || el.textContent || '').trim();
+                if ((oc && /block/i.test(oc)) || (/block/i.test(txt) && txt.length < 24)) {
+                    log('  <' + el.tagName.toLowerCase() + '> text="' + txt.slice(0, 30) + '"' + (oc ? ' onclick=' + oc.slice(0, 160) : '') + ((el.getAttribute && el.getAttribute('href')) ? ' href=' + el.getAttribute('href') : ''));
+                }
+            });
+            log('=== inline JS mentioning do= / block / action ===');
+            html.split('\n').forEach((line) => {
+                if (/\.attr\(\s*['"]?do|['"]?do['"]?\s*[:=]\s*['"]?(block|add|delete)|user_blockUser|blockUser|['"]?action['"]?\s*[:=]\s*['"]?(search|block|add)/i.test(line)) {
+                    const t = line.trim().slice(0, 180);
+                    if (t) log('  js: ' + t);
+                }
+            });
+            log('=== done ===');
+        } catch (e) {
+            log('Inspect failed: ' + (e && e.message ? e.message : e));
+        }
+        const text = out.join('\n');
+        try { copyToClipboard(text); } catch (e) {}
+        return text;
+    }
+
     // Thin wrapper: dedup/cache check, then record the network result for the
     // batch rollup. The actual scrape lives in _fetchMemberTypeRaw.
-    async function fetchMemberType(username) {
+    async function fetchMemberType(username, force) {
         const u = lc(username);
         if (!u) return '';
-        // Known guest — a temporary account; no UID/rename tracking is useful,
-        // so don't even fetch the profile. This also stops the rename storm that
-        // recycled guest UIDs would otherwise cause.
-        if (getUser(u).type === 'guest') return 'guest';
-        if (_memberTypeFetched.has(u)) return getUser(u).type || '';
+        // You can't Star / Friend a guest, so a favorited/friended account was a
+        // member — never short-circuit it as a guest (a wrong guest tag would
+        // otherwise stick). Everyone else: a known guest is a temporary account,
+        // so skip the fetch (also stops the rename storm from recycled guest UIDs).
+        const starred = !!(getUser(u).fav || getUser(u).friend);
+        if (!force && !starred && getUser(u).type === 'guest') return 'guest';
+        if (!force && _memberTypeFetched.has(u)) return getUser(u).type || '';
         const result = await _fetchMemberTypeRaw(u);
         _recordProfileScrape(result);
         return result;
@@ -148,6 +263,10 @@
 
     async function _fetchMemberTypeRaw(u) {
         _memberTypeFetched.add(u);
+        // Favorites / friends were members (you can't star a guest). If their
+        // profile reads as "guest"/"not found" it means the account was deleted
+        // or temporarily disabled — NOT that they're a guest. Keep them a member.
+        const starred = !!(getUser(u).fav || getUser(u).friend);
         try {
             const signal = (typeof AbortSignal !== 'undefined' && AbortSignal.timeout)
                 ? AbortSignal.timeout(5000) : undefined;
@@ -160,9 +279,10 @@
             // Profile page with no c_user container — guests have temporary
             // accounts that get cleaned up, leaving broken profile URLs.
             if (!html.includes('id="c_user"')) {
-                patchUser(u, { type: 'guest' });
+                const t = starred ? 'member' : 'guest';
+                patchUser(u, { type: t });
                 saveUsersSoon();
-                return 'guest';
+                return t;
             }
 
             // Determine type from the <h1> FIRST. "Profile not found" = a guest
@@ -171,13 +291,28 @@
             // heuristic). "- guest" suffix = active guest. Otherwise a member.
             const m = html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i);
             const h1Text = m ? m[1].replace(/<[^>]*>/g, '').trim().toLowerCase() : '';
-            const type = h1Text.includes('profile not found') ? 'guest'
-                       : h1Text.includes('- guest') ? 'guest'
+
+            // "Blocked user" page — shown when you've blocked them OR they've
+            // blocked you. It has id="c_user" and an EMPTY id="badges", so the
+            // member heuristic below would wrongly tag it 'member'. We can't learn
+            // their real type from it, so leave the cached type untouched and clear
+            // the fetched flag so a later attempt (after unblock / seen in room) can
+            // resolve it.
+            if (h1Text.includes('blocked user')) {
+                _memberTypeFetched.delete(u);
+                return getUser(u).type || '';
+            }
+
+            // A starred (fav/friend) account that reads guest/not-found is a
+            // deleted/disabled MEMBER, not a guest — keep it a member.
+            const type = h1Text.includes('profile not found') ? (starred ? 'member' : 'guest')
+                       : h1Text.includes('- guest') ? (starred ? 'member' : 'guest')
                        : html.includes('id="badges"') ? 'member' : '';
 
             // Guests are temporary accounts whose UIDs get recycled — tracking
             // their UID or detecting renames causes a rename storm as one UID is
-            // passed between successive guests. Record the type only.
+            // passed between successive guests. Record the type only. (Starred
+            // users never reach here as 'guest' — see above.)
             if (type === 'guest') {
                 patchUser(u, { type: 'guest' });
                 saveUsersSoon();
@@ -200,10 +335,23 @@
                 saveUsersSoon();
             }
             if (type) { patchUser(target, { type }); saveUsersSoon(); }
-            // Note moderators (treated as members, flagged for later features).
-            if (type === 'member' && /badge_mod\.png/i.test(html) && !getUser(target).mod) {
-                patchUser(target, { mod: true });
-                saveUsersSoon();
+            // Refresh mod / model flags (treated as members, used for the
+            // mod-blocking rules). Status changes over time, so a freshly loaded
+            // member profile is authoritative for what we can read from it.
+            //   • Verified Model: <li class="badge_verified" title="Verified">.
+            //     Reliable markup → set AND clear from the profile.
+            //   • Mod: best-effort badge match, set-only here. add_user is the
+            //     authoritative source for mod (and clears it when lost).
+            if (type === 'member') {
+                const profModel = /<li[^>]*class="[^"]*\bbadge_verified\b[^"]*"/i.test(html);
+                if (profModel !== !!getUser(target).model) {
+                    patchUser(target, { model: profModel });
+                    saveUsersSoon();
+                }
+                if (/badge_mod\.png/i.test(html) && !getUser(target).mod) {
+                    patchUser(target, { mod: true });
+                    saveUsersSoon();
+                }
             }
             return type;
         } catch (e) { return ''; }
@@ -248,9 +396,12 @@
                     // The Unblock button carries the block-relationship id we POST as `fid`.
                     const rmBtn = row.querySelector('input.btn_remove[data-fid]');
                     const fid = rmBtn ? rmBtn.getAttribute('data-fid') : '';
-                    // Note moderators if the row exposes a mod badge (best-effort).
+                    // Note moderators / models if the row exposes a badge (best-effort).
                     if (row.querySelector('img[src*="badge_mod"], i.badge.mod') && !getUser(u).mod) {
                         patchUser(u, { mod: true });
+                    }
+                    if (row.querySelector('.badge_verified, img[src*="verified"], i.badge.verified') && !getUser(u).model) {
+                        patchUser(u, { model: true });
                     }
                     rows.push({ username: u, type, fid });
                     pageCount++;

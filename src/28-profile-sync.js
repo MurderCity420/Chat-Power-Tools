@@ -46,7 +46,7 @@
     }
 
     // --- Build compact payload (strips re-derivable fields to reduce size) ---
-    // users field keys: t=tier, f=fav, c=color, a=alias  (type/uid/country/hashid omitted)
+    // users field keys: t=tier, f=fav, c=color, a=alias, p=prevNames  (type/uid/country/hashid omitted)
 
     function _psBuildPayload() {
         const SKIP = new Set(['holidayDismissed', 'debugSocketEmits']);
@@ -66,6 +66,12 @@
             if (d.fav)   c.f = 1;
             if (d.color) c.c = d.color;
             if (d.alias) c.a = d.alias;
+            // Rename history — only synced for people worth keeping: blocked /
+            // ignored (tier), friends, or favorites. This also pulls a friend-only
+            // user into the payload so their history survives across devices.
+            if (Array.isArray(d.prevNames) && d.prevNames.length && (d.tier || d.fav || d.friend)) {
+                c.p = d.prevNames;
+            }
             if (Object.keys(c).length) u[name] = c;
         }
         payload.u = u;
@@ -81,6 +87,7 @@
             if (c.f) d.fav   = true;
             if (c.c) d.color = c.c;
             if (c.a) d.alias = c.a;
+            if (Array.isArray(c.p) && c.p.length) d.prevNames = c.p;
             if (Object.keys(d).length) out[name] = d;
         }
         return out;

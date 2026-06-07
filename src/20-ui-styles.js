@@ -630,6 +630,17 @@
             /* Clickable username → opens the profile in a new tab. */
             .pt-name-link { color: inherit; text-decoration: none; cursor: pointer; }
             .pt-name-link:hover { text-decoration: underline; }
+            /* Allow highlighting + Ctrl+C of names in the lists/tables. The host
+               site sets user-select:none on containers we inherit from, and <a>
+               elements drag by default — both block selection. Force text
+               selection on the list/table content and stop links from dragging. */
+            .pt-list, .pt-list li, .pt-list li span, .pt-name-link,
+            .pt-tier-table, .pt-tier-table td {
+                -webkit-user-select: text;
+                -moz-user-select: text;
+                user-select: text;
+            }
+            .pt-name-link { -webkit-user-drag: none; }
             /* Clickable filter headers / legend items */
             .pt-igfilter:hover, .pt-favfilter:hover { filter: brightness(1.25); }
 
