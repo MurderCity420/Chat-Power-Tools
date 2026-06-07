@@ -23,7 +23,8 @@ The panel is organized into tabs. Click a tab to switch to it; the data-backed t
 | **Keywords** | Redact or hide words — [docs](keywords.md) |
 | **Ignored** | Per-user Alerts / Ignored / Blocked tiers — [docs](ignore-and-blocks.md) |
 | **Blocks** | Manage your server block list + guest cleanup — [docs](ignore-and-blocks.md) |
-| **Advanced** | Ticker filters, emoji picker, cam recovery, auto-rate… — [docs](advanced.md) |
+| **Features** | Emoji picker, smart contrast, auto-rate, guest blocking… — [docs](features.md) |
+| **Advanced** | Ticker filters, chat tweaks, settings backup/restore — [docs](advanced.md) |
 | **Log** | The diagnostic log — [docs](logs-and-sync.md) |
 
 | The panel tab bar |

@@ -37,17 +37,9 @@ Other options on the Ignored tab:
 - **Hide dice/slot/rating tickers from ignored users**
 - **Remove ignored & blocked users from the user list completely**
 
-> **Tip:** You can also right-click… actually, just click a user's name/avatar in chat and choose **IGNORE** / **FAVORITE** from the menu.
+> **Tip:** click a user's name/avatar in chat and choose **IGNORE** / **FAVORITE** from the menu.
 
----
-
-## Block List Sync
-
-A small section on the Ignored tab controls automatic syncing:
-
-- **Auto-sync "You Block" → Ignored** — backs up the **members** on your server block list so they can be auto-re-blocked if they fall off the cap. **Guests are skipped** (they're temporary).
-- **Auto re-block accounts set to Blocked** — every 30 s, if someone in your **Blocked** tier enters the room while not currently blocked (e.g. the 100-cap pushed them off), they're re-blocked. Only affects the **Blocked** tier — never Alerts/Ignored. **Account-scoped:** only re-blocks people the account you're logged into actually blocked.
-- **Sync now** — runs the sync immediately.
+> The automatic **block-list sync** and **re-block** options (Auto-sync "You Block" → Ignored, Sync now, Auto re-block accounts set to Blocked) now live on the **[Features → Blocking](features.md)** tab.
 
 ---
 
@@ -77,18 +69,16 @@ The server enforces a **100-user block cap**; older blocks get pushed off as you
 
 Guests are throwaway accounts. The site only auto-releases a guest block after ~1 minute **while you stay in the room** — if you leave, the block sticks and slowly fills your 100-cap, pushing off real blocks.
 
-Under the Blocks tab:
+The Blocks tab has a manual one-click cleanup:
 
 - **🧹 Remove all guest blocks now** — sweeps your block list and unblocks every guest immediately.
-- **Automatically remove guest blocks** — when checked, runs that sweep on login and on a repeating interval.
-- **every `N` min** — how often the automatic sweep runs (**minimum 5 minutes**; values below 5 snap to 5).
 
-| Guest cleanup controls |
+To run that sweep **automatically** on a schedule, turn on **Auto Unblock Guest Blocks** (with its **every N min** interval) on the **[Features → Blocking](features.md)** tab. The sweep also runs once shortly after you log in, and guests are never kept in your Ignored/Blocked tiers.
+
+| Manual guest cleanup button |
 |:---:|
-| ![Guest block cleanup controls](../screenshots/blocks-guest-cleanup.png) |
-
-The sweep also runs once shortly after you log in. Guests are never kept in your Ignored/Blocked tiers.
+| ![Guest block cleanup button](../screenshots/blocks-guest-cleanup.png) |
 
 ---
 
-**Related:** [Advanced → Auto-block guest cammers](advanced.md) blocks guests who watch *your* cam (a different feature). [Log & Sync](logs-and-sync.md) records every block/unblock the tool performs.
+**Related:** [Features → Blocking](features.md) for **Auto-block Guest Viewers** (blocks guests who watch *your* cam) and the automatic guest-unblock/sync settings. [Log & Sync](logs-and-sync.md) records every block/unblock the tool performs.

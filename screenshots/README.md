@@ -25,7 +25,8 @@ Drop the documentation images here. Every file below is referenced as a placehol
 | `ignored-tab.png` | ignore-and-blocks | Ignored tab with the Name/Alerts/Ignored/Blocked/Remove table |
 | `blocks-tab.png` | ignore-and-blocks | The Blocks tab (You Block / Blocks You) |
 | `blocks-guest-cleanup.png` | ignore-and-blocks | "Remove all guest blocks" + auto-remove controls |
-| `advanced-tab.png` | advanced | The Advanced tab |
+| `features-tab.png` | features | The Features tab (User interface + Blocking groups) |
+| `advanced-tab.png` | advanced | The Advanced tab (Ticker filters / Chat tweaks / Settings backup) |
 | `emoji-picker.png` | advanced | The modern emoji picker open |
 | `log-tab.png` | logs-and-sync | The diagnostic Log tab |
 | `sync-settings-tab.png` | syncing-settings | Tampermonkey Dashboard → Settings tab |

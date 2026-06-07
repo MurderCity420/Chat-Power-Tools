@@ -12,7 +12,7 @@ A feature-rich Tampermonkey userscript for **OMGChat** (cammedia) that adds an u
 2. Reload your OMGChat tab.
 3. Click the green **🛡️ shield** icon in the chat top bar to open the panel.
 
-➡️ **[Install Chat Power Tools](https://raw.githubusercontent.com/MurderCity420/Chat-Power-Tools/main/Chat-Power-Tools.user.js)** (requires Tampermonkey — see the [installation guide](docs/installation.md) first)
+➡️ **[Install / Update Chat Power Tools](https://raw.githubusercontent.com/MurderCity420/Chat-Power-Tools/main/Chat-Power-Tools.user.js)** (requires Tampermonkey — see the [installation guide](docs/installation.md) first)
 
 ---
 
@@ -23,16 +23,19 @@ A feature-rich Tampermonkey userscript for **OMGChat** (cammedia) that adds an u
 | **Mention Alerts** | Visual flash + chime when your name or custom keywords appear |
 | **Favorites** | Highlight specific users so they stand out |
 | **Keyword Filter** | Redact or hide unwanted words |
-| **Tiered user lists** | Per-user **Alerts → Ignored → Blocked** with one set of checkboxes |
+| **Tiered Ignore List** | Per-user **Alerts → Ignored → Blocked** with one set of checkboxes |
 | **Unlimited Ignore List** | Ignore as many users as you want |
 | **Blocks manager** | View/manage your server block list and see who blocks you |
-| **Guest-block auto-cleanup** | Automatically unblocks throwaway guest accounts so they don't fill your 100-block cap |
-| **Cam recovery** | Auto-reopen crashed cams and bump your own stalled webcam |
+| **Guest Auto-Block** | Automatically block guests that cam you |
+| **Guest-block Unblock** | Automatically unblocks guest accounts after a period of time so they don't fill your 100-block cap |
 | **Modern emoji picker** | Categorized, searchable smiley picker |
-| **Quality-of-life** | Character counter, scroll-lock helper, smart font contrast, viewer sorting |
-| **Diagnostic log** | A 3-day, copyable record of what the tool did (syncs, blocks, scrapes…) |
+| **Scroll Lock Management** | Larger icon when scroll lock is on and you are behind in chat. Turn off scroll lock after a period of time |
+| **Smart Fonts** | No more black font on a black background or white font on a white background |
+| **My Viewers Sort** | Change the default for how My Viewers is sorted |
+| **Input Helper** | Character counter like twitter |
+| **Holiday Effects** | Holiday icons and effects |
 | **Cross-device sync** | Optionally mirrors your settings via your profile + syncs your Stars list |
-| **Holiday easter-eggs** | Awareness-day icons and effects |
+
 
 ---
 
@@ -49,7 +52,8 @@ A feature-rich Tampermonkey userscript for **OMGChat** (cammedia) that adds an u
 - **[Favorites](docs/favorites.md)** — highlight people you care about
 - **[Keywords](docs/keywords.md)** — redact or hide words
 - **[Ignored & Blocks](docs/ignore-and-blocks.md)** — the tier system, the block manager, and guest cleanup
-- **[Advanced](docs/advanced.md)** — ticker filters, emoji picker, cam recovery, auto-rate, and more
+- **[Features](docs/features.md)** — emoji picker, smart contrast, auto-rate, guest blocking, and more
+- **[Advanced](docs/advanced.md)** — ticker filters, chat tweaks, and settings backup/restore
 - **[Log & Sync](docs/logs-and-sync.md)** — the diagnostic log, profile sync, and friend sync
 
 ---
@@ -67,6 +71,4 @@ A feature-rich Tampermonkey userscript for **OMGChat** (cammedia) that adds an u
 
 ## License
 
-[MIT](LICENSE) © 2026 MurderCity420
-
-> Building or modifying the script? See **[AGENTS.md](AGENTS.md)** for the source layout and build instructions.
+[MIT](LICENSE) © 2026
