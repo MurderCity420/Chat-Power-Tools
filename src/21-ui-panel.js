@@ -23,6 +23,7 @@
                     <span id="pt-backup-done" title="I've set up cloud backup — hide this reminder">✓ done</span>
                 </span>
                 <a id="pt-docs-link" href="https://github.com/MurderCity420/Chat-Power-Tools/" target="_blank" rel="noopener noreferrer" title="Open the documentation on GitHub" style="display:none">📖 Docs</a>
+                <span id="pt-version" title="Installed version">${W.PT_VERSION ? 'v' + W.PT_VERSION : ''}</span>
                 <span class="pt-close" title="Close">×</span>
             </header>
             <div class="pt-tabrow">

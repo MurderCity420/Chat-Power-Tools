@@ -1,3 +1,11 @@
+    // Filter state for the Favorites and Ignored lists (persist across re-renders).
+    let _favFilter = 'all';      // 'all' | 'fav' | 'friend' | 'both'
+    let _ignoredFilter = 'all';  // 'all' | 'alerts' | 'ignored' | 'blocked'
+    let _panelRenderGeneration = 0;
+
+    // A user's public profile URL (opens in a new tab).
+    function profileUrl(u) { return location.origin + '/1/profiles/' + encodeURIComponent(lc(u)); }
+
     function renderPanelLists() {
         const panel = document.getElementById('pt-panel');
         if (!panel) return;
@@ -47,9 +55,9 @@
                     <thead>
                         <tr>
                             <th style="text-align:left">Name</th>
-                            <th style="color:#fa8">Alerts</th>
-                            <th style="color:#bbb">Ignored</th>
-                            <th style="color:#f88">Blocked</th>
+                            <th class="pt-igfilter" data-f="alerts" style="color:#fa8;cursor:pointer" title="Show only Alerts-tier users">Alerts</th>
+                            <th class="pt-igfilter" data-f="ignored" style="color:#bbb;cursor:pointer" title="Show only Ignored-tier users">Ignored</th>
+                            <th class="pt-igfilter" data-f="blocked" style="color:#f88;cursor:pointer" title="Show only Blocked-tier users">Blocked</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -61,19 +69,30 @@
             </div>
         `;
 
-        // Build the table rows
+        // Header filters (click a column header to filter; click the active one again to clear).
+        ip.querySelectorAll('.pt-igfilter').forEach((th) => {
+            if (th.dataset.f === _ignoredFilter) { th.style.textDecoration = 'underline'; th.style.fontWeight = '700'; }
+            th.addEventListener('click', () => {
+                _ignoredFilter = (_ignoredFilter === th.dataset.f) ? 'all' : th.dataset.f;
+                renderPanelLists();
+            });
+        });
+
+        // Build the table rows (filtered)
         const list = ip.querySelector('#pt-ignored-list'); // <tbody>
-        if (_entries.length === 0) {
-            list.innerHTML = '<tr><td colspan="5" class="pt-empty">No one here yet.</td></tr>';
+        const _shown = (_ignoredFilter === 'all') ? _entries : _entries.filter((e) => e.tier === _ignoredFilter);
+        if (_shown.length === 0) {
+            list.innerHTML = '<tr><td colspan="5" class="pt-empty">' + (_entries.length ? 'No users match this filter.' : 'No one here yet.') + '</td></tr>';
         } else {
             const TIER_COLORS = { alerts: '#fa8', ignored: '#888', blocked: '#f88' };
-            _entries.forEach(({ user, tier }) => {
+            _shown.forEach(({ user, tier }) => {
                 const tr = document.createElement('tr');
 
                 const nameTd = document.createElement('td');
-                nameTd.textContent = user;
+                nameTd.innerHTML = memberBadgeHtml(user) +
+                    '<a class="pt-name-link" href="' + profileUrl(user) + '" target="_blank" rel="noopener noreferrer">' + escapeHtml(user) + '</a>';
                 nameTd.title = user;
-                nameTd.style.cssText = 'max-width:170px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;' +
+                nameTd.style.cssText = 'max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;' +
                     'border-left:3px solid ' + (TIER_COLORS[tier] || 'transparent') + ';padding-left:6px';
 
                 // One checkbox per tier cell. Blocked ⊃ Ignored ⊃ Alerts:
@@ -98,7 +117,19 @@
                 cbB.checked = (tier === 'blocked');
 
                 const apply = () => setUserTier(user, cbB.checked ? 'blocked' : cbI.checked ? 'ignored' : cbA.checked ? 'alerts' : '');
-                cbA.addEventListener('change', () => { if (!cbA.checked) { cbI.checked = false; cbB.checked = false; } apply(); });
+                cbA.addEventListener('change', () => {
+                    if (!cbA.checked && (cbI.checked || cbB.checked)) {
+                        const higher = cbB.checked ? 'Blocked' : 'Ignored';
+                        if (!confirm('Unchecking Alerts will also remove "' + user + '" from your ' + higher + ' list. Continue?')) {
+                            cbA.checked = true; // revert — keep them where they are
+                            return;
+                        }
+                        cbI.checked = false; cbB.checked = false;
+                    } else if (!cbA.checked) {
+                        cbI.checked = false; cbB.checked = false;
+                    }
+                    apply();
+                });
                 cbI.addEventListener('change', () => { if (cbI.checked) cbA.checked = true; else cbB.checked = false; apply(); });
                 cbB.addEventListener('change', () => { if (cbB.checked) { cbA.checked = true; cbI.checked = true; } apply(); });
 
@@ -182,10 +213,11 @@
             </div>
             <div class="pt-section">
                 <h3>Favorites &amp; Friends (${Object.values(settings.users||{}).filter(d=>d.fav||d.friend).length})</h3>
-                <div style="font-size:10px;color:#888;margin-bottom:6px;display:flex;gap:12px">
-                    <span style="color:#FFD700">■ Fav Only</span>
-                    <span style="color:#4488FF">■ Friend Only</span>
-                    <span style="color:#44CC88">■ Friend &amp; Fav</span>
+                <div style="font-size:11px;margin-bottom:6px;display:flex;gap:12px;flex-wrap:wrap">
+                    <span class="pt-favfilter" data-f="fav" style="color:#FFD700;cursor:pointer">■ Fav Only</span>
+                    <span class="pt-favfilter" data-f="friend" style="color:#4488FF;cursor:pointer">■ Friend Only</span>
+                    <span class="pt-favfilter" data-f="both" style="color:#44CC88;cursor:pointer">■ Friend &amp; Fav</span>
+                    <span class="pt-favfilter" data-f="all" style="color:#ccc;cursor:pointer">All</span>
                 </div>
                 <ul class="pt-list" id="pt-fav-list"></ul>
             </div>
@@ -219,6 +251,12 @@
             reapplyFavoriteStyles();
         });
 
+        // Filter bar (Fav Only / Friend Only / Friend & Fav / All)
+        fp.querySelectorAll('.pt-favfilter').forEach((s) => {
+            if (s.dataset.f === _favFilter) { s.style.fontWeight = 'bold'; s.style.textDecoration = 'underline'; }
+            s.addEventListener('click', () => { _favFilter = s.dataset.f; renderPanelLists(); });
+        });
+
         // Combined Favorites & Friends list
         const flist = fp.querySelector('#pt-fav-list');
         const TYPE_COLORS = { fav: '#FFD700', friend: '#4488FF', both: '#44CC88' };
@@ -226,18 +264,20 @@
             .filter(([, d]) => d.fav || d.friend)
             .map(([u, d]) => ({ user: u, type: (d.fav && d.friend) ? 'both' : d.fav ? 'fav' : 'friend' }))
             .sort((a, b) => a.user.localeCompare(b.user));
+        const _favShown = (_favFilter === 'all') ? _combined : _combined.filter((e) => e.type === _favFilter);
 
-        if (_combined.length === 0) {
-            flist.innerHTML = '<li class="pt-empty">No favorites or friends yet.</li>';
+        if (_favShown.length === 0) {
+            flist.innerHTML = '<li class="pt-empty">' + (_combined.length ? 'No one matches this filter.' : 'No favorites or friends yet.') + '</li>';
         } else {
-            _combined.forEach(({ user, type }) => {
+            _favShown.forEach(({ user, type }) => {
                 const li = document.createElement('li');
                 li.style.borderLeft = '3px solid ' + TYPE_COLORS[type];
                 li.style.paddingLeft = '6px';
 
                 const nameSpan = document.createElement('span');
-                nameSpan.textContent = user;
-                nameSpan.style.flex = '1';
+                nameSpan.style.cssText = 'flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:flex;align-items:center';
+                nameSpan.innerHTML = memberBadgeHtml(user) +
+                    '<a class="pt-name-link" href="' + profileUrl(user) + '" target="_blank" rel="noopener noreferrer">' + escapeHtml(user) + '</a>';
 
                 const typeSel = document.createElement('select');
                 typeSel.style.cssText = 'background:#111;color:#eee;border:1px solid #444;border-radius:3px;padding:2px 4px;font-size:11px;margin:0 4px';
@@ -284,6 +324,21 @@
         fp.querySelector('#pt-fav-input').addEventListener('keydown', (e) => {
             if (e.key === 'Enter') fp.querySelector('#pt-fav-add').click();
         });
+
+        // Resolve member type / mod flag for everyone shown in the Favorites and
+        // Ignored lists so their badges populate, then re-render once. Guarded by
+        // a generation counter so a newer render supersedes a stale fetch loop.
+        (async () => {
+            const gen = ++_panelRenderGeneration;
+            const need = Array.from(new Set(_entries.map((e) => e.user).concat(_combined.map((c) => c.user))))
+                .filter((u) => { const k = lc(u); return k && !getUser(k).type && !_memberTypeFetched.has(k); });
+            let any = false;
+            for (let i = 0; i < need.length; i += 4) {
+                if (gen !== _panelRenderGeneration) return; // superseded
+                await Promise.all(need.slice(i, i + 4).map((u) => fetchMemberType(u).then((t) => { if (t) any = true; })));
+            }
+            if (any && gen === _panelRenderGeneration) { try { renderPanelLists(); } catch (e) {} }
+        })();
 
         // KEYWORDS
         const kp = panel.querySelector('.pt-tabpane[data-pane="keywords"]');
@@ -810,7 +865,7 @@
                 if (settings.revealBlockedYou) {
                     buttons += `<button class="pt-bl-view">${isHidden() ? 'Hide' : 'View'}</button>`;
                 }
-                li.innerHTML = `<span>${memberBadgeHtml(u)}${escapeHtml(u)}</span><div class="pt-btn-group">${buttons}</div>`;
+                li.innerHTML = `<span>${memberBadgeHtml(u)}<a class="pt-name-link" href="${profileUrl(u)}" target="_blank" rel="noopener noreferrer">${escapeHtml(u)}</a></span><div class="pt-btn-group">${buttons}</div>`;
                 li.querySelector('.pt-bl-unblock').addEventListener('click', (e) => {
                     const btn = e.currentTarget;
                     btn.textContent = '...';

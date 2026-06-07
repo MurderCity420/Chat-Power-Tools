@@ -5,10 +5,18 @@
     // Two types: 'guest' or 'member'. Detected from:
     //   1. The user-list DOM (fast, no network — for users in the room)
     //   2. The profile page at /1/profile/<username> (for everyone else)
-    // Results are cached persistently so we only fetch once per user.
-    // Membership badges are rendered as self-contained styled pills (see
-    // memberBadgeHtml) — the site's badge_*.png images are unreliable (the
-    // guest image 404s), so we don't depend on them.
+    // Results are cached persistently so we only fetch once per user. We also
+    // note whether a member is a moderator (stored as users[u].mod = true);
+    // mods are treated as members but flagged for later features and shown with
+    // the mod badge. Badges are the site's own icon images.
+    // The badge icons are embedded as base64 data URIs (the source PNGs live in
+    // src/badge_*.png) so they always render — no network fetch, CORS, or path
+    // dependency. They're tiny (<1 KB each).
+    const MEMBER_BADGE_URL = {
+        guest:  'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAASCAYAAAC9+TVUAAAA20lEQVR42mMYBUSC7gwxpv7MSYz9mbeA+CsQ/2Lsz3oBpDcx9GWYETagL0sFqPgVEP/HgX8w9Gcb4TUDaOMxmAagaxYxTEgRZ+hJEwHyNwLxIyDezdCfEYvbhN5sNSQbPzLMTOPCVETYK74IQzLOIlyX+QHNSzdwGzIh0w+ucELmOXINUUdS+Imhu4QbNbwy7+A3BKHwFDxg+zIXM0zOkWKYlCvKMCEjBxQzRBnCMDFDB6joPUgxLsw0IXMp4QDuyZYHKpwO1HAXiL9BXfCAqT9jGUNvluNobiQMAGanldd5ztOVAAAAAElFTkSuQmCC',
+        member: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAASCAYAAAC9+TVUAAABcWlDQ1BpY2MAAHjaldE7SEJRHMfxr1oUURRUENFwB6slISqiMSySIEHUQKuh+/AF3qvcq7Q4Bq1CQ48lq6GludaG1iAIekA0NTYVtYTc7kFKCQz6Tx/+5/wP5/wOuCtZVbdaxkE3CmY44Jdi8RWp7ZlWemihn1FZtfLByEKUpvVxiwvgxifO4n/VpSUsFVwSMKvmzYLjdWB6o5AX3gX61LSsOT4Fxkzngo7vRV+p+UU4JYwbYTMannPcB0ipBisNVtOm7ngK8Gq6oTmO1awJl4T1bFGlVi6gM2EsR0QfGCLAIkFCSCgUyZClgI8MBhIWYQL4m8wPIuZDFFHIkkFFYp4cOjJiHvEHv7O1kpMTALg6/dD6ZNtvw9C2DdWybX8e2nb1CDyPcGHU53MVmHkHT7ne8x5A9yacXdZ7yg6cb8HAQ142ZQA8gDuZhNcT6IpD7zV0rIrcftY5voNoCZauYG8fRlLQvdbk3e2Nuf215zu/L15zcp/8iQn7AAABJUlEQVR42mMYBQRAQwMTw4TMGMb+jA2MfZn3GPszvwHxPyD+ARR7DMSrGSblyuA1AKhxM1DDToa+LDeG/kxPIPs/w8QsK4ZpmYIMfRkRQP4fpv7MfpxmABUFgmxjWBXKDOZPyEoFanoJMhxqCQuQ/x7kUtyG9GarMUzJFoZxmfqz5jJNyJwHtUCaqS9zDtCFhSQFD9DWayDvwDBDX7oJaQHcXyAAClCgzR4Mk3OkQAEMDItFpBkyIcMdqPEjQ18hJ8RrGZ1A/l+GiRk6ROmHapqA7H9Q7IACFYi3wMVmprFi1z0xTQ7oimCg07sZOtL4GRpC2RCxl5UPCZvMKJBLGfozHLDETro+UNFnpMD8ytCfbgmX/8/ACHThfKD4M1ByGM2Z+AEAljF2NfgVTQYAAAAASUVORK5CYII=',
+        mod:    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAASCAYAAAC9+TVUAAABcWlDQ1BpY2MAAHjaldE7SEJRHMfxr1oUURRUENFwB6slISqiMSySIEHUQKuh+/AF3qvcq7Q4Bq1CQ48lq6GludaG1iAIekA0NTYVtYTc7kFKCQz6Tx/+5/wP5/wOuCtZVbdaxkE3CmY44Jdi8RWp7ZlWemihn1FZtfLByEKUpvVxiwvgxifO4n/VpSUsFVwSMKvmzYLjdWB6o5AX3gX61LSsOT4Fxkzngo7vRV+p+UU4JYwbYTMannPcB0ipBisNVtOm7ngK8Gq6oTmO1awJl4T1bFGlVi6gM2EsR0QfGCLAIkFCSCgUyZClgI8MBhIWYQL4m8wPIuZDFFHIkkFFYp4cOjJiHvEHv7O1kpMTALg6/dD6ZNtvw9C2DdWybX8e2nb1CDyPcGHU53MVmHkHT7ne8x5A9yacXdZ7yg6cb8HAQ142ZQA8gDuZhNcT6IpD7zV0rIrcftY5voNoCZauYG8fRlLQvdbk3e2Nuf215zu/L15zcp/8iQn7AAABMUlEQVR42mMYfEAn/1q4dv7VE5oF1wJ08i+LqxXfFAHyo4D4CogG8UHiIHmQOp28q2EoBqiX3eAFSrwG4v/E4yuvtLOu8MAN0c6/FgeSIBXr5F2LhRuilXd1LjmGgPQhueTqNmTJ1bue///z99//5jn3wfzCCXf+//z19//u469RXZJ/dSuSIVfWoRsCAh8///qf3nXr/+t3P0BchCEIvAZhSMHVmeiG/AW65OWbH2AXfPj06/+373+wuWQGcsBmYXjnz7//KR0QV5RMugNyFaYheVczEAFbeFUbmyFIYlgN0c69ogXSjxwuZ0g05BRCNyKa/UlMbH44kv7V9UQasI4BFwAlY6BBZwkYcAaW3PEapFVwdSU2A0DiIHnic3XBZQdg1K8FZUwQrZt73Z6mxQgArnvm8BOL92gAAAAASUVORK5CYII=',
+    };
     const _memberTypeFetched = new Set(); // usernames already fetched this session
     let _blocksPageFetched = false;        // whether my_blocks.php bulk scrape has run this session
     let _blocksPageOrder = [];             // usernames in my_blocks.php order (the site lists newest blocks first)
@@ -43,6 +51,10 @@
         if (!badge) return '';
         return badge.classList.contains('guest') ? 'guest' : 'member';
     }
+    // Mods carry an <i class="badge mod"> in the user list.
+    function rowIsMod(rowEl) {
+        return !!(rowEl && rowEl.querySelector('i.badge.mod'));
+    }
 
     function scanMemberTypes() {
         const rows = document.querySelectorAll('#ul_list [username], #wm_list [username]');
@@ -52,6 +64,7 @@
             if (!u) return;
             const t = rowMemberType(row);
             if (t && getUser(u).type !== t) { patchUser(u, { type: t }); changed = true; }
+            if (rowIsMod(row) && !getUser(u).mod) { patchUser(u, { mod: true }); changed = true; }
         });
         if (changed) saveUsersSoon();
         return changed;
@@ -73,10 +86,14 @@
     }
 
     function memberBadgeHtml(username) {
-        const t = getMemberType(username);
+        const u = lc(username);
+        const t = getMemberType(u);
         if (t !== 'guest' && t !== 'member') return '';
-        const label = (t === 'guest') ? 'Guest' : 'Member';
-        return '<span class="pt-member-badge pt-mb-' + t + '" title="' + label + '">' + label + '</span> ';
+        // Mods are members but get the mod badge.
+        const kind = (t === 'member' && getUser(u).mod) ? 'mod' : t;
+        const label = kind === 'guest' ? 'Guest' : kind === 'mod' ? 'Mod' : 'Member';
+        return '<img class="pt-member-badge" src="' + MEMBER_BADGE_URL[kind] +
+               '" title="' + label + '" alt="' + label + '"> ';
     }
 
     // --- Profile-scrape rollup ---
@@ -183,6 +200,11 @@
                 saveUsersSoon();
             }
             if (type) { patchUser(target, { type }); saveUsersSoon(); }
+            // Note moderators (treated as members, flagged for later features).
+            if (type === 'member' && /badge_mod\.png/i.test(html) && !getUser(target).mod) {
+                patchUser(target, { mod: true });
+                saveUsersSoon();
+            }
             return type;
         } catch (e) { return ''; }
     }
@@ -226,6 +248,10 @@
                     // The Unblock button carries the block-relationship id we POST as `fid`.
                     const rmBtn = row.querySelector('input.btn_remove[data-fid]');
                     const fid = rmBtn ? rmBtn.getAttribute('data-fid') : '';
+                    // Note moderators if the row exposes a mod badge (best-effort).
+                    if (row.querySelector('img[src*="badge_mod"], i.badge.mod') && !getUser(u).mod) {
+                        patchUser(u, { mod: true });
+                    }
                     rows.push({ username: u, type, fid });
                     pageCount++;
                 });

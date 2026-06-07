@@ -234,15 +234,25 @@
                 patch.hashid = hashid;
             }
 
-            // Also capture registered/VIP/mod status if we don't have a type yet.
+            // Membership signals from the add_user payload — the most reliable
+            // source (the page sends these directly). Fields are mixed types
+            // (true / 1 / "0"), so normalise with truthy().
+            const truthy = (v) => v === true || v === 1 || v === '1' || v === 'true';
+            const isMember = truthy(data.isRegistered) || truthy(data.isVerified) ||
+                             truthy(data.isVIP) || truthy(data.isModel) ||
+                             truthy(data.isMod) || truthy(data.isKing);
             if (!getUser(u).type) {
-                if (data && (data.isRegistered || data.isVIP)) patch.type = 'member';
+                // No member signal at all → it's a guest. Saves a profile scrape.
+                patch.type = isMember ? 'member' : 'guest';
             }
+            // Moderators are members but flagged for later features.
+            if (truthy(data.isMod) && !getUser(u).mod) patch.mod = true;
 
             if (Object.keys(patch).length) { patchUser(u, patch); saveUsersSoon(); }
 
-            // Queue profile fetch for UID resolution if not yet known.
-            if (!_memberTypeFetched.has(u) && !getUser(u).uid) {
+            // Queue a profile fetch for UID resolution (members only; guests are
+            // disposable and need no UID/rename tracking).
+            if (!_memberTypeFetched.has(u) && !getUser(u).uid && getUser(u).type !== 'guest') {
                 _queue.push(u);
                 _drain();
             }

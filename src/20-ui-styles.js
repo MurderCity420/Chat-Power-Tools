@@ -254,7 +254,6 @@
                 align-items: center;
                 gap: 6px;
                 margin-left: 10px;
-                margin-right: auto;
                 font-weight: normal;
                 font-size: 11px;
                 background: rgba(255, 170, 40, 0.16);
@@ -286,7 +285,6 @@
                margin-right:auto pushes the close button to the far right. */
             #pt-docs-link {
                 margin-left: 10px;
-                margin-right: auto;
                 font-weight: normal;
                 font-size: 11px;
                 color: #8fd0ff;
@@ -301,6 +299,13 @@
                 color: #bfe3ff;
                 border-color: rgba(90, 160, 255, 0.8);
                 text-decoration: none;
+            }
+            #pt-version {
+                margin-left: 8px;
+                margin-right: auto;
+                font-weight: normal;
+                font-size: 11px;
+                color: #888;
             }
             .pt-tabrow { display: flex; align-items: stretch; background: #252525; border-bottom: 1px solid #444; flex-shrink: 0; }
             .pt-tabscroll-btn {
@@ -613,22 +618,20 @@
             }
             /* Membership badge shown before a username in the Blocks lists.
                Self-contained pill — does not depend on the site's badge images. */
+            /* Membership badge — the site's own icon images (guest / registered / mod). */
             .pt-member-badge {
-                display: inline-block;
+                width: 16px;
+                height: 16px;
+                object-fit: contain;
                 vertical-align: middle;
                 margin-right: 5px;
                 flex-shrink: 0;
-                font-size: 9px;
-                font-weight: 700;
-                line-height: 1;
-                text-transform: uppercase;
-                letter-spacing: 0.03em;
-                padding: 2px 5px;
-                border-radius: 3px;
-                color: #fff;
             }
-            .pt-mb-guest  { background: #b5651d; }  /* guest  — orange/brown */
-            .pt-mb-member { background: #2e7d32; }  /* member — green */
+            /* Clickable username → opens the profile in a new tab. */
+            .pt-name-link { color: inherit; text-decoration: none; cursor: pointer; }
+            .pt-name-link:hover { text-decoration: underline; }
+            /* Clickable filter headers / legend items */
+            .pt-igfilter:hover, .pt-favfilter:hover { filter: brightness(1.25); }
 
             /* Modern smiley picker */
             #pt-smileypicker {

@@ -31,8 +31,9 @@
     // SETTINGS - all persisted via GM_setValue
     // ============================================================
     const DEFAULTS = {
-        // Single unified user store. Each entry: { tier?, fav?, uid?, color?, alias?, type?, blockedBy? }
+        // Single unified user store. Each entry: { tier?, fav?, friend?, fid?, uid?, color?, alias?, type?, mod?, blockedBy? }
         // tier: 'alerts'|'ignored'|'blocked'  fav: true  type: 'guest'|'member'
+        // mod: true — a moderator (treated as a member; flagged for later features)
         // blockedBy: [account usernames] that own this 'blocked' backup entry
         //   (storage is shared across accounts; auto-re-block is scoped to the owner)
         users: {},

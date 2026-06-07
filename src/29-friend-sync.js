@@ -32,7 +32,9 @@
             if (!nameEl || !fidEl) return;
             const username = lc(nameEl.textContent.trim());
             const fid      = fidEl.getAttribute('data-fid');
-            if (username && fid) result.friends.push({ username, fid });
+            // Note moderators if the row exposes a mod badge (best-effort).
+            const mod = !!row.querySelector('img[src*="badge_mod"], i.badge.mod');
+            if (username && fid) result.friends.push({ username, fid, mod });
         });
 
         return result;
@@ -94,11 +96,13 @@
             );
             const removedNames = [];
 
-            // --- Step 1: Mark all scanned users as friends ---
-            for (const { username, fid } of friends) {
+            // --- Step 1: Mark all scanned users as friends (and note mods) ---
+            for (const { username, fid, mod } of friends) {
                 const rec = getUser(username);
-                if (!rec.friend || rec.fid !== fid) {
-                    patchUser(username, { friend: true, fid });
+                if (!rec.friend || rec.fid !== fid || (mod && !rec.mod)) {
+                    const patch = { friend: true, fid };
+                    if (mod) patch.mod = true;
+                    patchUser(username, patch);
                 }
             }
 
