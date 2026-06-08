@@ -223,51 +223,11 @@
             const country = ((data && data.country) || '').toUpperCase();
             if (!u) return;
 
-            // Build the patch from whatever the payload gives us.
-            const patch = {};
-
-            // Country — authoritative from server, no DOM scraping needed.
-            if (country) patch.country = country;
-
-            // Hashid — stable per-account identifier; used for instant rename detection.
-            if (hashid) {
-                const prev = getUserByHashid(hashid);
-                if (prev && prev.username !== u) applyUsernameRename(prev.username, u);
-                patch.hashid = hashid;
-            }
-
-            // Membership signals from the add_user payload — the most reliable
-            // source (the page sends these directly). Fields are mixed types
-            // (true / 1 / "0"), so normalise with truthy().
             const truthy = (v) => v === true || v === 1 || v === '1' || v === 'true';
-            const isMember = truthy(data.isRegistered) || truthy(data.isVerified) ||
-                             truthy(data.isVIP) || truthy(data.isModel) ||
-                             truthy(data.isMod) || truthy(data.isKing);
-            if (!getUser(u).type) {
-                // No member signal at all → it's a guest. Saves a profile scrape.
-                patch.type = isMember ? 'member' : 'guest';
-            }
-            // Moderators and models are members but flagged for the mod-blocking
-            // rules. A "model" is a Verified account — the site exposes that as
-            // isModel and/or isVerified, so treat either as model. add_user fires
-            // every time a user enters the room and carries explicit booleans, so
-            // it's our authoritative, self-refreshing source: gaining or losing
-            // Mod / Verified Model status is picked up automatically. We only act
-            // when the field is actually present in the payload, so a partial event
-            // can never wrongly clear a flag. patchUser clears a flag when passed
-            // false, so set/clear is just the live boolean.
-            const has = (k) => Object.prototype.hasOwnProperty.call(data, k);
-            if (has('isMod')) {
-                const m = truthy(data.isMod);
-                if (m !== !!getUser(u).mod) patch.mod = m;
-            }
-            if (has('isModel') || has('isVerified')) {
-                const md = truthy(data.isModel) || truthy(data.isVerified);
-                if (md !== !!getUser(u).model) patch.model = md;
-            }
+            const has    = (k) => Object.prototype.hasOwnProperty.call(data, k);
 
-            // Track OUR OWN mod/model status from our own add_user event — only
-            // mods/models may block a mod, so this gates the Blocked checkbox.
+            // Always update OUR OWN mod/model status — gates the "block a mod"
+            // checkbox regardless of whether our own account is "tracked".
             const me = detectMyUsername();
             if (me && u === me) {
                 let gateChanged = false;
@@ -282,11 +242,49 @@
                 if (gateChanged) { try { renderPanelLists(); } catch (e) {} }
             }
 
+            // Hashid rename detection runs before the tracked-user guard — the
+            // old name may be tracked even if the new name has no record yet.
+            if (hashid) {
+                const prev = getUserByHashid(hashid);
+                if (prev && prev.username !== u) applyUsernameRename(prev.username, u);
+            }
+
+            // Only store per-user data for accounts we're actively tracking
+            // (blocked/ignored tier, favorites, friends). Every user entering the
+            // room fires add_user — a busy room has ~16,000 unique accounts. Storing
+            // country/hashid/type for all of them bloats the database and queues
+            // thousands of profile fetches we'll never use.
+            const rec = getUser(u); // re-read after possible rename above
+            if (!(rec.tier || rec.fav || rec.friend)) return;
+
+            const patch = {};
+            if (country) patch.country = country;
+            if (hashid)  patch.hashid  = hashid;
+
+            // Membership signals from the add_user payload — the most reliable
+            // source (the page sends these directly). Fields are mixed types
+            // (true / 1 / "0"), so normalise with truthy().
+            const isMember = truthy(data.isRegistered) || truthy(data.isVerified) ||
+                             truthy(data.isVIP) || truthy(data.isModel) ||
+                             truthy(data.isMod) || truthy(data.isKing);
+            if (!rec.type) patch.type = isMember ? 'member' : 'guest';
+
+            // Moderators and models are members but flagged for the mod-blocking
+            // rules. add_user is authoritative and self-refreshing for these flags.
+            if (has('isMod')) {
+                const m = truthy(data.isMod);
+                if (m !== !!rec.mod) patch.mod = m;
+            }
+            if (has('isModel') || has('isVerified')) {
+                const md = truthy(data.isModel) || truthy(data.isVerified);
+                if (md !== !!rec.model) patch.model = md;
+            }
+
             if (Object.keys(patch).length) { patchUser(u, patch); saveUsersSoon(); }
 
             // Queue a profile fetch for UID resolution (members only; guests are
             // disposable and need no UID/rename tracking).
-            if (!_memberTypeFetched.has(u) && !getUser(u).uid && getUser(u).type !== 'guest') {
+            if (!_memberTypeFetched.has(u) && !rec.uid && rec.type !== 'guest') {
                 _queue.push(u);
                 _drain();
             }

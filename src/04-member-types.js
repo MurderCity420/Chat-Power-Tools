@@ -76,6 +76,9 @@
         rows.forEach((row) => {
             const u = lc(row.getAttribute('username'));
             if (!u) return;
+            // Only update type/mod for users we're already tracking. Creating
+            // records for every visitor in the room (~16k) bloats the database.
+            if (!settings.users[u]) return;
             const t = rowMemberType(row);
             if (t && getUser(u).type !== t) { patchUser(u, { type: t }); changed = true; }
             if (rowIsMod(row) && !getUser(u).mod) { patchUser(u, { mod: true }); changed = true; }
@@ -92,7 +95,8 @@
         if (liveRow) {
             const t = rowMemberType(liveRow);
             if (t) {
-                if (getUser(u).type !== t) { patchUser(u, { type: t }); saveUsersSoon(); }
+                // Only persist type for tracked users — don't create records for strangers.
+                if (settings.users[u] && getUser(u).type !== t) { patchUser(u, { type: t }); saveUsersSoon(); }
                 return t;
             }
         }
