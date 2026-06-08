@@ -19,7 +19,7 @@ The **Features** tab collects the optional enhancements, grouped into **User int
 - **Viewer list sort** — sort your "Watching Me" viewers by **none / name / gender / cam-on** (dropdown to the right).
 - **Scroll lock helper** — a floating jump-to-bottom arrow appears when scroll lock is on and you've scrolled up. Optional **auto-disable after N seconds**.
 - **Auto rate back** — when someone rates you, rate them back. Sub-options:
-  - **Rate 5's back for:** **All users** / **Friends & Favorites** / **Favorites Only**.
+  - **Rate 5's back for:** **All Users** / **Friends & Favorites** / **Friends Only** / **Favorites Only**.
   - **Auto-rate all 4's with a 4** — also return 4s (applies to everyone).
 
 | Modern emoji picker |
@@ -34,8 +34,9 @@ The **Features** tab collects the optional enhancements, grouped into **User int
 - **Auto Unblock Guest Blocks** — scans your Blocked Users page on login and on the interval to its right (**every N min**, minimum 5; default 30) and unblocks anyone whose Type is **Guest**. Guests are throwaway accounts, so this stops dead guests from filling your 100-user block cap. *(The Blocks tab also has a manual "Remove all guest blocks now" button — see [Ignored & Blocks](ignore-and-blocks.md).)*
 - **Auto-sync "You Block" → Ignored** + **Sync now** — backs up the **members** on your server block list (guests skipped) so they can be auto-re-blocked if they fall off the cap. **Sync now** runs it immediately.
 - **Auto re-block accounts set to Blocked** — every 30 s, if someone in your **Blocked** tier enters the room while not currently blocked (the 100-cap pushed them off), they're re-blocked. Only the **Blocked** tier — never Alerts/Ignored. Account-scoped to the logged-in account.
+- **Allow Mod Blocking** — by default the site only lets moderators/models block another moderator; for everyone else, blocking a mod silently fails on the server. Turn this on to block mods anyway. Because the server won't keep that block (it does **not** consume one of your 100 slots), it's **re-applied automatically at every login** — it shows in your console and the Blocks tab, but is session-only. *(If you're a mod or model yourself, you can block mods without this setting; it's detected automatically when you log in.)*
 
-> The tier system (Alerts / Ignored / Blocked) is managed on the **[Ignored](ignore-and-blocks.md)** tab.
+> The tier system (Alerts / Ignored / Blocked) is managed on the **[Ignored](ignore-and-blocks.md)** tab. The Blocked checkbox for a moderator is disabled unless you're a mod/model or have **Allow Mod Blocking** on.
 
 ---
 

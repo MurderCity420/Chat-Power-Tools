@@ -49,7 +49,7 @@ Choose how a message that mentions you is marked:
 - **Alert when someone rates me** — fires the same chime/flash whenever you receive a rating (any score), so you know who just rated you.
 - **Preview chime** — plays the sound so you can check your volume.
 
-| Alert highlight in chat |
+| Alert highlights in chat |
 |:---:|
 | ![Mention highlight example](../screenshots/highlight-types.png) |
 

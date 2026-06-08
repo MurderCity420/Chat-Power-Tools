@@ -20,7 +20,9 @@ The tiers are **cumulative** — checking **Ignored** auto-checks **Alerts**; ch
 
 Checking **Blocked** also **blocks the user on the site** and adds them to your Blocks tab. Unchecking it **unblocks them on the server** again.
 
-Each row shows a **member / guest / mod** badge and a colored left edge by tier. **Click a username** to open their profile in a new tab. **Click a column header** (Alerts / Ignored / Blocked) to filter the list to that tier; click the active header again to show all.
+Each row shows a **member / guest / mod / verified-model** badge and a colored left edge by tier (🟡 Alerts · 🟠 Ignored · 🔴 Blocked). **Click a username** to open their profile in a new tab; **hover** it to see any former usernames (renames are tracked). You can also **highlight a name and Ctrl+C** to copy it. **Click a column header** (Alerts / Ignored / Blocked) to filter the list to that tier; click the active header again to show all.
+
+> **Blocking moderators:** the site only lets mods/models block another moderator. For everyone else the Blocked checkbox on a mod row is **disabled**. To block mods anyway, turn on **Allow Mod Blocking** on the **[Features → Blocking](features.md)** tab — that block is session-only (it doesn't use a server slot) and is re-applied at each login. If you're a mod/model yourself, you can block mods without that setting.
 
 | The Ignored tab — Name / Alerts / Ignored / Blocked / Remove |
 |:---:|
@@ -39,6 +41,8 @@ Other options on the Ignored tab:
 - **Hide dice/slot/rating tickers from ignored users**
 - **Remove ignored & blocked users from the user list completely**
 
+The **Search / filter** box next to the Ignore field narrows the list — it matches current names **and** former usernames (as do the filter boxes on the Blocks tab).
+
 > **Tip:** click a user's name/avatar in chat and choose **IGNORE** / **FAVORITE** from the menu.
 
 > The automatic **block-list sync** and **re-block** options (Auto-sync "You Block" → Ignored, Sync now, Auto re-block accounts set to Blocked) now live on the **[Features → Blocking](features.md)** tab.
@@ -51,7 +55,7 @@ Other options on the Ignored tab:
 |:---:|
 | ![Blocks tab](../screenshots/blocks-tab.png) |
 
-**You Block** (left) shows your server block list, **newest first** to match the site, with a **member / guest / mod** badge on each entry and a clickable username (opens their profile in a new tab):
+**You Block** (left) shows your server block list, **newest first** to match the site, with a **member / guest / mod / verified-model** badge on each entry and a clickable username (opens their profile in a new tab):
 
 - **Unblock** — removes them server-side (and from your tiers).
 - **Filter** box to search.

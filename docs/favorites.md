@@ -12,17 +12,19 @@ The **Favorites** tab highlights messages from people you care about so they nev
 
 ## Adding favorites
 
-Type a username and click **Add**, or use the in-chat menu: click a user's name/avatar and choose **FAVORITE**. Remove anyone from the list with the **Remove** button.
+Type a username and click **Add**, or use the in-chat menu: click a user's name/avatar and choose **FAVORITE**. Remove anyone from the list with the **Remove** button. The **Search / filter** box next to Add narrows the list below — it matches current names **and** former usernames.
 
 ---
 
 ## The Favorites & Friends list
 
-The list shows everyone you've marked, with a **member / guest / mod** badge and a colored left edge:
+The list shows everyone you've marked, with a **member / guest / mod / verified-model** badge and a colored left edge:
 
 - 🟡 **Fav Only** · 🔵 **Friend Only** · 🟢 **Friend & Fav**
 
-Click any of those labels at the top to **filter** the list to that group; click **All** to show everyone. Each row's dropdown switches a user between Fav / Friend / both. **Click a username** to open their profile in a new tab.
+Click any of those labels at the top to **filter** the list to that group; click **All** to show everyone. **Click a username** to open their profile in a new tab; **hover** it to see any former usernames (renames are tracked). You can also **highlight a name and Ctrl+C** to copy it.
+
+**Friends** come from the site automatically (your star list) and can't be edited here. **Favorites** are added/removed from the in-chat user menu (or the **Add** box above). The **Remove** button appears only on rows where the person is a Favorite (Fav Only or Friend & Fav); it clears the Favorite flag only and does **not** change their Friend/star status on the site.
 
 ---
 
@@ -47,4 +49,4 @@ Changing the style or color re-applies instantly to messages already on screen.
 
 | A favorited user's message highlighted |
 |:---:|
-| ![Favorite highlight example](../screenshots/favorites-highlight.png) |
+| ![Favorite highlight example](../screenshots/highlight-types.png) |
