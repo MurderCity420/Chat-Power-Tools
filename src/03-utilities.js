@@ -46,13 +46,6 @@
         return entry ? Object.assign({ username: entry[0] }, entry[1]) : null;
     }
 
-    // Find a user record by their hashid. Returns { username, ...record } or null.
-    function getUserByHashid(hashid) {
-        if (!hashid) return null;
-        const entry = Object.entries(settings.users || {}).find(([, d]) => d.hashid === hashid);
-        return entry ? Object.assign({ username: entry[0] }, entry[1]) : null;
-    }
-
     // --- Tier / status helpers ---
 
     function inIgnored(user)           { return getUser(user).tier === 'ignored';             }

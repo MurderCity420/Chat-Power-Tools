@@ -33,7 +33,7 @@
     const DEFAULTS = {
         // Single unified user store. Each entry: { tier?, fav?, friend?, fid?, uid?, color?, alias?, type?, mod?, model?, blockedBy?, prevNames? }
         // tier: 'alerts'|'ignored'|'blocked'  fav: true  type: 'guest'|'member'
-        // mod: true — a moderator (treated as a member; flagged for later features)
+        // mod: true — a moderator  model: true — a Verified Model
         // blockedBy: [account usernames] that own this 'blocked' backup entry
         //   (storage is shared across accounts; auto-re-block is scoped to the owner)
         users: {},

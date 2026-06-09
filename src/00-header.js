@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Chat Power Tools
 // @namespace    chat.powertools
-// @version      0.1.25
+// @version      0.1.26
 // @description  Unlimited ignore list, keyword filter, favorites, mention alerts, and more for Chat
 // @author       you
 // @match        https://www2.cammedia.com/*

@@ -29,6 +29,9 @@
         oldName = lc(oldName);
         newName = lc(newName);
         if (!oldName || !newName || oldName === newName) return;
+        // Guard against page-text strings being used as usernames (e.g. "profile not found").
+        // Real usernames never contain whitespace; this prevents phantom database entries.
+        if (/\s/.test(newName)) return;
         if (!settings.users) return;
         const oldData = settings.users[oldName];
         if (!oldData) return;
@@ -318,9 +321,22 @@
             // passed between successive guests. Record the type only. (Starred
             // users never reach here as 'guest' — see above.)
             if (type === 'guest') {
-                patchUser(u, { type: 'guest' });
+                // Clear any stale tier — guests should never be tiered (could be
+                // contamination from a prior false-rename of a tracked member).
+                patchUser(u, { type: 'guest', tier: undefined, blockedBy: undefined });
                 saveUsersSoon();
                 return 'guest';
+            }
+
+            // Starred user on a "Profile not found" or "- guest" page: their account
+            // was deleted or disabled — they are NOT a renamed user. Don't parse
+            // var user / var uid from this page; "profile not found" pages embed that
+            // literal string as `var user = "profile not found"`, which would trigger
+            // a false rename. Return early with the preserved member type.
+            if (h1Text.includes('profile not found') || h1Text.includes('- guest')) {
+                patchUser(u, { type: 'member' });
+                saveUsersSoon();
+                return 'member';
             }
 
             // Members (and unknown real accounts): canonical username + UID +

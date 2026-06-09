@@ -46,7 +46,7 @@
     }
 
     // --- Build compact payload (strips re-derivable fields to reduce size) ---
-    // users field keys: t=tier, f=fav, c=color, a=alias, p=prevNames  (type/uid/country/hashid omitted)
+    // users field keys: t=tier, f=fav, c=color, a=alias, p=prevNames  (type/uid/country omitted)
 
     function _psBuildPayload() {
         const SKIP = new Set(['holidayDismissed', 'debugSocketEmits']);
@@ -205,7 +205,7 @@
                 if (k in settings) { settings[k] = rest[k]; GM_setValue(k, rest[k]); }
             }
 
-            // Restore users (merge: keep derived fields like uid/type/country/hashid,
+            // Restore users (merge: keep derived fields like uid/type/country,
             // overwrite user-set fields: tier/fav/color/alias)
             const expanded = _psExpandUsers(u);
             if (!settings.users) settings.users = {};

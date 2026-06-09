@@ -219,7 +219,6 @@
 
         W.Socket._IO.on('add_user', (data) => {
             const u       = lc((data && data.username) || '');
-            const hashid  = (data && data.hashid)  || '';
             const country = ((data && data.country) || '').toUpperCase();
             if (!u) return;
 
@@ -242,24 +241,16 @@
                 if (gateChanged) { try { renderPanelLists(); } catch (e) {} }
             }
 
-            // Hashid rename detection runs before the tracked-user guard — the
-            // old name may be tracked even if the new name has no record yet.
-            if (hashid) {
-                const prev = getUserByHashid(hashid);
-                if (prev && prev.username !== u) applyUsernameRename(prev.username, u);
-            }
-
             // Only store per-user data for accounts we're actively tracking
             // (blocked/ignored tier, favorites, friends). Every user entering the
             // room fires add_user — a busy room has ~16,000 unique accounts. Storing
-            // country/hashid/type for all of them bloats the database and queues
+            // country/type for all of them bloats the database and queues
             // thousands of profile fetches we'll never use.
-            const rec = getUser(u); // re-read after possible rename above
+            const rec = getUser(u);
             if (!(rec.tier || rec.fav || rec.friend)) return;
 
             const patch = {};
             if (country) patch.country = country;
-            if (hashid)  patch.hashid  = hashid;
 
             // Membership signals from the add_user payload — the most reliable
             // source (the page sends these directly). Fields are mixed types
@@ -268,6 +259,16 @@
                              truthy(data.isVIP) || truthy(data.isModel) ||
                              truthy(data.isMod) || truthy(data.isKing);
             if (!rec.type) patch.type = isMember ? 'member' : 'guest';
+            // If the payload clearly shows guest but we have 'member' stored (stale
+            // type from a prior false rename), correct it so purgeGuestTiers catches them.
+            if (!isMember && rec.type === 'member') patch.type = 'guest';
+            // Guest with a tier in our DB: contamination from a prior false rename.
+            // Clear it now so they leave the Ignored/Blocked lists immediately.
+            if (!isMember && rec.tier) {
+                patch.tier = undefined;
+                patch.blockedBy = undefined;
+                ptLog('Sync', 'Cleared stale tier from guest "' + u + '" on room entry.');
+            }
 
             // Moderators and models are members but flagged for the mod-blocking
             // rules. add_user is authoritative and self-refreshing for these flags.
