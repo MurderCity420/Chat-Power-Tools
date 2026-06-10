@@ -345,7 +345,7 @@
             }
             #pt-tabs button.active { color: white; border-bottom-color: #5af; background: #2e2e2e; }
             #pt-tabs button:hover { color: white; }
-            #pt-body { overflow-y: auto; padding: 12px; flex: 1; }
+            #pt-body { overflow-y: auto; overflow-x: hidden; padding: 12px; flex: 1; }
             .pt-section { margin-bottom: 14px; }
             .pt-section h3 {
                 margin: 0 0 6px 0;
@@ -427,8 +427,8 @@
                 flex: 0 0 auto;
             }
             .pt-fb-field input {
-                width: 350px;
-                max-width: 100%;
+                flex: 1;
+                min-width: 0;
                 box-sizing: border-box;
                 background: #111;
                 color: #eee;
@@ -832,13 +832,13 @@
             a.pt-info { text-decoration: none; cursor: pointer; }
             a.pt-tab-doc-link {
                 position: absolute;
-                top: 20px;
-                right: 20px;
+                top: 4px;
+                right: 8px;
                 font-size: 16px;
                 text-decoration: none;
                 opacity: 0.4;
                 line-height: 1;
-                z-index: 2;
+                z-index: 10;
             }
             a.pt-tab-doc-link:hover { opacity: 1; }
 

@@ -11,14 +11,14 @@
             ${_tabDocHtml('logs-and-sync.md')}
             <div class="pt-section">
                 <h3>Diagnostic log ${_infoLink('logs-and-sync.md', 'the-diagnostic-log')}</h3>
-                <input type="text" id="pt-log-filter" placeholder="Filter lines (case-insensitive)..." style="width:100%;background:#111;color:#eee;border:1px solid #444;padding:4px 6px;border-radius:3px;font-size:12px;margin-bottom:6px">
+                <input type="text" id="pt-log-filter" placeholder="Filter lines (case-insensitive)..." style="width:100%;box-sizing:border-box;background:#111;color:#eee;border:1px solid #444;padding:4px 6px;border-radius:3px;font-size:12px;margin-bottom:6px">
                 <div class="pt-row" style="margin-bottom:6px">
                     <button id="pt-log-refresh">↻ Refresh</button>
                     <button id="pt-log-download">Download .txt</button>
                     <button id="pt-log-copy">Copy all</button>
                     <button id="pt-log-clear" style="background:#622">Clear log</button>
                 </div>
-                <textarea id="pt-log-view" readonly style="width:100%;height:320px;background:#0a0a0a;color:#ddd;border:1px solid #333;border-radius:3px;padding:8px;font-family:monospace;font-size:11px;resize:vertical;white-space:pre"></textarea>
+                <textarea id="pt-log-view" readonly style="width:100%;box-sizing:border-box;height:320px;background:#0a0a0a;color:#ddd;border:1px solid #333;border-radius:3px;padding:8px;font-family:monospace;font-size:11px;resize:vertical;white-space:pre"></textarea>
                 <div style="color:#888;font-size:11px;margin-top:4px">
                     ${stats.lines} entries, ${(stats.bytes / 1024).toFixed(1)} KB — kept for 3 days. Format: Date &amp; Time - Module - Log.
                 </div>

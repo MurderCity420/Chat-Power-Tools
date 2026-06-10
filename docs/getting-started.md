@@ -25,8 +25,9 @@ The panel is organized into tabs. Click a tab to switch to it; the data-backed t
 | **Blocks** | Manage your server block list + guest cleanup — [docs](ignore-and-blocks.md) |
 | **Features** | Emoji picker, smart contrast, auto-rate, guest blocking… — [docs](features.md) |
 | **Advanced** | Ticker filters, chat tweaks — [docs](advanced.md) |
-| **Data** | Backup, restore & Firebase cross-device sync — [docs](firebase-sync.md) |
+| **Data** | Backup, restore & Firebase cross-device sync — [docs](data.md) |
 | **Log** | The diagnostic log — [docs](logs-and-sync.md) |
+| **Power** | Bypass site-enforced rate limits and muting — [docs](power.md) |
 
 | The panel tab bar |
 |:---:|

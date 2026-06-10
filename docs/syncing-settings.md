@@ -1,6 +1,25 @@
-# Syncing your settings (OneDrive / Google Drive)
+# Syncing your settings
 
 [← Back to README](../README.md) · [All docs](getting-started.md)
+
+Chat Power Tools offers three ways to back up and restore your settings. This page covers **browser cloud backup** via Tampermonkey (Google Drive or OneDrive). For a side-by-side comparison of all three methods, see [Data: backing up your settings](data.md).
+
+---
+
+## Which method is right for me?
+
+| | [Export / Import files](data.md#export-and-import-files) | **Browser cloud** *(this page)* | [Firebase live sync](firebase-sync.md) |
+|---|---|---|---|
+| Setup | None | ~5 min | ~15 min |
+| Backs up | CPT settings + user list | All Tampermonkey scripts + settings | CPT settings + user list |
+| Live sync | ❌ manual | ❌ scheduled / manual | ✅ near real-time |
+| Best for | One-off transfers | Most users | Multiple active devices |
+
+> ⚠️ Don't use Firebase sync and browser cloud backup at the same time — they can overwrite each other. Pick one.
+
+---
+
+## Browser cloud backup (Google Drive / OneDrive)
 
 Your Chat Power Tools settings — favorites, ignore/block tiers, keywords, alerts, fan-mail templates, and everything else — are stored **by Tampermonkey**, inside your browser. Tampermonkey can automatically **back those up to a cloud drive** and restore them on another computer or browser. This keeps your setup identical everywhere you chat.
 
@@ -12,7 +31,7 @@ Your Chat Power Tools settings — favorites, ignore/block tiers, keywords, aler
 
 This syncs **everything Tampermonkey stores** — the Chat Power Tools script itself *and* all of its saved settings.
 
-> Until you've done this, the panel header shows a **⚠ Set up settings backup** reminder linking here. Once you've finished, click **✓ done** on that reminder (or tick **"Settings backup is set up"** on the Advanced tab) to hide it. Untick it anytime to bring the reminder back.
+> Until you've done this, the panel header shows a **⚠ Set up settings backup** reminder. Once you've finished, tick **"Disable warning for Browser, Google Drive or OneDrive backup"** in the **Data** tab to hide it.
 
 ---
 
@@ -137,4 +156,6 @@ Refresh OMGChat — Chat Power Tools and all your settings appear, identical to 
 
 > **No-setup alternative:** the script can also mirror your settings through your OMGChat **profile** automatically (same account, any device) — see [Log & Sync](logs-and-sync.md). The cloud method on this page is broader: it backs up the whole script + settings and works across different accounts and browsers.
 
-> **Live multi-device sync:** for near-real-time syncing of your Chat Power Tools settings across browsers and computers — with automatic newest-wins merging — set up **[Firebase Sync](firebase-sync.md)** on the Data tab. The Data tab also has simple **Download / Upload Settings** buttons for one-off file transfers.
+> **Live multi-device sync:** for near-real-time syncing with automatic newest-wins merging, set up **[Firebase Sync](firebase-sync.md)** on the Data tab. Don't use both Firebase and cloud backup at the same time.
+
+> **One-off file transfer:** the Data tab also has **Download / Upload Settings** buttons that save or restore a `.json` file — no accounts needed. See [Data: backing up your settings](data.md).
