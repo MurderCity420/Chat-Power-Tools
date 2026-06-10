@@ -8,8 +8,9 @@
         const currentText = getDiagLogPretty();
 
         pane.innerHTML = `
+            ${_tabDocHtml('logs-and-sync.md')}
             <div class="pt-section">
-                <h3>Diagnostic log <span class="pt-info" data-tip="Records Chat Power Tools' own actions (syncs, blocks, unblocks, guest sweeps, cam recovery, rename detection, etc.) — not chat messages. Kept for 3 days, stored locally. Copy this and paste it back into chat for diagnostics.">i</span></h3>
+                <h3>Diagnostic log ${_infoLink('logs-and-sync.md', 'the-diagnostic-log')}</h3>
                 <input type="text" id="pt-log-filter" placeholder="Filter lines (case-insensitive)..." style="width:100%;background:#111;color:#eee;border:1px solid #444;padding:4px 6px;border-radius:3px;font-size:12px;margin-bottom:6px">
                 <div class="pt-row" style="margin-bottom:6px">
                     <button id="pt-log-refresh">↻ Refresh</button>

@@ -506,9 +506,9 @@
         const setupDone = !!GM_getValue('firebaseSetupDone', false);
 
         dp.innerHTML = `
+            ${_tabDocHtml('data.md')}
             <div class="pt-section">
-                <h3>Local backup &amp; restore</h3>
-                <div class="pt-toggle"><input type="checkbox" id="pt-data-backup-configured"><label for="pt-data-backup-configured">Settings backup is set up <span class="pt-info" data-tip="Check this once you've set up cloud backup (OneDrive/Google Drive in Tampermonkey, or Firebase below) — it hides the reminder in the panel header.">i</span></label></div>
+                <h3>Import &amp; Export</h3>
                 <p style="color:#aaa;font-size:11px;margin:8px 0">Download a JSON copy of every setting (and your full user list) to back up or move to another browser.</p>
                 <div class="pt-row" style="gap:6px">
                     <button id="pt-data-download" style="flex:1">Download Settings</button>
@@ -519,8 +519,14 @@
             </div>
 
             <div class="pt-section">
+                <h3>Browser cloud backup</h3>
+                <div class="pt-toggle"><input type="checkbox" id="pt-data-backup-configured"><label for="pt-data-backup-configured">Disable warning for Browser, Google Drive or OneDrive backup ${_infoLink('data.md', 'browser-google-drive-or-onedrive-backup')}</label></div>
+                <p style="color:#aaa;font-size:11px;margin:8px 0">Check once you've set up cloud backup in Tampermonkey — hides the reminder in the panel header. <a href="https://github.com/MurderCity420/Chat-Power-Tools/blob/main/docs/syncing-settings.md" target="_blank" rel="noopener" style="color:#8af">Setup guide →</a></p>
+            </div>
+
+            <div class="pt-section">
                 <h3>Google Firebase sync</h3>
-                <div class="pt-toggle"><input type="checkbox" id="pt-fb-enabled" ${enabled ? 'checked' : ''}><label for="pt-fb-enabled">Enable Google Firebase sync <span class="pt-info" data-tip="Real-time cross-device sync via your own free Firebase database. While enabled, the profile-field backup is paused.">i</span></label></div>
+                <div class="pt-toggle"><input type="checkbox" id="pt-fb-enabled" ${enabled ? 'checked' : ''}><label for="pt-fb-enabled">Enable Google Firebase sync ${_infoLink('data.md', 'google-firebase-sync')}</label></div>
                 <div id="pt-fb-config" style="${enabled ? '' : 'display:none'}">
                     <p style="color:#aaa;font-size:11px;margin:6px 0">Credentials are stored on this device only — never synced or exported.</p>
                     <div class="pt-fb-field"><label>Firebase API Key</label><input type="text" id="pt-fb-apikey" placeholder="AIzaSy..." value="${escapeHtml(c.apiKey)}"></div>

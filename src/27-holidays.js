@@ -867,10 +867,12 @@
         let html = '<div class="pt-htip-title">' + _titleParts.map(function(p) { return escapeHtml(p.trim()); }).join('<br>') + '</div>';
         var _descParts = (holiday.significance || '').split(' / ');
         html += '<div class="pt-htip-desc">' + _descParts.map(function(p) { return escapeHtml(p.trim()); }).join('<br><br>') + '</div>';
+        html += '<div class="pt-htip-footer">';
         if (holiday.wiki) {
-            html += '<a class="pt-htip-wiki" href="' + escapeHtml(holiday.wiki) + '" target="_blank" rel="noopener" style="display:inline-block;margin-top:6px;font-size:11px;color:#8af;text-decoration:none">Wikipedia →</a>';
+            html += '<a class="pt-htip-wiki" href="' + escapeHtml(holiday.wiki) + '" target="_blank" rel="noopener">Wikipedia →</a>';
         }
-        html += '<br><button id="pt-holiday-toggle-btn" style="margin-top:8px">' + btnText + '</button>';
+        html += '<button id="pt-holiday-toggle-btn">' + btnText + '</button>';
+        html += '</div>';
         tip.innerHTML = html;
         document.body.appendChild(tip);
 

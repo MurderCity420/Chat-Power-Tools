@@ -114,12 +114,12 @@
             }
             /* Disabled state: greyed out */
             #nav_chatTop li#pt-holiday-nav.pt-holiday-disabled > span {
-                opacity: 0.4;
-                filter: grayscale(0.8);
+                opacity: 0.55;
+                filter: grayscale(0.6);
                 transition: opacity 0.2s, filter 0.2s;
             }
             #nav_chatTop li#pt-holiday-nav.pt-holiday-disabled > span:hover {
-                opacity: 0.6;
+                opacity: 0.75;
             }
             /* Tooltip for holiday badge */
             #pt-holiday-tip {
@@ -149,6 +149,18 @@
                 margin-bottom: 10px;
                 color: #bbb;
             }
+            .pt-htip-footer {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                margin-top: 10px;
+            }
+            .pt-htip-wiki {
+                color: #8af;
+                text-decoration: none;
+                font-size: 13px;
+            }
+            .pt-htip-wiki:hover { text-decoration: underline; }
             #pt-holiday-tip button {
                 background: #333;
                 border: 1px solid #555;
@@ -156,7 +168,7 @@
                 padding: 4px 10px;
                 border-radius: 4px;
                 cursor: pointer;
-                font-size: 11px;
+                font-size: 13px;
             }
             #pt-holiday-tip button:hover { background: #444; color: #eee; }
             #nav_chatTop li#pt-gear-nav {
@@ -612,7 +624,7 @@
 
             .pt-toggle { display: flex; align-items: center; gap: 8px; padding: 4px 0; }
             .pt-toggle input { transform: scale(1.1); }
-            .pt-tabpane { display: none; }
+            .pt-tabpane { display: none; position: relative; }
             .pt-tabpane.active { display: block; }
             /* Two-pane Blocks layout — only takes effect when the pane is BOTH
                .pt-pane-flex AND .active, so it won't bleed into other tabs. */
@@ -817,6 +829,18 @@
                 text-align: left;
             }
             .pt-info:hover::after { opacity: 1; }
+            a.pt-info { text-decoration: none; cursor: pointer; }
+            a.pt-tab-doc-link {
+                position: absolute;
+                top: 20px;
+                right: 20px;
+                font-size: 16px;
+                text-decoration: none;
+                opacity: 0.4;
+                line-height: 1;
+                z-index: 2;
+            }
+            a.pt-tab-doc-link:hover { opacity: 1; }
 
             /* Mark ignored users in the user list with an orange strikethrough */
             .c_nickname.pt-ignored .nick {

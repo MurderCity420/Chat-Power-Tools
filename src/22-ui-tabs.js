@@ -5,6 +5,14 @@
     let _ignoredText = '';       // free-text search box on the Ignored tab
     let _panelRenderGeneration = 0;
 
+    const _PT_DOCBASE = 'https://github.com/MurderCity420/Chat-Power-Tools/blob/main/docs/';
+    function _tabDocHtml(page) {
+        return '<a class="pt-tab-doc-link" href="' + _PT_DOCBASE + page + '" target="_blank" rel="noopener noreferrer" title="Open documentation for this tab">\u{1F4D6}</a>';
+    }
+    function _infoLink(page, anchor) {
+        return '<a class="pt-info" href="' + _PT_DOCBASE + page + (anchor ? '#' + anchor : '') + '" target="_blank" rel="noopener noreferrer" title="Documentation">i</a>';
+    }
+
     // A user's public profile URL (opens in a new tab).
     function profileUrl(u) { return location.origin + '/1/profile/' + encodeURIComponent(lc(u)); }
 
@@ -44,8 +52,9 @@
         _entries.sort((a, b) => a.user.localeCompare(b.user));
 
         ip.innerHTML = `
+            ${_tabDocHtml('ignore-and-blocks.md')}
             <div class="pt-section">
-                <h3>Display mode for hidden content</h3>
+                <h3>Display mode for hidden content ${_infoLink('ignore-and-blocks.md', 'display-mode-for-hidden-content')}</h3>
                 <div class="pt-row">
                     <select id="pt-displaymode">
                         <option value="invisible">Invisible (gone entirely)</option>
@@ -223,8 +232,9 @@
         // FAVORITES
         const fp = panel.querySelector('.pt-tabpane[data-pane="favorites"]');
         fp.innerHTML = `
+            ${_tabDocHtml('favorites.md')}
             <div class="pt-section">
-                <h3>Highlight style</h3>
+                <h3>Highlight style ${_infoLink('favorites.md', 'highlight-style--color')}</h3>
                 <div class="pt-row">
                     <select id="pt-fav-style">
                         <option value="subtle">Subtle (left border + gradient)</option>
@@ -235,7 +245,7 @@
                 </div>
             </div>
             <div class="pt-section">
-                <h3>Highlight color <span class="pt-info" data-tip="'Username color' matches the sender's name color. 'Custom' lets you pick any color. For Bold style, the username text is recolored to the chosen color; for the other three styles, only the border/background changes.">i</span></h3>
+                <h3>Highlight color ${_infoLink('favorites.md', 'highlight-style--color')}</h3>
                 <div class="pt-row" style="flex-direction:column;align-items:flex-start;gap:6px">
                     <label><input type="radio" name="pt-fav-color-src" value="username"> Use sender's username color</label>
                     <label style="display:flex;align-items:center;gap:8px">
@@ -384,8 +394,9 @@
         // KEYWORDS
         const kp = panel.querySelector('.pt-tabpane[data-pane="keywords"]');
         kp.innerHTML = `
+            ${_tabDocHtml('keywords.md')}
             <div class="pt-section">
-                <h3>Filter mode</h3>
+                <h3>Filter mode ${_infoLink('keywords.md', 'filter-modes')}</h3>
                 <div class="pt-row">
                     <select id="pt-kw-mode">
                         <option value="redact">Redact (replace matched word with ***)</option>
@@ -436,22 +447,19 @@
     function renderAdvancedPane() {
         const ap = document.querySelector('#pt-panel .pt-tabpane[data-pane="advanced"]');
         ap.innerHTML = `
+            ${_tabDocHtml('advanced.md')}
             <div class="pt-section">
-                <h3>Ticker filters</h3>
+                <h3>Ticker filters ${_infoLink('advanced.md', 'ticker-filters')}</h3>
                 <div class="pt-toggle"><input type="checkbox" id="pt-hide-dice"><label for="pt-hide-dice">Hide all dice rolls</label></div>
                 <div class="pt-toggle"><input type="checkbox" id="pt-hide-slots"><label for="pt-hide-slots">Hide all slot plays</label></div>
                 <div class="pt-toggle"><input type="checkbox" id="pt-hide-ratings"><label for="pt-hide-ratings">Hide all rating tickers</label></div>
                 <div class="pt-toggle"><input type="checkbox" id="pt-hide-tips"><label for="pt-hide-tips">Hide all tip tickers</label></div>
             </div>
             <div class="pt-section">
-                <h3>Chat tweaks <span class="pt-info" data-tip="Server may still enforce its own rules. These toggles only disable the local checks.">i</span></h3>
+                <h3>Chat tweaks ${_infoLink('advanced.md', 'chat-tweaks')}</h3>
                 <div class="pt-toggle"><input type="checkbox" id="pt-unicode"><label for="pt-unicode">Unlock unicode</label></div>
                 <div class="pt-toggle"><input type="checkbox" id="pt-zeroratedelay"><label for="pt-zeroratedelay">Remove rating delay</label></div>
                 <div class="pt-toggle"><input type="checkbox" id="pt-bypasscens"><label for="pt-bypasscens">Bypass censorship</label></div>
-            </div>
-            <div class="pt-section">
-                <h3>Backup &amp; sync</h3>
-                <p style="color:#aaa;font-size:11px;margin:6px 0">Settings backup, restore, and cross-device sync have moved to the <b>Data</b> tab.</p>
             </div>
         `;
         const bind = (id, key) => {
@@ -481,14 +489,15 @@
         const fp = document.querySelector('#pt-panel .pt-tabpane[data-pane="features"]');
         if (!fp) return;
         fp.innerHTML = `
+            ${_tabDocHtml('features.md')}
             <div class="pt-section">
-                <h3>User interface</h3>
-                <div class="pt-toggle"><input type="checkbox" id="pt-smartcolor"><label for="pt-smartcolor">Smart font color correction <span class="pt-info" data-tip="Detects your chat background and rewrites incoming message colors that don't have enough contrast. Preserves the hue. Affects only your view.">i</span></label></div>
-                <div class="pt-toggle"><input type="checkbox" id="pt-modernsmiley"><label for="pt-modernsmiley">Smiley picker <span class="pt-info" data-tip="Replaces the site's default smiley popup with a modern tabbed picker showing all 287+ smileys organised by category.">i</span></label></div>
-                <div class="pt-toggle"><input type="checkbox" id="pt-charcounter"><label for="pt-charcounter">Input helpers <span class="pt-info" data-tip="Shows a live character counter next to the chat input. The server enforces a 200 character limit — the counter turns red as you approach it.">i</span></label></div>
-                <div class="pt-toggle"><input type="checkbox" id="pt-holiday-effect"><label for="pt-holiday-effect">Holiday color effects <span class="pt-info" data-tip="Colors usernames with the holiday palette on special days. The holiday icon and info tooltip always remain visible regardless of this setting.">i</span></label></div>
+                <h3>User interface ${_infoLink('features.md', 'user-interface')}</h3>
+                <div class="pt-toggle"><input type="checkbox" id="pt-smartcolor"><label for="pt-smartcolor">Smart font color correction</label></div>
+                <div class="pt-toggle"><input type="checkbox" id="pt-modernsmiley"><label for="pt-modernsmiley">Smiley picker</label></div>
+                <div class="pt-toggle"><input type="checkbox" id="pt-charcounter"><label for="pt-charcounter">Input helpers</label></div>
+                <div class="pt-toggle"><input type="checkbox" id="pt-holiday-effect"><label for="pt-holiday-effect">Holiday color effects</label></div>
                 <div class="pt-row" style="align-items:center;gap:8px;margin-top:6px">
-                    <label for="pt-viewer-sort" style="color:#ccc;white-space:nowrap">Viewer list sort <span class="pt-info" data-tip="Controls how viewers are sorted in the Watching Me panel. Updates live.">i</span></label>
+                    <label for="pt-viewer-sort" style="color:#ccc;white-space:nowrap">Viewer list sort</label>
                     <select id="pt-viewer-sort" style="flex:1;background:#111;color:#eee;border:1px solid #444;padding:4px;border-radius:3px">
                         <option value="none">None (site default)</option>
                         <option value="name">Name (A–Z)</option>
@@ -496,13 +505,13 @@
                         <option value="cam">Has cam on first</option>
                     </select>
                 </div>
-                <div class="pt-toggle" style="margin-top:6px"><input type="checkbox" id="pt-scrolljump"><label for="pt-scrolljump">Scroll lock helper <span class="pt-info" data-tip="A floating blue arrow appears above the chat input when scroll lock is engaged. Click it to jump to newest message.">i</span></label></div>
+                <div class="pt-toggle" style="margin-top:6px"><input type="checkbox" id="pt-scrolljump"><label for="pt-scrolljump">Scroll lock helper</label></div>
                 <div class="pt-row" style="align-items:center;margin-top:4px;padding-left:20px">
                     <label for="pt-scrolllock-auto" style="white-space:nowrap;color:#aaa">Auto-disable after</label>
                     <input type="number" id="pt-scrolllock-auto" min="0" max="3600" step="1" style="width:70px;margin:0 6px">
                     <span style="white-space:nowrap;color:#aaa">seconds (0 = never)</span>
                 </div>
-                <div class="pt-toggle" style="margin-top:6px"><input type="checkbox" id="pt-autorateback"><label for="pt-autorateback">Auto rate back <span class="pt-info" data-tip="When on, automatically rates people back. Use the options below to control who gets rated.">i</span></label></div>
+                <div class="pt-toggle" style="margin-top:6px"><input type="checkbox" id="pt-autorateback"><label for="pt-autorateback">Auto rate back</label></div>
                 <div id="pt-autorate-sub" style="padding-left:24px;border-left:2px solid #333;margin:2px 0 6px">
                     <div style="margin-bottom:6px">
                         <div style="color:#aaa;font-size:11px;margin-bottom:4px">Rate 5's back for:</div>
@@ -513,25 +522,25 @@
                             <label style="color:#ccc;font-size:12px"><input type="radio" name="pt-rate5-target" value="favs_only"> Favorites Only</label>
                         </div>
                     </div>
-                    <div class="pt-toggle"><input type="checkbox" id="pt-autorate-4"><label for="pt-autorate-4">Auto-rate all 4's with a 4 <span class="pt-info" data-tip="If someone rates you a 4, rate them a 4 back. Applies to everyone.">i</span></label></div>
+                    <div class="pt-toggle"><input type="checkbox" id="pt-autorate-4"><label for="pt-autorate-4">Auto-rate all 4's with a 4</label></div>
                 </div>
             </div>
             <div class="pt-section">
-                <h3>Blocking</h3>
-                <div class="pt-toggle"><input type="checkbox" id="pt-autoblock-guests"><label for="pt-autoblock-guests">Auto-block Guest Viewers <span class="pt-info" data-tip="When a guest watches your cam, immediately block them server-side. After 60 seconds the block is released to free the slot. Only acts while you are broadcasting.">i</span></label></div>
+                <h3>Blocking ${_infoLink('features.md', 'blocking')}</h3>
+                <div class="pt-toggle"><input type="checkbox" id="pt-autoblock-guests"><label for="pt-autoblock-guests">Auto-block Guest Viewers</label></div>
                 <div class="pt-row" style="align-items:center;gap:6px;margin-top:4px">
-                    <label style="display:flex;align-items:center;gap:6px;flex:1;cursor:pointer"><input type="checkbox" id="pt-auto-unblock-guests"> Auto Unblock Guest Blocks <span class="pt-info" data-tip="Scans your Blocked Users page on login and on the interval to the right, and unblocks anyone whose Type is Guest. Guests are temporary, so this stops dead guests from filling your 100-user block list.">i</span></label>
+                    <label style="display:flex;align-items:center;gap:6px;flex:1;cursor:pointer"><input type="checkbox" id="pt-auto-unblock-guests"> Auto Unblock Guest Blocks</label>
                     <span style="color:#888">every</span>
                     <input type="number" id="pt-auto-unblock-min" min="5" max="1440" style="width:56px;background:#111;color:#eee;border:1px solid #444;padding:3px;border-radius:3px">
                     <span style="color:#888">min</span>
                 </div>
                 <div class="pt-row" style="align-items:center;gap:8px;margin-top:6px">
-                    <label style="display:flex;align-items:center;gap:6px;flex:1;cursor:pointer"><input type="checkbox" id="pt-sync-block-to-ignored"> Auto-sync "You Block" → Ignored <span class="pt-info" data-tip="When enabled, the MEMBERS on your You Block list are backed up on login and every 30 minutes. Guests are skipped — they're temporary accounts.">i</span></label>
+                    <label style="display:flex;align-items:center;gap:6px;flex:1;cursor:pointer"><input type="checkbox" id="pt-sync-block-to-ignored"> Auto-sync "You Block" → Ignored</label>
                     <button id="pt-sync-block-now" style="font-size:11px;white-space:nowrap">Sync now</button>
                 </div>
                 <div id="pt-sync-block-status" style="font-size:11px;margin-top:4px;color:#888"></div>
-                <div class="pt-toggle" style="margin-top:6px"><input type="checkbox" id="pt-auto-block-ignored"><label for="pt-auto-block-ignored">Auto re-block accounts set to Blocked <span class="pt-info" data-tip="Only affects users you've set to the Blocked tier — NOT users set to Alerts or Ignored. Every 30 seconds, if a Blocked-tier user enters the room while not currently blocked (the 100-user server cap pushed them off), they are automatically re-blocked. Account-scoped: only re-blocks people the currently logged-in account blocked.">i</span></label></div>
-                <div class="pt-toggle" style="margin-top:6px"><input type="checkbox" id="pt-allow-mod-block"><label for="pt-allow-mod-block">Allow Mod Blocking <span class="pt-info" data-tip="By default only mods/models can block a moderator. Turn this on to block mods anyway. The server won't keep a mod block (it doesn't use one of your 100 slots), so it's re-applied automatically at every login — it shows in your console and Blocks tab but is session-only.">i</span></label></div>
+                <div class="pt-toggle" style="margin-top:6px"><input type="checkbox" id="pt-auto-block-ignored"><label for="pt-auto-block-ignored">Auto re-block accounts set to Blocked</label></div>
+                <div class="pt-toggle" style="margin-top:6px"><input type="checkbox" id="pt-allow-mod-block"><label for="pt-allow-mod-block">Allow Mod Blocking</label></div>
             </div>
         `;
 
@@ -762,6 +771,7 @@
         pane.classList.add('pt-pane-flex');
 
         pane.innerHTML = `
+            ${_tabDocHtml('ignore-and-blocks.md')}
             <div style="display:flex;gap:8px;flex:1;min-height:0">
                 <!-- LEFT: people you block -->
                 <div style="flex:6;display:flex;flex-direction:column;min-width:0">
@@ -1171,8 +1181,9 @@
         const pp = document.querySelector('#pt-panel .pt-tabpane[data-pane="power"]');
         if (!pp) return;
         pp.innerHTML = `
+            ${_tabDocHtml('power.md')}
             <div class="pt-section">
-                <h3>Power features <span class="pt-info" data-tip="These features bypass site-enforced rate limits and muting. Use responsibly — the server may still enforce its own rules independently.">i</span></h3>
+                <h3>Power features ${_infoLink('power.md', 'power-features')}</h3>
                 <div class="pt-toggle"><input type="checkbox" id="pt-antispam"><label for="pt-antispam">Disable spam check</label></div>
                 <div class="pt-toggle"><input type="checkbox" id="pt-zerochatdelay"><label for="pt-zerochatdelay">Remove chat delay</label></div>
                 <div class="pt-toggle"><input type="checkbox" id="pt-zeroactiondelay"><label for="pt-zeroactiondelay">Remove action delay</label></div>

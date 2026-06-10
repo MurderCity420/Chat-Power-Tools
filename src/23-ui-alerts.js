@@ -454,8 +454,9 @@
         if (!pane) return;
         const me = detectMyUsername() || '(not detected)';
         pane.innerHTML = `
+            ${_tabDocHtml('alerts.md')}
             <div class="pt-section">
-                <h3>Your username (auto-detected)</h3>
+                <h3>Your username (auto-detected) ${_infoLink('alerts.md', 'your-username')}</h3>
                 <div style="background:#161616;border:1px solid #333;padding:6px 10px;border-radius:3px;font-family:monospace">
                     ${escapeHtml(me)}
                 </div>
@@ -482,7 +483,7 @@
                 <ul class="pt-list" id="pt-mk-list"></ul>
             </div>
             <div class="pt-section">
-                <h3>Highlight style <span class="pt-info" data-tip="How to visually mark messages that mention you. Same four styles as the Favorites tab.">i</span></h3>
+                <h3>Highlight style ${_infoLink('alerts.md', 'highlight-style')}</h3>
                 <div class="pt-row">
                     <select id="pt-mention-style">
                         <option value="subtle">Subtle (left border)</option>
@@ -493,7 +494,7 @@
                 </div>
             </div>
             <div class="pt-section">
-                <h3>Highlight color <span class="pt-info" data-tip="'Username color' matches the sender's name color. 'Custom' lets you pick any color. For Bold style, the username text is recolored to the chosen color; for the other three styles, only the border/background changes.">i</span></h3>
+                <h3>Highlight color ${_infoLink('alerts.md', 'highlight-style')}</h3>
                 <div class="pt-row" style="flex-direction:column;align-items:flex-start;gap:6px">
                     <label><input type="radio" name="pt-mention-color-src" value="username"> Use sender's username color</label>
                     <label style="display:flex;align-items:center;gap:8px">
@@ -507,10 +508,10 @@
                 </div>
             </div>
             <div class="pt-section">
-                <h3>Alert behavior</h3>
+                <h3>Alert behavior ${_infoLink('alerts.md', 'alert-behavior')}</h3>
                 <div class="pt-toggle"><input type="checkbox" id="pt-mention-sound"><label for="pt-mention-sound">Chime when mentioned</label></div>
                 <div class="pt-toggle"><input type="checkbox" id="pt-mention-title"><label for="pt-mention-title">Flash the browser tab title when mentioned (only when tab is in background)</label></div>
-                <div class="pt-toggle"><input type="checkbox" id="pt-alert-rating"><label for="pt-alert-rating">Alert when someone rates me <span class="pt-info" data-tip="Fires the same chime and tab flash whenever you receive a rating, regardless of score. Useful to know who just rated you.">i</span></label></div>
+                <div class="pt-toggle"><input type="checkbox" id="pt-alert-rating"><label for="pt-alert-rating">Alert when someone rates me</label></div>
                 <div class="pt-row" style="margin-top:6px">
                     <button id="pt-mention-preview">Preview chime</button>
                 </div>
