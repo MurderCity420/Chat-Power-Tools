@@ -136,3 +136,5 @@ Refresh OMGChat — Chat Power Tools and all your settings appear, identical to 
 ---
 
 > **No-setup alternative:** the script can also mirror your settings through your OMGChat **profile** automatically (same account, any device) — see [Log & Sync](logs-and-sync.md). The cloud method on this page is broader: it backs up the whole script + settings and works across different accounts and browsers.
+
+> **Live multi-device sync:** for near-real-time syncing of your Chat Power Tools settings across browsers and computers — with automatic newest-wins merging — set up **[Firebase Sync](firebase-sync.md)** on the Data tab. The Data tab also has simple **Download / Upload Settings** buttons for one-off file transfers.

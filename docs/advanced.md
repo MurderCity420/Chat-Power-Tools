@@ -2,7 +2,7 @@
 
 [← Back to README](../README.md) · [All docs](getting-started.md)
 
-The **Advanced** tab holds ticker filters, local chat tweaks, and settings backup/restore. (Feature toggles like the emoji picker, auto-rate, and guest handling live on the **[Features](features.md)** tab.)
+The **Advanced** tab holds ticker filters and local chat tweaks. (Feature toggles like the emoji picker, auto-rate, and guest handling live on the **[Features](features.md)** tab. Settings backup, restore, and cross-device sync moved to the **[Data](firebase-sync.md)** tab.)
 
 | The Advanced tab |
 |:---:|
@@ -31,14 +31,15 @@ Hide the noisy game/economy tickers:
 
 ---
 
-## Settings backup / restore
+## Backup & sync *(moved)*
 
-- **Settings backup is set up** — tick this once you've configured cloud backup (see **[Syncing your settings](syncing-settings.md)**); it hides the reminder in the panel header. Untick to bring the reminder back.
-- **Copy settings to clipboard** — exports all your settings as JSON.
-- **Import from JSON** — click once to reveal a paste box, paste exported JSON, then click again to import. Reload the page afterward to apply everything.
+Settings backup, restore, and cross-device sync now live on the **Data** tab:
 
-This JSON export/import is a quick manual way to move settings between browsers. For automatic, hands-off syncing, set up cloud backup instead — see **[Syncing your settings](syncing-settings.md)**.
+- **Download / Upload Settings** — save or restore your whole configuration as a JSON file.
+- **Google Firebase sync** — live, automatic multi-device sync — see **[Firebase Sync](firebase-sync.md)**.
+
+For Tampermonkey's whole-script cloud backup instead, see **[Syncing your settings](syncing-settings.md)**.
 
 ---
 
-**Related:** [Features](features.md) for the toggles that moved off this tab · [Log & Sync](logs-and-sync.md) to see what the tool did.
+**Related:** [Features](features.md) for the toggles that moved off this tab · [Firebase Sync](firebase-sync.md) and [Syncing your settings](syncing-settings.md) for backup · [Log & Sync](logs-and-sync.md) to see what the tool did.

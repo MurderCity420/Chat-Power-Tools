@@ -55,13 +55,17 @@
         for (const [u, d] of Object.entries(settings.users || {})) {
             if (d.tier === 'ignored' || d.tier === 'blocked') {
                 selectors.push('#UL_' + CSS.escape(u));
+                selectors.push('#WM_' + CSS.escape(u));
             }
         }
         // Also include any live blocked users not yet in users dict
         const liveBlocked = (W.Chat && Array.isArray(W.Chat._BLOCKED_USERS)) ? W.Chat._BLOCKED_USERS : [];
         liveBlocked.forEach((u) => {
             const k = lc(u);
-            if (k && !(settings.users[k] && settings.users[k].tier)) selectors.push('#UL_' + CSS.escape(k));
+            if (k && !(settings.users[k] && settings.users[k].tier)) {
+                selectors.push('#UL_' + CSS.escape(k));
+                selectors.push('#WM_' + CSS.escape(k));
+            }
         });
         _hideStyleEl.textContent = selectors.length
             ? selectors.join(',\n') + ' { display: none !important; }'

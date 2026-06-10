@@ -89,7 +89,7 @@
         tabVisibility: {
             ignored: true, favorites: true, keywords: true, alerts: true,
             features: true, advanced: true, blockedyou: true, fanmail: false, snapshots: true,
-            power: true, test: false,
+            power: true, test: false, data: true,
         },
         revealBlockedYou: false,
         fanMailTemplates: [],
@@ -164,6 +164,9 @@
     function saveSetting(key, value) {
         GM_setValue(key, value);
         settings[key] = value;
+        // Mark the general-settings blob dirty for Firebase sync. Per-user
+        // changes ('users') are tracked individually in patchUser, so skip them.
+        if (key !== 'users') { try { markSettingsDirty(); } catch (e) {} }
     }
 
     let settings = loadSettings();

@@ -58,6 +58,7 @@
             whenLoggedIn(() => {
                 setTimeout(async () => {
                     installProfileSync();
+                    installFirebaseSync();
                     installFriendSync();
                     // Resolve member/guest types for every blocked user BEFORE the
                     // backup/sync runs, so guests are correctly excluded from it.

@@ -34,6 +34,8 @@ Optionally mirrors your settings to your OMGChat **profile** ("More About Me") a
 
 This lets you keep the same favorites, ignore tiers, keywords, etc. across browsers/devices that share the same account. It's lightweight obfuscation, not encryption — don't store secrets in your profile.
 
+> **Superseded by Firebase:** when you enable **[Firebase Sync](firebase-sync.md)** on the Data tab, profile sync is paused automatically — Firebase becomes the single source of truth, with live newest-wins merging across devices.
+
 ---
 
 ## Friend (Stars) sync
@@ -42,4 +44,4 @@ Reads your site **Stars** list and mirrors it into the tool, so your starred use
 
 ---
 
-**Related:** the [Blocks tab](ignore-and-blocks.md) and [Advanced](advanced.md) features are the main things that show up in the Log.
+**Related:** [Firebase Sync](firebase-sync.md) for live cross-device sync · the [Blocks tab](ignore-and-blocks.md) and [Advanced](advanced.md) features are the main things that show up in the Log.

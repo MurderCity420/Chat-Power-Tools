@@ -53,7 +53,8 @@ A feature-rich Tampermonkey userscript for **OMGChat** (cammedia) that adds an u
 - **[Keywords](docs/keywords.md)** — redact or hide words
 - **[Ignored & Blocks](docs/ignore-and-blocks.md)** — the tier system, the block manager, and guest cleanup
 - **[Features](docs/features.md)** — emoji picker, smart contrast, auto-rate, guest blocking, and more
-- **[Advanced](docs/advanced.md)** — ticker filters, chat tweaks, and settings backup/restore
+- **[Advanced](docs/advanced.md)** — ticker filters and chat tweaks
+- **[Data](docs/firebase-sync.md)** — settings backup/restore and Firebase cross-device sync
 - **[Log & Sync](docs/logs-and-sync.md)** — the diagnostic log, profile sync, and friend sync
 
 ---

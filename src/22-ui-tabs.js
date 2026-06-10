@@ -450,15 +450,8 @@
                 <div class="pt-toggle"><input type="checkbox" id="pt-bypasscens"><label for="pt-bypasscens">Bypass censorship</label></div>
             </div>
             <div class="pt-section">
-                <h3>Settings backup / restore</h3>
-                <div class="pt-toggle"><input type="checkbox" id="pt-backup-configured"><label for="pt-backup-configured">Settings backup is set up <span class="pt-info" data-tip="Check this once you've set up OneDrive/Google Drive backup in Tampermonkey — it hides the reminder in the panel header. Uncheck to bring the reminder back. See the Syncing your settings guide on GitHub.">i</span></label></div>
-                <p style="color:#aaa;font-size:11px;margin:8px 0">Export your settings to JSON to back them up or sync to another browser.</p>
-                <div class="pt-row" style="gap:6px">
-                    <button id="pt-settings-export" style="flex:1">Copy settings to clipboard</button>
-                    <button id="pt-settings-import-btn" style="flex:1">Import from JSON</button>
-                </div>
-                <textarea id="pt-settings-import-area" placeholder="Paste exported JSON here, then click Import again" style="display:none;width:100%;box-sizing:border-box;margin-top:6px;height:120px;background:#111;color:#eee;border:1px solid #444;padding:6px;border-radius:3px;font-size:11px;resize:vertical"></textarea>
-                <div id="pt-settings-status" style="font-size:11px;margin-top:4px"></div>
+                <h3>Backup &amp; sync</h3>
+                <p style="color:#aaa;font-size:11px;margin:6px 0">Settings backup, restore, and cross-device sync have moved to the <b>Data</b> tab.</p>
             </div>
         `;
         const bind = (id, key) => {
@@ -482,67 +475,6 @@
         const bc = ap.querySelector('#pt-bypasscens');
         bc.checked = !!settings.bypassCensorship;
         bc.addEventListener('change', () => setBypassCensorship(bc.checked));
-
-        const bkc = ap.querySelector('#pt-backup-configured');
-        if (bkc) {
-            bkc.checked = !!settings.backupConfigured;
-            bkc.addEventListener('change', () => {
-                saveSetting('backupConfigured', bkc.checked);
-                if (typeof updateBackupWarning === 'function') updateBackupWarning();
-            });
-        }
-
-        // Settings export / import
-        const SYNC_SKIP = new Set(['holidayDismissed']);
-        const expBtn = ap.querySelector('#pt-settings-export');
-        const impBtn = ap.querySelector('#pt-settings-import-btn');
-        const impArea = ap.querySelector('#pt-settings-import-area');
-        const statusEl = ap.querySelector('#pt-settings-status');
-
-        expBtn.addEventListener('click', () => {
-            const payload = {};
-            for (const k of Object.keys(DEFAULTS)) {
-                if (!SYNC_SKIP.has(k)) payload[k] = settings[k];
-            }
-            const json = JSON.stringify(payload, null, 2);
-            navigator.clipboard.writeText(json).then(() => {
-                statusEl.textContent = '✓ Copied! Paste into Import on another browser to sync.';
-                statusEl.style.color = '#8f8';
-            }).catch(() => {
-                impArea.value = json;
-                impArea.style.display = '';
-                statusEl.textContent = 'Clipboard blocked — copy the JSON from the box below.';
-                statusEl.style.color = '#fa8';
-            });
-        });
-
-        impBtn.addEventListener('click', () => {
-            if (impArea.style.display === 'none') {
-                impArea.style.display = '';
-                impArea.value = '';
-                impArea.focus();
-                statusEl.textContent = 'Paste your exported JSON above, then click Import again.';
-                statusEl.style.color = '#aaa';
-                return;
-            }
-            let parsed;
-            try { parsed = JSON.parse(impArea.value); } catch (e) {
-                statusEl.textContent = '✗ Invalid JSON — check the text and try again.';
-                statusEl.style.color = '#f88';
-                return;
-            }
-            let count = 0;
-            for (const k of Object.keys(DEFAULTS)) {
-                if (k in parsed) { saveSetting(k, parsed[k]); count++; }
-            }
-            syncIgnoredToChat();
-            updateHideListStyle();
-            renderPanelLists();
-            renderFeaturesPane();
-            renderAdvancedPane();
-            statusEl.textContent = `✓ Imported ${count} settings. Reload the page to apply all changes.`;
-            statusEl.style.color = '#8f8';
-        });
     }
 
     function renderFeaturesPane() {

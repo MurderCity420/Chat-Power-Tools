@@ -37,6 +37,7 @@
                     <button data-tab="blockedyou">Blocks</button>
                     <button data-tab="features">Features</button>
                     <button data-tab="advanced">Advanced</button>
+                    <button data-tab="data">Data</button>
                     <button data-tab="power">Power</button>
                     <button data-tab="snapshots">Log</button>
                     <button data-tab="test">Test</button>
@@ -57,6 +58,7 @@
             <div class="pt-tabpane" data-pane="fanmail"></div>
             <div class="pt-tabpane" data-pane="features"></div>
             <div class="pt-tabpane" data-pane="advanced"></div>
+            <div class="pt-tabpane" data-pane="data"></div>
             <div class="pt-tabpane" data-pane="snapshots"></div>
             <div class="pt-tabpane" data-pane="blockedyou"></div>
             <div class="pt-tabpane" data-pane="power"></div>
@@ -131,6 +133,7 @@
                 if (btn.dataset.tab === 'admin') renderAdminPane();
                 if (btn.dataset.tab === 'test') renderTestPane();
                 if (btn.dataset.tab === 'power') renderPowerPane();
+                if (btn.dataset.tab === 'data') renderDataPane();
                 if (btn.dataset.tab === 'fanmail') renderFanMailPane();
             });
         });

@@ -99,8 +99,8 @@
                 align-items: center;
                 justify-content: center;
                 position: relative;
-                /* nudge left, away from the shield (nav is float:right, so a right
-                   margin widens the gap on the shield side) */
+                top: 3px;
+                right: 10px;
                 margin-right: 4px;
             }
             #nav_chatTop li#pt-holiday-nav > span {
@@ -111,21 +111,15 @@
                 user-select: none;
                 font-size: 22px;
                 line-height: 1;
-                filter: drop-shadow(0 0 4px rgba(255,200,50,0.5));
-                transition: filter 0.2s;
-            }
-            #nav_chatTop li#pt-holiday-nav > span:hover {
-                filter: drop-shadow(0 0 8px rgba(255,200,50,0.9));
             }
             /* Disabled state: greyed out */
             #nav_chatTop li#pt-holiday-nav.pt-holiday-disabled > span {
                 opacity: 0.4;
-                filter: drop-shadow(0 0 2px rgba(100,100,100,0.3)) grayscale(0.8);
+                filter: grayscale(0.8);
                 transition: opacity 0.2s, filter 0.2s;
             }
             #nav_chatTop li#pt-holiday-nav.pt-holiday-disabled > span:hover {
                 opacity: 0.6;
-                filter: drop-shadow(0 0 4px rgba(100,100,100,0.5)) grayscale(0.8);
             }
             /* Tooltip for holiday badge */
             #pt-holiday-tip {
@@ -135,7 +129,7 @@
                 border: 1px solid #555;
                 border-radius: 8px;
                 padding: 12px 14px;
-                max-width: 300px;
+                max-width: 340px;
                 font-size: 13px;
                 color: #ddd;
                 box-shadow: 0 4px 16px rgba(0,0,0,0.6);
@@ -145,12 +139,10 @@
             #pt-holiday-tip.pt-htip-visible { display: block; }
             .pt-htip-title {
                 font-weight: bold;
-                font-size: 14px;
+                font-size: 15px;
+                line-height: 1.4;
                 margin-bottom: 8px;
-                background: linear-gradient(90deg, #FF0018, #FFA52C, #FFFF41, #008018, #0000F9, #86007D);
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-                background-clip: text;
+                color: #eee;
             }
             .pt-htip-desc {
                 line-height: 1.5;
@@ -408,6 +400,30 @@
                 cursor: pointer;
             }
             .pt-row button:hover { background: #5a5a5a; }
+            /* Firebase credential fields: label pinned left, equal-width input
+               pinned to the right edge, with breathing room between rows. */
+            .pt-fb-field {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 12px;
+                margin-bottom: 12px;
+            }
+            .pt-fb-field label {
+                color: #ccc;
+                white-space: nowrap;
+                flex: 0 0 auto;
+            }
+            .pt-fb-field input {
+                width: 350px;
+                max-width: 100%;
+                box-sizing: border-box;
+                background: #111;
+                color: #eee;
+                border: 1px solid #444;
+                padding: 5px 8px;
+                border-radius: 3px;
+            }
             .pt-list {
                 list-style: none;
                 padding: 0;

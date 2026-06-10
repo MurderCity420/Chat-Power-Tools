@@ -24,7 +24,8 @@ The panel is organized into tabs. Click a tab to switch to it; the data-backed t
 | **Ignored** | Per-user Alerts / Ignored / Blocked tiers — [docs](ignore-and-blocks.md) |
 | **Blocks** | Manage your server block list + guest cleanup — [docs](ignore-and-blocks.md) |
 | **Features** | Emoji picker, smart contrast, auto-rate, guest blocking… — [docs](features.md) |
-| **Advanced** | Ticker filters, chat tweaks, settings backup/restore — [docs](advanced.md) |
+| **Advanced** | Ticker filters, chat tweaks — [docs](advanced.md) |
+| **Data** | Backup, restore & Firebase cross-device sync — [docs](firebase-sync.md) |
 | **Log** | The diagnostic log — [docs](logs-and-sync.md) |
 
 | The panel tab bar |

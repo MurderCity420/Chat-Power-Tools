@@ -165,6 +165,8 @@
     let _psSaving = false;
 
     function saveSettingsToProfile() {
+        // Firebase sync supersedes profile-field sync when enabled.
+        if (GM_getValue('firebaseEnabled', false)) return;
         if (_psSaving) return;
         _psSaving = true;
         const payload = _psBuildPayload();
@@ -182,6 +184,8 @@
     }
 
     async function syncSettingsFromProfile() {
+        // Firebase sync supersedes profile-field sync when enabled.
+        if (GM_getValue('firebaseEnabled', false)) return;
         const me     = detectMyUsername();
         const stored = await _psRead(me);
         const localTs = GM_getValue('_ptLastProfileSave', 0);

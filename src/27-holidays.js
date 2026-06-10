@@ -863,11 +863,10 @@
         const tip = document.createElement('div');
         tip.id = 'pt-holiday-tip';
         const btnText = _isHolidayDismissed() ? 'Enable' : 'Disable for today';
-        let html = '<div class="pt-htip-title">' + escapeHtml(holiday.name) + '</div>';
-        if (holiday.localName) {
-            html += '<div class="pt-htip-local" style="font-size:11px;color:#aaa;margin-bottom:4px">' + escapeHtml(holiday.localName) + '</div>';
-        }
-        html += '<div class="pt-htip-desc">' + escapeHtml(holiday.significance) + '</div>';
+        var _titleParts = (holiday.localName || holiday.name).split(' / ');
+        let html = '<div class="pt-htip-title">' + _titleParts.map(function(p) { return escapeHtml(p.trim()); }).join('<br>') + '</div>';
+        var _descParts = (holiday.significance || '').split(' / ');
+        html += '<div class="pt-htip-desc">' + _descParts.map(function(p) { return escapeHtml(p.trim()); }).join('<br><br>') + '</div>';
         if (holiday.wiki) {
             html += '<a class="pt-htip-wiki" href="' + escapeHtml(holiday.wiki) + '" target="_blank" rel="noopener" style="display:inline-block;margin-top:6px;font-size:11px;color:#8af;text-decoration:none">Wikipedia →</a>';
         }
@@ -907,16 +906,24 @@
             const gear = document.getElementById('pt-gear-nav');
             if (!gear || document.getElementById('pt-holiday-nav')) return false;
 
-            const icon = (W.PT_ICONS && W.PT_ICONS.holidays && W.PT_ICONS.holidays[holiday.iconKey])
-                || '🏳️‍🌈';
-
             const li = document.createElement('li');
             li.id = 'pt-holiday-nav';
             if (_isHolidayDismissed()) li.classList.add('pt-holiday-disabled');
 
             const iconSpan = document.createElement('span');
             iconSpan.id = 'pt-holiday-icon';
-            iconSpan.textContent = icon;
+            const _ik = holiday.iconKey || '';
+            if (/^[a-z]{2}$/.test(_ik)) {
+                const _fi = document.createElement('img');
+                _fi.src = (W.PT_ICONS && W.PT_ICONS.flags && W.PT_ICONS.flags[_ik])
+                    || ('https://flagcdn.com/w40/' + _ik + '.png');
+                _fi.style.cssText = 'height:20px;width:auto;vertical-align:middle;border-radius:1px';
+                _fi.alt = _ik.toUpperCase();
+                _fi.onerror = function() { iconSpan.textContent = _ik.toUpperCase(); };
+                iconSpan.appendChild(_fi);
+            } else {
+                iconSpan.textContent = (W.PT_ICONS && W.PT_ICONS.holidays && W.PT_ICONS.holidays[_ik]) || '\u{1F3F3}️‍\u{1F308}';
+            }
             li.appendChild(iconSpan);
 
             gear.insertAdjacentElement('afterend', li);

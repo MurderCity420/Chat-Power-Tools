@@ -9,6 +9,19 @@
     // Read a user's record (never null — returns {} if unknown).
     function getUser(username) { return settings.users[lc(username)] || {}; }
 
+    // Fields whose change makes a record "meaningfully different" for cross-device
+    // sync. Mirrors _FB_TS_FIELDS in 30-firebase.js. A change to any of these bumps
+    // the record's `ts` and marks it dirty; re-derived fields (mod/model/hashid/
+    // fid/friend/country) do NOT, so room traffic and scrapes don't churn the sync.
+    const _SYNC_FIELDS = ['tier', 'fav', 'uid', 'type', 'alias', 'color', 'blockedBy', 'prevNames'];
+    function _syncFieldsSignature(rec) {
+        if (!rec) return '';
+        return _SYNC_FIELDS.map((f) => {
+            const v = rec[f];
+            return Array.isArray(v) ? v.join('|') : (v == null ? '' : String(v));
+        }).join('\x1f');
+    }
+
     // Merge a patch into a user's record. Falsy fields are pruned so the store
     // stays compact. Pass undefined for a field to remove it.
     function patchUser(username, patch) {
@@ -18,9 +31,19 @@
         // — a stray label that a bad scrape once stored — from ever coming back.
         if (!k || /\s/.test(k)) return;
         if (!settings.users) settings.users = {};
+        const before = _syncFieldsSignature(settings.users[k]);
         const rec = Object.assign({}, settings.users[k] || {}, patch);
         for (const f of Object.keys(rec)) {
             if (rec[f] === undefined || rec[f] === null || rec[f] === false || rec[f] === '') delete rec[f];
+        }
+        // Stamp ts + mark dirty only when a synced field actually changed AND
+        // Firebase sync is on — so add_user/scrape writes of re-derived fields
+        // never churn the sync, and records stay untouched when sync is off.
+        let _fbOn = false;
+        try { _fbOn = fbEnabled(); } catch (e) {}
+        if (_fbOn && _syncFieldsSignature(rec) !== before) {
+            if (Object.keys(rec).length) rec.ts = Date.now();
+            try { markUserDirty(k); } catch (e) {}
         }
         if (Object.keys(rec).length === 0) delete settings.users[k];
         else settings.users[k] = rec;
