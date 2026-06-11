@@ -104,9 +104,14 @@
                 ptLog('Guests', 'Auto-released guest cammer "' + username + '" (' + result + ').');
             });
             _guestBlockState.delete(username);
+            // Refresh the room user list (drop strikethrough/hidden state) and the
+            // Blocks tab so the released guest disappears from "You Block" at once.
+            try { if (typeof markIgnoredInUserList === 'function') markIgnoredInUserList(); } catch (e) {}
+            try { updateHideListStyle(); } catch (e) {}
+            try { renderBlockedYou(); } catch (e) {}
         }, delay);
 
-        _guestBlockState.set(username, { blockedAt: Date.now(), timeoutId });
+        _guestBlockState.set(username, { blockedAt: Date.now(), releaseAt: Date.now() + delay, timeoutId });
         ptLog('Guests', 'Auto-blocked guest cammer "' + username + '" (releasing in ' + Math.round(delay / 1000) + 's).');
     }
 

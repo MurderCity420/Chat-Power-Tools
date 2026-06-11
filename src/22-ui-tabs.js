@@ -1047,7 +1047,12 @@
                 if (settings.revealBlockedYou) {
                     buttons += `<button class="pt-bl-view">${isHidden() ? 'Hide' : 'View'}</button>`;
                 }
-                li.innerHTML = `<span title="${escapeHtml(nameTitleAttr(u))}">${memberBadgeHtml(u)}<a class="pt-name-link" draggable="false" href="${profileUrl(u)}" target="_blank" rel="noopener noreferrer">${escapeHtml(u)}</a></span><div class="pt-btn-group">${buttons}</div>`;
+                // Auto-blocked guests carry a live countdown to their scheduled release.
+                const _gbState = (typeof _guestBlockState !== 'undefined') ? _guestBlockState.get(u) : null;
+                const countdownHtml = _gbState
+                    ? `<span class="pt-guest-countdown" data-user="${escapeHtml(u)}" title="Auto-blocked guest — releases automatically" style="color:#fb8;font-size:11px;white-space:nowrap;margin-right:6px">auto-unblock…</span>`
+                    : '';
+                li.innerHTML = `<span title="${escapeHtml(nameTitleAttr(u))}">${memberBadgeHtml(u)}<a class="pt-name-link" draggable="false" href="${profileUrl(u)}" target="_blank" rel="noopener noreferrer">${escapeHtml(u)}</a></span><div class="pt-btn-group">${countdownHtml}${buttons}</div>`;
                 li.querySelector('.pt-bl-unblock').addEventListener('click', (e) => {
                     const btn = e.currentTarget;
                     btn.textContent = '...';
@@ -1098,6 +1103,23 @@
         };
         blFilter.addEventListener('input', renderLeft);
         renderLeft();
+
+        // Live countdown for auto-blocked guests pending release. Updates the
+        // "unblock in Ns" labels every second; self-stops when none remain.
+        if (_guestCountdownTimer) { clearInterval(_guestCountdownTimer); _guestCountdownTimer = null; }
+        const tickGuestCountdowns = () => {
+            const spans = pane.querySelectorAll('.pt-guest-countdown');
+            if (!spans.length) { if (_guestCountdownTimer) { clearInterval(_guestCountdownTimer); _guestCountdownTimer = null; } return; }
+            const now = Date.now();
+            spans.forEach((sp) => {
+                const st = (typeof _guestBlockState !== 'undefined') ? _guestBlockState.get(sp.dataset.user) : null;
+                if (!st) { sp.textContent = ''; return; }
+                const rem = Math.max(0, Math.ceil((st.releaseAt - now) / 1000));
+                sp.textContent = rem > 0 ? ('unblock in ' + rem + 's') : 'unblocking…';
+            });
+        };
+        tickGuestCountdowns();
+        if (pane.querySelector('.pt-guest-countdown')) _guestCountdownTimer = setInterval(tickGuestCountdowns, 1000);
 
         const addBtn = pane.querySelector('#pt-bl-add-btn');
         const addInp = pane.querySelector('#pt-bl-add');

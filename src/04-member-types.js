@@ -76,6 +76,7 @@
     function scanMemberTypes() {
         const rows = document.querySelectorAll('#ul_list [username], #wm_list [username]');
         let changed = false;
+        const guestResolved = [];
         rows.forEach((row) => {
             const u = lc(row.getAttribute('username'));
             if (!u) return;
@@ -83,10 +84,12 @@
             // records for every visitor in the room (~16k) bloats the database.
             if (!settings.users[u]) return;
             const t = rowMemberType(row);
-            if (t && getUser(u).type !== t) { patchUser(u, { type: t }); changed = true; }
+            if (t && getUser(u).type !== t) { patchUser(u, { type: t }); changed = true; if (t === 'guest') guestResolved.push(u); }
             if (rowIsMod(row) && !getUser(u).mod) { patchUser(u, { mod: true }); changed = true; }
         });
         if (changed) saveUsersSoon();
+        // A user we were tracking just turned out to be a guest — strip any tier.
+        guestResolved.forEach((u) => { try { if (typeof dropTierIfGuest === 'function') dropTierIfGuest(u); } catch (e) {} });
         return changed;
     }
 
@@ -99,7 +102,10 @@
             const t = rowMemberType(liveRow);
             if (t) {
                 // Only persist type for tracked users — don't create records for strangers.
-                if (settings.users[u] && getUser(u).type !== t) { patchUser(u, { type: t }); saveUsersSoon(); }
+                if (settings.users[u] && getUser(u).type !== t) {
+                    patchUser(u, { type: t }); saveUsersSoon();
+                    if (t === 'guest') { try { if (typeof dropTierIfGuest === 'function') dropTierIfGuest(u); } catch (e) {} }
+                }
                 return t;
             }
         }
@@ -289,6 +295,7 @@
                 const t = starred ? 'member' : 'guest';
                 patchUser(u, { type: t });
                 saveUsersSoon();
+                if (t === 'guest') { try { if (typeof dropTierIfGuest === 'function') dropTierIfGuest(u); } catch (e) {} }
                 return t;
             }
 
@@ -323,8 +330,9 @@
             if (type === 'guest') {
                 // Clear any stale tier — guests should never be tiered (could be
                 // contamination from a prior false-rename of a tracked member).
-                patchUser(u, { type: 'guest', tier: undefined, blockedBy: undefined });
+                patchUser(u, { type: 'guest' });
                 saveUsersSoon();
+                try { if (typeof dropTierIfGuest === 'function') dropTierIfGuest(u); } catch (e) {}
                 return 'guest';
             }
 
@@ -486,6 +494,7 @@
     }
 
     let _blocksRenderGeneration = 0;
+    let _guestCountdownTimer = null;   // 1s ticker updating guest auto-unblock countdowns in the Blocks tab
     async function ensureMemberTypes(usernames, generation, onUpdate) {
         const missing = usernames.filter((u) => {
             const k = lc(u);

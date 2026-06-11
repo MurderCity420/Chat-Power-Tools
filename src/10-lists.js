@@ -66,6 +66,14 @@
         if (tier === prev) return;
         const wasBlocked = prev === 'blocked';
 
+        // Never tier a known guest. Clearing a tier ('' ) is always allowed so a
+        // guest that slipped in earlier can still be removed.
+        if (tier && getMemberType(k) === 'guest') {
+            ptLog('Blocks', 'Refused to set "' + k + '" to ' + tier + ' — account is a guest (guests are never tiered).');
+            _applyUserChange({ render: true }); // snap the checkbox back
+            return;
+        }
+
         // The site only lets mods/models block other mods. For everyone else a
         // "block a mod" silently fails server-side. Refuse it unless the user has
         // turned on Allow Mod Blocking (which re-applies the client-side block at
@@ -88,6 +96,7 @@
             ptLog('Blocks', 'Set "' + k + '" to Blocked (server-side block).');
         } else if (tier === 'ignored' || tier === 'alerts') {
             patchUser(k, { tier: tier, blockedBy: undefined });
+            if (tier === 'ignored') ptLog('Ignored', 'Added "' + k + '" to the Ignored list (Ignored tab).');
         } else {
             patchUser(k, { tier: undefined, blockedBy: undefined });
         }
@@ -209,9 +218,35 @@
     function addIgnoredUser(user) {
         const k = lc(user);
         if (!k || inIgnored(k)) return;
+        // Guests are temporary throwaway accounts and must NEVER be tiered. If we
+        // already know this account is a guest, refuse outright. (Unknown types are
+        // allowed through and get stripped automatically the moment their type
+        // resolves to guest — see dropTierIfGuest / purgeGuestTiers.)
+        if (getMemberType(k) === 'guest') {
+            ptLog('Ignored', 'Refused to ignore "' + k + '" — account is a guest (guests are never tiered).');
+            return;
+        }
         patchUser(k, { tier: 'ignored' });
         saveUsersSoon();
         _applyUserChange({ sync: true, render: true, list: true });
+        ptLog('Ignored', 'Added "' + k + '" to the Ignored list.');
+    }
+
+    // When a user's membership type becomes 'guest', strip any tier they may have
+    // picked up while their type was still unknown. Called from every type-
+    // resolution point so guests can never linger on the Ignored/Blocked lists.
+    function dropTierIfGuest(user) {
+        const k = lc(user);
+        if (!k) return false;
+        const d = getUser(k);
+        if (!d.tier || getMemberType(k) !== 'guest') return false;
+        const wasIgnored = d.tier === 'ignored';
+        patchUser(k, { tier: undefined, blockedBy: undefined });
+        saveUsersSoon();
+        if (wasIgnored) syncIgnoredToChat();
+        _applyUserChange({ render: true, list: true });
+        ptLog('Ignored', 'Removed guest "' + k + '" from the ' + d.tier + ' list (guests are never tiered).');
+        return true;
     }
     function removeIgnoredUser(user) {
         const k = lc(user);
