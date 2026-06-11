@@ -20,10 +20,11 @@ The panel is organized into tabs. Click a tab to switch to it; the data-backed t
 |---|---|
 | **Alerts** | Get pinged when your name/keywords appear — [docs](alerts.md) |
 | **Favorites** | Highlight specific users — [docs](favorites.md) |
-| **Keywords** | Redact or hide words — [docs](keywords.md) |
+| **Filters** | Redact or hide words — [docs](keywords.md) |
 | **Ignored** | Per-user Alerts / Ignored / Blocked tiers — [docs](ignore-and-blocks.md) |
 | **Blocks** | Manage your server block list + guest cleanup — [docs](ignore-and-blocks.md) |
-| **Features** | Emoji picker, smart contrast, auto-rate, guest blocking… — [docs](features.md) |
+| **Features** | Emoji picker, smart contrast, guest blocking… — [docs](features.md) |
+| **Automations** | Auto rate-back and auto booms — [docs](automations.md) |
 | **Advanced** | Ticker filters, chat tweaks — [docs](advanced.md) |
 | **Data** | Backup, restore & Firebase cross-device sync — [docs](data.md) |
 | **Log** | The diagnostic log — [docs](logs-and-sync.md) |

@@ -17,6 +17,7 @@ The **Features** tab collects the optional enhancements, grouped into **User int
 - **Input helpers** — shows a live character counter by the input; turns red as you approach the ~200-char server limit.
 - **Holiday color effects** — colors usernames with a holiday palette on special days. The holiday icon/tooltip stay regardless of this toggle.
 - **Viewer list sort** — sort your "Watching Me" viewers by **none / name / gender / cam-on** (dropdown to the right).
+- **User list filter** — see below.
 - **Scroll lock helper** — a floating jump-to-bottom arrow appears when scroll lock is on and you've scrolled up. Optional **auto-disable after N seconds**.
 - **Auto rate back** — when someone rates you, rate them back. Sub-options:
   - **Rate 5's back for:** **All Users** / **Friends & Favorites** / **Friends Only** / **Favorites Only**.
@@ -25,6 +26,14 @@ The **Features** tab collects the optional enhancements, grouped into **User int
 | Modern emoji picker |
 |:---:|
 | ![Emoji picker](../screenshots/emoji-picker.png) |
+
+### User list filter
+
+The room user list has a row of gender filter buttons at the top — **Female, Male, Trans, Couple, Group**. Clicking one shows/hides that gender.
+
+**Default gender filter** lets you decide which of those are shown when you first log in. Tick a gender to **show** it by default; untick it to **hide** it. All five are ticked (shown) by default.
+
+> This is applied **once at login** — it sets the site's filter buttons to your preferred starting state. You can still click the site's buttons freely afterward; the script won't override your choices during a session.
 
 ---
 

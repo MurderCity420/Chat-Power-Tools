@@ -73,6 +73,8 @@ Firebase gives you near-real-time, automatic two-way sync between browsers. When
 
 **Requires:** a free Google account and a free Firebase project (Realtime Database). Takes about 15 minutes to set up.
 
+**Moving credentials between devices:** the Firebase credentials live only on the device where you enter them. Use **Export** (next to *Save Credentials*) to save a **password-encrypted** file, then **Import** it on your other devices using the same password. Set Firebase up once, then copy it everywhere.
+
 **Setup:** see [Firebase Sync](firebase-sync.md)
 
 > ⚠️ Don't enable Firebase at the same time as browser cloud backup. See the note at the top of this page.
