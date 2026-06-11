@@ -56,6 +56,16 @@
         autoRateBack: false,
         autoRate5Target: 'all',    // 'all' | 'friends_favs' | 'friends_only' | 'favs_only'
         autoRate4Back: false,
+        // Auto-booms: auto-post chat text when a dice/slot "boom" happens. Fires on
+        // your own booms always; on others' booms only if they match autoBoomTarget.
+        autoBoom: false,
+        autoBoomTarget: 'all',     // 'all' | 'friends_favs' | 'friends_only' | 'favs_only'
+        // Slot symbols → text to send (empty = ignore that symbol).
+        autoBoomSlots: { 'birthday-cake': '', 'diamond': '', 'glass': '', 'heart': '', 'bomb': '', 'star': '', 'trophy': '' },
+        // Default dice booms (0 / 69 / 100) → text to send (empty = ignore).
+        autoBoomDice: { '0': '', '69': '', '100': '' },
+        // Up to 5 custom personal-number dice booms: [{ num: 13, text: '...' }]
+        autoBoomCustom: [],
         lastFriendScan: 0,         // unix ms of last my_stars.php scan
         friendCount: 0,            // friend count at last scan (for quick change detection)
         antiSpam: false,
@@ -88,7 +98,7 @@
         camMyStallThresholdMs: 20000,
         tabVisibility: {
             ignored: true, favorites: true, keywords: true, alerts: true,
-            features: true, advanced: true, blockedyou: true, fanmail: false, snapshots: true,
+            features: true, automations: true, advanced: true, blockedyou: true, fanmail: false, snapshots: true,
             power: true, test: false, data: true,
         },
         revealBlockedYou: false,

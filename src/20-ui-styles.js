@@ -222,7 +222,7 @@
                 top: 5%;
                 right: calc(5% + 115px);
                 width: 500px;
-                max-height: 90vh;
+                max-height: 600px;
                 background: #1e1e1e;
                 color: #ddd;
                 border: 1px solid #444;
@@ -486,11 +486,18 @@
                 font-size: 12px;
             }
             /* Tier table on the Ignored tab (Name | Alerts | Ignored | Blocked | Remove) */
+            .pt-tier-scroll {
+                max-height: 260px;
+                overflow-y: auto;
+                border: 1px solid #333;
+                border-radius: 3px;
+            }
             .pt-tier-table {
                 width: 100%;
                 border-collapse: collapse;
                 font-size: 12px;
             }
+            .pt-tier-table thead th { position: sticky; top: 0; z-index: 1; }
             .pt-tier-table th {
                 background: #222;
                 color: #aaa;
@@ -832,7 +839,7 @@
             a.pt-info { text-decoration: none; cursor: pointer; }
             a.pt-tab-doc-link {
                 position: absolute;
-                top: 4px;
+                top: 0;
                 right: 8px;
                 font-size: 16px;
                 text-decoration: none;

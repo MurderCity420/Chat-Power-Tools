@@ -82,6 +82,7 @@
             </div>
             <div class="pt-section">
                 <h3>Users (${_entries.length})</h3>
+                <div class="pt-tier-scroll">
                 <table class="pt-tier-table">
                     <thead>
                         <tr>
@@ -94,6 +95,7 @@
                     </thead>
                     <tbody id="pt-ignored-list"></tbody>
                 </table>
+                </div>
             </div>
             <div class="pt-section" style="color:#888;font-size:11px">
                 Alerts = suppress notifications only &nbsp;·&nbsp; Ignored = hide all messages &nbsp;·&nbsp; Blocked = server-side block (manage in Blocks tab)
@@ -511,19 +513,6 @@
                     <input type="number" id="pt-scrolllock-auto" min="0" max="3600" step="1" style="width:70px;margin:0 6px">
                     <span style="white-space:nowrap;color:#aaa">seconds (0 = never)</span>
                 </div>
-                <div class="pt-toggle" style="margin-top:6px"><input type="checkbox" id="pt-autorateback"><label for="pt-autorateback">Auto rate back</label></div>
-                <div id="pt-autorate-sub" style="padding-left:24px;border-left:2px solid #333;margin:2px 0 6px">
-                    <div style="margin-bottom:6px">
-                        <div style="color:#aaa;font-size:11px;margin-bottom:4px">Rate 5's back for:</div>
-                        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
-                            <label style="color:#ccc;font-size:12px"><input type="radio" name="pt-rate5-target" value="all"> All Users</label>
-                            <label style="color:#ccc;font-size:12px"><input type="radio" name="pt-rate5-target" value="friends_favs"> Friends &amp; Favorites</label>
-                            <label style="color:#ccc;font-size:12px"><input type="radio" name="pt-rate5-target" value="friends_only"> Friends Only</label>
-                            <label style="color:#ccc;font-size:12px"><input type="radio" name="pt-rate5-target" value="favs_only"> Favorites Only</label>
-                        </div>
-                    </div>
-                    <div class="pt-toggle"><input type="checkbox" id="pt-autorate-4"><label for="pt-autorate-4">Auto-rate all 4's with a 4</label></div>
-                </div>
             </div>
             <div class="pt-section">
                 <h3>Blocking ${_infoLink('features.md', 'blocking')}</h3>
@@ -600,25 +589,6 @@
             saveSetting('scrollLockAutoDisableSeconds', n);
             _scrollLockEngagedAt = 0;
         });
-
-        const arb   = fp.querySelector('#pt-autorateback');
-        const arSub = fp.querySelector('#pt-autorate-sub');
-        const ar4   = fp.querySelector('#pt-autorate-4');
-        const syncArSubVisible = () => { arSub.style.display = arb.checked ? '' : 'none'; };
-        arb.checked = !!settings.autoRateBack;
-        ar4.checked = !!settings.autoRate4Back;
-        const curTarget = settings.autoRate5Target || 'all';
-        const targetRadio = fp.querySelector(`input[name="pt-rate5-target"][value="${curTarget}"]`);
-        if (targetRadio) targetRadio.checked = true;
-        syncArSubVisible();
-        arb.addEventListener('change', () => {
-            saveSetting('autoRateBack', arb.checked);
-            syncArSubVisible();
-        });
-        fp.querySelectorAll('input[name="pt-rate5-target"]').forEach((r) => {
-            r.addEventListener('change', () => { if (r.checked) saveSetting('autoRate5Target', r.value); });
-        });
-        ar4.addEventListener('change', () => saveSetting('autoRate4Back', ar4.checked));
 
         // ---- Blocking ----
         const abg = fp.querySelector('#pt-autoblock-guests');
@@ -739,6 +709,219 @@
         camLog.addEventListener('change', () => saveSetting('camLogCrashes', camLog.checked));
     }
 
+    // ----- AUTOMATIONS TAB -----
+    // Slot symbols (key matches the site's `fa fa-<key>` class) and their labels.
+    const AB_SLOTS = [
+        { key: 'birthday-cake', label: 'Birthday Cake' },
+        { key: 'diamond',       label: 'Diamond' },
+        { key: 'glass',         label: 'Glass' },
+        { key: 'heart',         label: 'Heart' },
+        { key: 'bomb',          label: 'Bomb' },
+        { key: 'star',          label: 'Star' },
+        { key: 'trophy',        label: 'Trophy' },
+    ];
+    const AB_DICE_DEFAULTS = ['0', '69', '100'];
+    const AB_MAX_TEXT = 15;
+    const AB_MAX_CUSTOM = 5;
+
+    function renderAutomationsPane() {
+        const ap = document.querySelector('#pt-panel .pt-tabpane[data-pane="automations"]');
+        if (!ap) return;
+        ap.innerHTML = `
+            ${_tabDocHtml('automations.md')}
+            <div class="pt-section">
+                <h3>Auto rate back</h3>
+                <div class="pt-toggle"><input type="checkbox" id="pt-autorateback"><label for="pt-autorateback">Auto rate back</label></div>
+                <div id="pt-autorate-sub" style="padding-left:24px;border-left:2px solid #333;margin:2px 0 6px">
+                    <div style="margin-bottom:6px">
+                        <div style="color:#aaa;font-size:11px;margin-bottom:4px">Rate 5's back for:</div>
+                        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+                            <label style="color:#ccc;font-size:12px"><input type="radio" name="pt-rate5-target" value="all"> All Users</label>
+                            <label style="color:#ccc;font-size:12px"><input type="radio" name="pt-rate5-target" value="friends_favs"> Friends &amp; Favorites</label>
+                            <label style="color:#ccc;font-size:12px"><input type="radio" name="pt-rate5-target" value="friends_only"> Friends Only</label>
+                            <label style="color:#ccc;font-size:12px"><input type="radio" name="pt-rate5-target" value="favs_only"> Favorites Only</label>
+                        </div>
+                    </div>
+                    <div class="pt-toggle"><input type="checkbox" id="pt-autorate-4"><label for="pt-autorate-4">Auto-rate all 4's with a 4</label></div>
+                </div>
+            </div>
+            <div class="pt-section">
+                <h3>Auto booms</h3>
+                <div class="pt-toggle"><input type="checkbox" id="pt-autoboom"><label for="pt-autoboom">Auto-send a chat message on dice &amp; slot booms</label></div>
+                <div id="pt-autoboom-sub" style="padding-left:24px;border-left:2px solid #333;margin:2px 0 6px">
+                    <div style="margin-bottom:6px">
+                        <div style="color:#aaa;font-size:11px;margin-bottom:4px">React to booms from:</div>
+                        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+                            <label style="color:#ccc;font-size:12px"><input type="radio" name="pt-boom-target" value="all"> All Users</label>
+                            <label style="color:#ccc;font-size:12px"><input type="radio" name="pt-boom-target" value="friends_favs"> Friends &amp; Favorites</label>
+                            <label style="color:#ccc;font-size:12px"><input type="radio" name="pt-boom-target" value="friends_only"> Friends Only</label>
+                            <label style="color:#ccc;font-size:12px"><input type="radio" name="pt-boom-target" value="favs_only"> Favorites Only</label>
+                        </div>
+                    </div>
+                    <div class="pt-row" style="margin-top:6px">
+                        <button id="pt-autoboom-config">Configure boom messages…</button>
+                    </div>
+                    <div style="color:#888;font-size:11px;margin-top:4px">
+                        Your own booms always trigger; others' booms trigger only for the group above. A short random delay is added before sending.
+                    </div>
+                </div>
+            </div>
+        `;
+
+        // ---- Auto rate back wiring ----
+        const arb   = ap.querySelector('#pt-autorateback');
+        const arSub = ap.querySelector('#pt-autorate-sub');
+        const ar4   = ap.querySelector('#pt-autorate-4');
+        const syncArSubVisible = () => { arSub.style.display = arb.checked ? '' : 'none'; };
+        arb.checked = !!settings.autoRateBack;
+        ar4.checked = !!settings.autoRate4Back;
+        const curTarget = settings.autoRate5Target || 'all';
+        const targetRadio = ap.querySelector(`input[name="pt-rate5-target"][value="${curTarget}"]`);
+        if (targetRadio) targetRadio.checked = true;
+        syncArSubVisible();
+        arb.addEventListener('change', () => {
+            saveSetting('autoRateBack', arb.checked);
+            syncArSubVisible();
+        });
+        ap.querySelectorAll('input[name="pt-rate5-target"]').forEach((r) => {
+            r.addEventListener('change', () => { if (r.checked) saveSetting('autoRate5Target', r.value); });
+        });
+        ar4.addEventListener('change', () => saveSetting('autoRate4Back', ar4.checked));
+
+        // ---- Auto booms wiring ----
+        const abEnable = ap.querySelector('#pt-autoboom');
+        const abSub    = ap.querySelector('#pt-autoboom-sub');
+        const syncAbSubVisible = () => { abSub.style.display = abEnable.checked ? '' : 'none'; };
+        abEnable.checked = !!settings.autoBoom;
+        const curBoomTarget = settings.autoBoomTarget || 'all';
+        const boomTargetRadio = ap.querySelector(`input[name="pt-boom-target"][value="${curBoomTarget}"]`);
+        if (boomTargetRadio) boomTargetRadio.checked = true;
+        syncAbSubVisible();
+        abEnable.addEventListener('change', () => {
+            saveSetting('autoBoom', abEnable.checked);
+            syncAbSubVisible();
+        });
+        ap.querySelectorAll('input[name="pt-boom-target"]').forEach((r) => {
+            r.addEventListener('change', () => { if (r.checked) saveSetting('autoBoomTarget', r.value); });
+        });
+        ap.querySelector('#pt-autoboom-config').addEventListener('click', () => openAutoBoomEditor());
+    }
+
+    // Modal to configure the boom-message text for each slot symbol, each
+    // default dice number, and up to 5 custom personal-number dice booms.
+    function openAutoBoomEditor() {
+        // Work on copies; persist on every edit so closing always keeps changes.
+        const slots = Object.assign({}, settings.autoBoomSlots || {});
+        const dice  = Object.assign({}, settings.autoBoomDice || {});
+        let custom  = (settings.autoBoomCustom || []).slice();
+
+        const slotRows = AB_SLOTS.map((s) => `
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+                <span style="width:130px;display:flex;align-items:center;gap:6px;color:#ccc">
+                    <i class="fa fa-${s.key}" aria-hidden="true" style="width:16px;text-align:center"></i> ${s.label}
+                </span>
+                <input type="text" class="pt-ab-slot" data-key="${s.key}" maxlength="${AB_MAX_TEXT}" placeholder="text to send (max ${AB_MAX_TEXT})" value="${escapeHtml(slots[s.key] || '')}" style="flex:1;box-sizing:border-box">
+            </div>
+        `).join('');
+
+        const diceRows = AB_DICE_DEFAULTS.map((n) => `
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+                <span style="width:130px;color:#ccc">Rolled <strong>${n}</strong></span>
+                <input type="text" class="pt-ab-dice" data-num="${n}" maxlength="${AB_MAX_TEXT}" placeholder="text to send (max ${AB_MAX_TEXT})" value="${escapeHtml(dice[n] || '')}" style="flex:1;box-sizing:border-box">
+            </div>
+        `).join('');
+
+        const modal = document.createElement('div');
+        modal.className = 'pt-modal-overlay';
+        modal.innerHTML = `
+            <div class="pt-modal" style="width:480px">
+                <div class="pt-modal-header">
+                    <span>Configure Auto-booms</span>
+                    <button class="pt-modal-close">×</button>
+                </div>
+                <div class="pt-modal-body">
+                    <div style="color:#aaa;font-size:11px;margin-bottom:10px">
+                        Leave a box blank to ignore that boom. Each message is max ${AB_MAX_TEXT} characters and is sent to main chat with a short delay.
+                    </div>
+                    <h3 style="margin:0 0 6px;font-size:12px;text-transform:uppercase;color:#8af;letter-spacing:.05em">Slots (3 matching)</h3>
+                    ${slotRows}
+                    <h3 style="margin:12px 0 6px;font-size:12px;text-transform:uppercase;color:#8af;letter-spacing:.05em">Dice</h3>
+                    ${diceRows}
+                    <h3 style="margin:12px 0 6px;font-size:12px;text-transform:uppercase;color:#8af;letter-spacing:.05em">Custom dice booms (max ${AB_MAX_CUSTOM})</h3>
+                    <div style="color:#888;font-size:11px;margin-bottom:6px">Personal numbers 1–99 (69 is reserved). Sends your text whenever anyone rolls that number.</div>
+                    <div style="display:flex;gap:6px;margin-bottom:8px">
+                        <input type="number" id="pt-ab-cust-num" min="1" max="99" placeholder="#" style="width:60px;box-sizing:border-box">
+                        <input type="text" id="pt-ab-cust-text" maxlength="${AB_MAX_TEXT}" placeholder="text to send (max ${AB_MAX_TEXT})" style="flex:1;box-sizing:border-box">
+                        <button id="pt-ab-cust-add" class="pt-btn-primary">Add</button>
+                    </div>
+                    <ul id="pt-ab-cust-list" class="pt-list" style="max-height:140px"></ul>
+                </div>
+                <div class="pt-modal-footer">
+                    <button id="pt-ab-done" class="pt-btn-primary">Done</button>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+
+        // Live-persist slot + dice text boxes.
+        modal.querySelectorAll('.pt-ab-slot').forEach((inp) => {
+            inp.addEventListener('input', () => {
+                slots[inp.dataset.key] = inp.value.slice(0, AB_MAX_TEXT);
+                saveSetting('autoBoomSlots', slots);
+            });
+        });
+        modal.querySelectorAll('.pt-ab-dice').forEach((inp) => {
+            inp.addEventListener('input', () => {
+                dice[inp.dataset.num] = inp.value.slice(0, AB_MAX_TEXT);
+                saveSetting('autoBoomDice', dice);
+            });
+        });
+
+        const custList = modal.querySelector('#pt-ab-cust-list');
+        const renderCustom = () => {
+            custList.innerHTML = '';
+            if (!custom.length) {
+                custList.innerHTML = '<li class="pt-empty">No custom dice booms yet.</li>';
+                return;
+            }
+            custom.forEach((c, idx) => {
+                const li = document.createElement('li');
+                li.innerHTML = `<span><strong>${escapeHtml(String(c.num))}</strong> → ${escapeHtml(c.text)}</span><button>Remove</button>`;
+                li.querySelector('button').addEventListener('click', () => {
+                    custom.splice(idx, 1);
+                    saveSetting('autoBoomCustom', custom);
+                    renderCustom();
+                });
+                custList.appendChild(li);
+            });
+        };
+        renderCustom();
+
+        const numInput  = modal.querySelector('#pt-ab-cust-num');
+        const textInput = modal.querySelector('#pt-ab-cust-text');
+        const addCustom = () => {
+            const num = parseInt(numInput.value, 10);
+            const text = textInput.value.trim().slice(0, AB_MAX_TEXT);
+            if (isNaN(num) || num < 1 || num > 99) return alert('Enter a number from 1 to 99.');
+            if (num === 69) return alert('69 is reserved — use the Dice section above for it.');
+            if (AB_DICE_DEFAULTS.includes(String(num))) return alert('That number is a default boom — set it in the Dice section above.');
+            if (!text) return alert('Enter the text to send.');
+            if (custom.some((c) => String(c.num) === String(num))) return alert('You already have a boom for ' + num + '.');
+            if (custom.length >= AB_MAX_CUSTOM) return alert('Maximum of ' + AB_MAX_CUSTOM + ' custom dice booms.');
+            custom.push({ num: num, text: text });
+            saveSetting('autoBoomCustom', custom);
+            numInput.value = ''; textInput.value = '';
+            renderCustom();
+        };
+        modal.querySelector('#pt-ab-cust-add').addEventListener('click', addCustom);
+        textInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') addCustom(); });
+
+        const closeModal = () => modal.remove();
+        modal.querySelector('.pt-modal-close').addEventListener('click', closeModal);
+        modal.querySelector('#pt-ab-done').addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+    }
+
     // Re-render whichever data-backed tab is currently active so its contents are
     // always current. Called when the panel opens (gear) and when a tab is
     // activated. Blocks also forces a fresh server scrape.
@@ -751,6 +934,7 @@
             if (tab === 'blockedyou') { _blocksPageFetched = false; renderBlockedYou(); }
             else if (tab === 'favorites' || tab === 'keywords' || tab === 'ignored') renderPanelLists();
             else if (tab === 'features') renderFeaturesPane();
+            else if (tab === 'automations') renderAutomationsPane();
             else if (tab === 'alerts') renderAlertsPane();
         } catch (e) {}
     }

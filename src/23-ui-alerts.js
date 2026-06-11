@@ -345,11 +345,12 @@
         const tabs = [
             { key: 'alerts', label: 'Alerts' },
             { key: 'favorites', label: 'Favorites' },
-            { key: 'keywords', label: 'Keywords' },
+            { key: 'keywords', label: 'Filters' },
             { key: 'fanmail', label: 'Fan Mail' },
             { key: 'ignored', label: 'Ignored' },
             { key: 'blockedyou', label: 'Blocks' },
             { key: 'features', label: 'Features' },
+            { key: 'automations', label: 'Automations' },
             { key: 'advanced', label: 'Advanced' },
             { key: 'power', label: 'Power' },
             { key: 'snapshots', label: 'Log' },
@@ -456,33 +457,6 @@
         pane.innerHTML = `
             ${_tabDocHtml('alerts.md')}
             <div class="pt-section">
-                <h3>Your username (auto-detected) ${_infoLink('alerts.md', 'your-username')}</h3>
-                <div style="background:#161616;border:1px solid #333;padding:6px 10px;border-radius:3px;font-family:monospace">
-                    ${escapeHtml(me)}
-                </div>
-                <div class="pt-row" style="margin-top:6px">
-                    <input type="text" id="pt-myname-alerts" placeholder="Override if auto-detect is wrong">
-                    <button id="pt-myname-alerts-save">Save</button>
-                </div>
-                <div style="color:#888;font-size:11px;margin-top:4px">
-                    You'll be pinged when this name appears in chat. You can also add nicknames and variations below.
-                </div>
-            </div>
-            <div class="pt-section">
-                <h3>Add an extra word/nickname to ping on</h3>
-                <div class="pt-row">
-                    <input type="text" id="pt-mk-input" placeholder="e.g. nickname, first name, variation">
-                    <button id="pt-mk-add">Add</button>
-                </div>
-                <div style="color:#888;font-size:11px;margin-top:4px">
-                    Whole-word, case-insensitive match. "ag" won't fire on "agree" or "again" — only when "ag" appears as a standalone word. Useful for short nicknames.
-                </div>
-            </div>
-            <div class="pt-section">
-                <h3>Extra mention keywords (${settings.mentionKeywords.length})</h3>
-                <ul class="pt-list" id="pt-mk-list"></ul>
-            </div>
-            <div class="pt-section">
                 <h3>Highlight style ${_infoLink('alerts.md', 'highlight-style')}</h3>
                 <div class="pt-row">
                     <select id="pt-mention-style">
@@ -508,13 +482,30 @@
                 </div>
             </div>
             <div class="pt-section">
-                <h3>Alert behavior ${_infoLink('alerts.md', 'alert-behavior')}</h3>
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px">
+                    <h3 style="margin:0">Alert behavior ${_infoLink('alerts.md', 'alert-behavior')}</h3>
+                    <button id="pt-mention-preview" style="white-space:nowrap">Preview chime</button>
+                </div>
                 <div class="pt-toggle"><input type="checkbox" id="pt-mention-sound"><label for="pt-mention-sound">Chime when mentioned</label></div>
                 <div class="pt-toggle"><input type="checkbox" id="pt-mention-title"><label for="pt-mention-title">Flash the browser tab title when mentioned (only when tab is in background)</label></div>
                 <div class="pt-toggle"><input type="checkbox" id="pt-alert-rating"><label for="pt-alert-rating">Alert when someone rates me</label></div>
-                <div class="pt-row" style="margin-top:6px">
-                    <button id="pt-mention-preview">Preview chime</button>
+            </div>
+            <div class="pt-section">
+                <h3>Your username (auto-detected) ${_infoLink('alerts.md', 'your-username')}</h3>
+                <div style="background:#161616;border:1px solid #333;padding:6px 10px;border-radius:3px;font-family:monospace">
+                    ${escapeHtml(me)}
                 </div>
+            </div>
+            <div class="pt-section">
+                <h3>Add an extra word/nickname to ping on</h3>
+                <div class="pt-row">
+                    <input type="text" id="pt-mk-input" placeholder="e.g. nickname, first name, variation">
+                    <button id="pt-mk-add">Add</button>
+                </div>
+            </div>
+            <div class="pt-section">
+                <h3>Extra mention keywords (${settings.mentionKeywords.length})</h3>
+                <ul class="pt-list" id="pt-mk-list"></ul>
             </div>
         `;
 
@@ -538,13 +529,6 @@
         });
         pane.querySelector('#pt-mk-input').addEventListener('keydown', (e) => {
             if (e.key === 'Enter') pane.querySelector('#pt-mk-add').click();
-        });
-
-        const nameInput = pane.querySelector('#pt-myname-alerts');
-        nameInput.value = settings.myUsernameOverride || '';
-        pane.querySelector('#pt-myname-alerts-save').addEventListener('click', () => {
-            saveSetting('myUsernameOverride', nameInput.value.trim());
-            renderAlertsPane();
         });
 
         const ms = pane.querySelector('#pt-mention-sound');

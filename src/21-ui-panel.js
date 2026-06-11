@@ -31,11 +31,12 @@
                 <div id="pt-tabs">
                     <button data-tab="alerts" class="active">Alerts</button>
                     <button data-tab="favorites">Favorites</button>
-                    <button data-tab="keywords">Keywords</button>
+                    <button data-tab="keywords">Filters</button>
                     <button data-tab="fanmail">Fan Mail</button>
                     <button data-tab="ignored">Ignored</button>
                     <button data-tab="blockedyou">Blocks</button>
                     <button data-tab="features">Features</button>
+                    <button data-tab="automations">Automations</button>
                     <button data-tab="advanced">Advanced</button>
                     <button data-tab="data">Data</button>
                     <button data-tab="power">Power</button>
@@ -57,6 +58,7 @@
             <div class="pt-tabpane" data-pane="keywords"></div>
             <div class="pt-tabpane" data-pane="fanmail"></div>
             <div class="pt-tabpane" data-pane="features"></div>
+            <div class="pt-tabpane" data-pane="automations"></div>
             <div class="pt-tabpane" data-pane="advanced"></div>
             <div class="pt-tabpane" data-pane="data"></div>
             <div class="pt-tabpane" data-pane="snapshots"></div>
@@ -128,6 +130,7 @@
                 if (btn.dataset.tab === 'blockedyou') { _blocksPageFetched = false; renderBlockedYou(); }
                 if (btn.dataset.tab === 'favorites' || btn.dataset.tab === 'keywords' || btn.dataset.tab === 'ignored') renderPanelLists();
                 if (btn.dataset.tab === 'features') renderFeaturesPane();
+                if (btn.dataset.tab === 'automations') renderAutomationsPane();
                 if (btn.dataset.tab === 'snapshots') renderSnapshots();
                 if (btn.dataset.tab === 'alerts') renderAlertsPane();
                 if (btn.dataset.tab === 'admin') renderAdminPane();
@@ -140,6 +143,7 @@
 
         renderPanelLists();
         renderFeaturesPane();
+        renderAutomationsPane();
         renderAdvancedPane();
         renderTestPane();
         renderAlertsPane();

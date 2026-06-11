@@ -48,6 +48,7 @@
             installSocketEmitLogger();
             installIframeNetworkLogger();
             installAddUserListener();
+            installAutoBoom();
             // Detect chat background for smart color correction (delay so the
             // chat's own styles have fully applied first)
             setTimeout(detectChatBackground, 1500);

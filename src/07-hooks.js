@@ -175,6 +175,129 @@
     }
 
     // ============================================================
+    // AUTO-BOOMS
+    // ============================================================
+    // Watches #chatText for dice/slot "boom" tickers and auto-sends a configured
+    // chat message. Detection is DOM-based (the rendered <p class="ticker"> node)
+    // so it doesn't depend on undocumented socket payload field names.
+    let _abLastDice = null;        // { num, user } — previous dice roll seen (for back-to-back combos)
+    let _abLastSendAt = 0;         // timestamp the next/last send is scheduled for
+    const _abRecent = new Map();   // dedupe key -> ts (guards against MutationObserver re-fires)
+
+    function _abFaSymbol(iEl) {
+        const cls = (iEl && iEl.className) || '';
+        const m = cls.match(/fa-(birthday-cake|diamond|glass|heart|bomb|star|trophy)\b/);
+        return m ? m[1] : '';
+    }
+
+    // My own booms always fire; others fire only if they match the target group.
+    function _abPassesTarget(user) {
+        const me = detectMyUsername();
+        if (user && me && user === me) return true;
+        const t = settings.autoBoomTarget || 'all';
+        if (t === 'all') return true;
+        if (t === 'friends_favs') return inFriendsOrFavorites(user);
+        if (t === 'friends_only') return inFriend(user);
+        if (t === 'favs_only') return inFavorites(user);
+        return false;
+    }
+
+    function _abForceSend(text) {
+        const inp = document.getElementById('input_txt');
+        const btn = document.getElementById('send_btn');
+        if (!inp || !btn) return false;
+        inp.value = text;
+        try { inp.dispatchEvent(new Event('input', { bubbles: true })); } catch (e) {}
+        btn.click();
+        return true;
+    }
+
+    function _abQueueSend(text, key) {
+        if (!settings.autoBoom || !text) return;
+        const now = Date.now();
+        const k = key || text;
+        if (_abRecent.has(k) && now - _abRecent.get(k) < 5000) return;  // de-dupe ticker re-renders
+        _abRecent.set(k, now);
+        if (_abRecent.size > 60) { for (const [kk, ts] of _abRecent) { if (now - ts > 30000) _abRecent.delete(kk); } }
+        let delay = 1500 + Math.random() * 2000;          // natural 1.5–3.5s delay
+        const projected = now + delay;
+        if (projected - _abLastSendAt < 5000) delay += 5000 - (projected - _abLastSendAt); // >=5s between sends
+        _abLastSendAt = now + delay;
+        setTimeout(() => {
+            try { if (settings.autoBoom) { _abForceSend(text); ptLog('Boom', 'Auto-boom sent: ' + text); } } catch (e) {}
+        }, delay);
+    }
+
+    // Hidden, non-configurable combos: two DIFFERENT people rolling these
+    // numbers back-to-back. Order-independent.
+    function _abHiddenCombo(prevNum, num) {
+        if ((prevNum === 66 && num === 6) || (prevNum === 6 && num === 66)) return '{lucifer} B666M {lucifer}';
+        if ((prevNum === 4 && num === 20) || (prevNum === 20 && num === 4)) return '{smoke}b420m{smoke}';
+        return '';
+    }
+
+    function _abHandleDice(user, num) {
+        // 1) Hidden back-to-back combos (needs two different rollers).
+        if (_abLastDice && _abLastDice.user && _abLastDice.user !== user) {
+            const combo = _abHiddenCombo(_abLastDice.num, num);
+            if (combo) _abQueueSend(combo, 'combo:' + _abLastDice.num + '+' + num + ':' + _abLastDice.user + '+' + user);
+        }
+        _abLastDice = { num: num, user: user };
+        // 2) Configured dice booms (defaults 0/69/100 + custom personal numbers).
+        if (!_abPassesTarget(user)) return;
+        const sNum = String(num);
+        let text = (settings.autoBoomDice && settings.autoBoomDice[sNum]) || '';
+        if (!text && Array.isArray(settings.autoBoomCustom)) {
+            const hit = settings.autoBoomCustom.find((c) => String(c.num) === sNum);
+            if (hit) text = hit.text || '';
+        }
+        if (text) _abQueueSend(text, 'dice:' + sNum + ':' + user);
+    }
+
+    function _abHandleSlots(user, sym) {
+        if (!_abPassesTarget(user)) return;
+        const text = (settings.autoBoomSlots && settings.autoBoomSlots[sym]) || '';
+        if (text) _abQueueSend(text, 'slots:' + sym + ':' + user);
+    }
+
+    function _abProcessTicker(p) {
+        try {
+            const text = p.textContent || '';
+            const userEl = p.querySelector('.username');
+            const user = lc(userEl ? userEl.textContent.trim() : '');
+            if (!user) return;
+            if (/\brolled\b/i.test(text)) {
+                const strongs = p.querySelectorAll('strong:not(.username)');
+                if (!strongs.length) return;
+                const num = parseInt((strongs[strongs.length - 1].textContent || '').trim(), 10);
+                if (!isNaN(num)) _abHandleDice(user, num);
+            } else if (/played slots/i.test(text)) {
+                const icons = p.querySelectorAll('strong:not(.username) i[class*="fa-"]');
+                const syms = Array.from(icons).map(_abFaSymbol).filter(Boolean);
+                if (syms.length >= 3 && syms.every((s) => s === syms[0])) _abHandleSlots(user, syms[0]);
+            }
+        } catch (e) {}
+    }
+
+    function installAutoBoom() {
+        const attach = () => {
+            const chat = document.getElementById('chatText');
+            if (!chat) { setTimeout(attach, 1000); return; }
+            const obs = new MutationObserver((muts) => {
+                for (const m of muts) {
+                    for (const node of m.addedNodes) {
+                        if (!node || node.nodeType !== 1) continue;
+                        if (node.matches && node.matches('p.ticker')) _abProcessTicker(node);
+                        else if (node.querySelectorAll) node.querySelectorAll('p.ticker').forEach(_abProcessTicker);
+                    }
+                }
+            });
+            obs.observe(chat, { childList: true });
+        };
+        attach();
+    }
+
+    // ============================================================
     // ADD-USER UID RESOLVER
     // ============================================================
     // Listens to every add_user socket event so we passively build the
