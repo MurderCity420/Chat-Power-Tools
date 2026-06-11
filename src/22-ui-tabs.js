@@ -721,7 +721,7 @@
         { key: 'trophy',        label: 'Trophy' },
     ];
     const AB_DICE_DEFAULTS = ['0', '69', '100'];
-    const AB_MAX_TEXT = 15;
+    const AB_MAX_TEXT = 50;
     const AB_MAX_CUSTOM = 5;
 
     function renderAutomationsPane() {

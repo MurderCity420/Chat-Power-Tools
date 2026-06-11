@@ -222,7 +222,7 @@
                 top: 5%;
                 right: calc(5% + 115px);
                 width: 500px;
-                max-height: 600px;
+                height: 600px;
                 background: #1e1e1e;
                 color: #ddd;
                 border: 1px solid #444;

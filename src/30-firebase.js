@@ -498,6 +498,36 @@
         return Math.floor(s / 86400) + 'd ago';
     }
 
+    // ----- Encrypted credential export/import -----
+    // AES-GCM with a PBKDF2-derived key from a user passphrase. The same
+    // passphrase must be used to import on another device.
+    async function _fbCredKey(passphrase, salt) {
+        const enc = new TextEncoder();
+        const baseKey = await crypto.subtle.importKey('raw', enc.encode(passphrase), 'PBKDF2', false, ['deriveKey']);
+        return crypto.subtle.deriveKey(
+            { name: 'PBKDF2', salt: salt, iterations: 100000, hash: 'SHA-256' },
+            baseKey, { name: 'AES-GCM', length: 256 }, false, ['encrypt', 'decrypt']);
+    }
+    function _fbB64(u8)   { let s = ''; for (let i = 0; i < u8.length; i++) s += String.fromCharCode(u8[i]); return btoa(s); }
+    function _fbUnB64(b64){ return Uint8Array.from(atob(b64), (ch) => ch.charCodeAt(0)); }
+
+    async function _fbEncryptCreds(creds, passphrase) {
+        const salt = crypto.getRandomValues(new Uint8Array(16));
+        const iv   = crypto.getRandomValues(new Uint8Array(12));
+        const key  = await _fbCredKey(passphrase, salt);
+        const ct   = new Uint8Array(await crypto.subtle.encrypt(
+            { name: 'AES-GCM', iv: iv }, key, new TextEncoder().encode(JSON.stringify(creds))));
+        return JSON.stringify({ v: 1, kind: 'cpt-firebase-creds', salt: _fbB64(salt), iv: _fbB64(iv), data: _fbB64(ct) });
+    }
+    async function _fbDecryptCreds(fileText, passphrase) {
+        const obj = JSON.parse(fileText);
+        if (!obj || obj.kind !== 'cpt-firebase-creds') throw new Error('Not a CPT credentials file.');
+        const key = await _fbCredKey(passphrase, _fbUnB64(obj.salt));
+        const pt  = await crypto.subtle.decrypt(
+            { name: 'AES-GCM', iv: _fbUnB64(obj.iv) }, key, _fbUnB64(obj.data));
+        return JSON.parse(new TextDecoder().decode(pt));
+    }
+
     function renderDataPane() {
         const dp = document.querySelector('#pt-panel .pt-tabpane[data-pane="data"]');
         if (!dp) return;
@@ -528,14 +558,17 @@
                 <h3>Google Firebase sync</h3>
                 <div class="pt-toggle"><input type="checkbox" id="pt-fb-enabled" ${enabled ? 'checked' : ''}><label for="pt-fb-enabled">Enable Google Firebase sync ${_infoLink('data.md', 'google-firebase-sync')}</label></div>
                 <div id="pt-fb-config" style="${enabled ? '' : 'display:none'}">
-                    <p style="color:#aaa;font-size:11px;margin:6px 0">Credentials are stored on this device only — never synced or exported.</p>
+                    <p style="color:#aaa;font-size:11px;margin:6px 0">Credentials are stored on this device only. Use <b>Export</b> to save a password-encrypted file you can <b>Import</b> on your other devices.</p>
                     <div class="pt-fb-field"><label>Firebase API Key</label><input type="text" id="pt-fb-apikey" placeholder="AIzaSy..." value="${escapeHtml(c.apiKey)}"></div>
                     <div class="pt-fb-field"><label>Database URL</label><input type="text" id="pt-fb-dburl" placeholder="https://your-project-default-rtdb.firebaseio.com" value="${escapeHtml(c.dbUrl)}"></div>
                     <div class="pt-fb-field"><label>Email</label><input type="text" id="pt-fb-email" placeholder="cpt@cpt.local" value="${escapeHtml(c.email)}"></div>
                     <div class="pt-fb-field"><label>Password</label><input type="password" id="pt-fb-password" placeholder="••••••••" value="${escapeHtml(c.pass)}"></div>
                     <div class="pt-row" style="gap:6px;margin-top:6px">
                         <button id="pt-fb-save" style="flex:1">Save Credentials</button>
+                        <button id="pt-fb-cred-export" style="flex:1" title="Save an encrypted file with these credentials">Export</button>
+                        <button id="pt-fb-cred-import" style="flex:1" title="Load credentials from an encrypted file">Import</button>
                     </div>
+                    <input type="file" id="pt-fb-cred-import-file" accept=".cpt,application/octet-stream,application/json" style="display:none">
                     <div id="pt-fb-status" style="font-size:12px;margin-top:8px;padding:6px;background:#111;border-radius:3px"></div>
                     <p style="margin-top:8px;font-size:12px">
                         <a href="https://github.com/MurderCity420/Chat-Power-Tools/blob/main/docs/firebase-sync.md" target="_blank" rel="noopener" style="color:#8af">How to set up Firebase (free) →</a>
@@ -676,6 +709,68 @@
                 statusEl.textContent = '❌ ' + (e && e.message ? e.message : 'Connection failed');
                 statusEl.style.color = '#f88';
             }
+        });
+
+        // --- Export credentials → encrypted file ---
+        q('#pt-fb-cred-export').addEventListener('click', async () => {
+            const creds = {
+                apiKey: q('#pt-fb-apikey').value.trim(),
+                dbUrl:  q('#pt-fb-dburl').value.trim().replace(/\/+$/, ''),
+                email:  q('#pt-fb-email').value.trim(),
+                pass:   q('#pt-fb-password').value,
+            };
+            if (!creds.apiKey && !creds.dbUrl && !creds.email && !creds.pass) {
+                alert('Nothing to export — enter your Firebase credentials first.');
+                return;
+            }
+            const pw = prompt('Set a password to encrypt this file.\nYou will need the SAME password to import it on another device:');
+            if (!pw) return;
+            const statusEl = q('#pt-fb-status');
+            try {
+                const fileText = await _fbEncryptCreds(creds, pw);
+                const blob = new Blob([fileText], { type: 'application/octet-stream' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'cpt-firebase-creds-' + new Date().toISOString().slice(0, 10) + '.cpt';
+                document.body.appendChild(a); a.click(); a.remove();
+                setTimeout(() => URL.revokeObjectURL(url), 1000);
+                if (statusEl) { statusEl.textContent = '✓ Encrypted credentials exported.'; statusEl.style.color = '#8f8'; }
+            } catch (e) {
+                if (statusEl) { statusEl.textContent = '✗ Export failed: ' + (e && e.message ? e.message : e); statusEl.style.color = '#f88'; }
+            }
+        });
+
+        // --- Import credentials ← encrypted file ---
+        const credImportFile = q('#pt-fb-cred-import-file');
+        q('#pt-fb-cred-import').addEventListener('click', () => credImportFile.click());
+        credImportFile.addEventListener('change', () => {
+            const file = credImportFile.files && credImportFile.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = async () => {
+                const statusEl = q('#pt-fb-status');
+                const pw = prompt('Enter the password used when this file was exported:');
+                if (!pw) { credImportFile.value = ''; return; }
+                try {
+                    const creds = await _fbDecryptCreds(reader.result, pw);
+                    GM_setValue('firebaseApiKey',  (creds.apiKey || '').trim());
+                    GM_setValue('firebaseDbUrl',   (creds.dbUrl || '').replace(/\/+$/, ''));
+                    GM_setValue('firebaseEmail',   (creds.email || '').trim());
+                    GM_setValue('firebasePassword', creds.pass || '');
+                    FirebaseAuth.reset();
+                    q('#pt-fb-apikey').value   = creds.apiKey || '';
+                    q('#pt-fb-dburl').value    = creds.dbUrl || '';
+                    q('#pt-fb-email').value    = creds.email || '';
+                    q('#pt-fb-password').value = creds.pass || '';
+                    if (statusEl) { statusEl.textContent = '✓ Credentials imported. Click Save Credentials to test the connection.'; statusEl.style.color = '#8f8'; }
+                } catch (e) {
+                    if (statusEl) { statusEl.textContent = '✗ Import failed — wrong password or invalid file.'; statusEl.style.color = '#f88'; }
+                    alert('Import failed — wrong password or invalid file.');
+                }
+                credImportFile.value = '';
+            };
+            reader.readAsText(file);
         });
 
         // --- Setup wizard ---
