@@ -12,7 +12,7 @@ The **Alerts** tab pings you when your username — or any keyword you choose �
 
 ## Your username
 
-Your name is auto-detected from the chat. If detection is wrong, type the correct name in the **override** box and save. Alerts fire whenever that name appears (as `@you` or as a standalone word).
+Your name is auto-detected from the chat. Once you're logged in, the detected name is shown as **"Hi <username>"** in the panel's top header bar (next to the version number) so you can confirm it's right. Alerts fire whenever that name appears (as `@you` or as a standalone word).
 
 ---
 
@@ -37,17 +37,17 @@ Choose how a message that mentions you is marked:
 | **Box** | Full border around the message |
 
 
-**Highlight color** can be the default gold, the **sender's username color**, or a **custom color** (custom colors are contrast-checked against your chat background so they stay readable).
+**Highlight color** can be the default gold, the **sender's username color**, or a **custom color**. The "Use sender's username color" and "Custom color" options (with its color swatch) sit on the same row.
 
 
 ---
 
 ## Alert behavior
 
-- **Chime when mentioned** — a soft two-note bell.
+- **Chime when mentioned** — a soft two-note bell. Sits beside **Alert when rated** in a two-column layout.
+- **Alert when rated** — fires the same chime/flash whenever you receive a rating (any score), so you know who just rated you.
 - **Flash the browser tab title** — flashes `🔔 Mention!` when the tab is in the background.
-- **Alert when someone rates me** — fires the same chime/flash whenever you receive a rating (any score), so you know who just rated you.
-- **Preview chime** — plays the sound so you can check your volume.
+- A small **▶ play button** to the right of the **Alert behavior** heading plays the alert sound so you can check your volume.
 
 | Alert highlights in chat |
 |:---:|

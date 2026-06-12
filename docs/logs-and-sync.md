@@ -17,7 +17,10 @@ The **Log** tab records what Chat Power Tools *does* — syncs, blocks, unblocks
 - **Format:** one human-readable line per event — `YYYY-MM-DD HH:MM:SS - Module - message`.
 - **Retention:** 3 days (older lines auto-prune).
 - **Modules:** `Init`, `Blocks`, `Guests`, `Sync`, `Profile`, `Friends`, `Cam`, `Rate`, `Members`, `Scrape`.
-- **Controls:** Filter, **Refresh**, **Download .txt**, **Copy all**, **Clear log**.
+- **Controls:** Filter, **Refresh**, **Download .txt**, **Copy all**, **Clear log**. The log view is a fixed height (390px).
+- **↓ Pull Logs** *(only shown when [Firebase Sync](firebase-sync.md) is enabled)* — pulls log entries from Firebase and merges them into your local log, deduped by timestamp and kept within the 3-day window. Useful for gathering logs from another device.
+
+> **Log sync:** when Firebase sync is on, the diagnostic log is pushed to Firebase (under `cpt/<your-username>/logs`) on every sync tick — one-way (local → Firebase) by default. Use **↓ Pull Logs** to bring entries back down.
 
 This is the first thing to grab when reporting a problem — open the tab, **Copy all**, and paste it into your bug report.
 

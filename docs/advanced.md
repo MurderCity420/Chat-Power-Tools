@@ -29,6 +29,8 @@ Hide the noisy game/economy tickers:
 - **Remove rating delay** — drop the client-side cooldown between ratings.
 - **Bypass censorship** — skip the local censored-word replacement.
 
+> **Cam templates** moved to the **[Automations](automations.md#cam-templates)** tab.
+
 ---
 
 ## Backup & sync *(moved)*

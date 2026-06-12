@@ -79,4 +79,65 @@ A short random delay is added before each reply, and the same minimum-gap rule a
 
 ---
 
+## Auto cam
+
+Automatically open the cam of anyone who appears in your **My Viewers** list, so you cam back the people watching you without clicking.
+
+- **Automatically open the cam of anyone who watches you** — master on/off.
+- **Auto-cam viewers from** — which group gets auto-cammed:
+  - **All Users**
+  - **Friends & Favorites**
+  - **Friends Only**
+  - **Favorites Only**
+- **Max cams to open** — 1 to 15. The feature stops opening new cams once this many are open. **Cams you opened manually count toward this limit**, so it's a ceiling on total simultaneous cams — useful if your PC or connection can't handle all 16 at once.
+
+Cams fill the **4 docked Cam Panel slots first**, then **floating cams**. Users who are already on cam, blocked, ignored, or not currently in the room are skipped, and a cam you manually close won't be reopened for a short while.
+
+### Cam templates
+
+Save reusable layouts for your **floating** cams and have new cams drop into preset positions and sizes. Sits with Auto cam since the two work together.
+
+- **Automatically position and size floating cams** — master on/off.
+- **Default** — a dropdown (including a built-in **(None)**) that sets which layout becomes active **when you log in**. Changing it does **not** change the layout that's live right now — only what loads next login.
+- **Templates** — opens the layout manager (shown when the feature is enabled).
+- The **live** layout is chosen from the dropdown next to the shield icon in the top bar. Switching it **rearranges the cams already open**; picking **(None)** stops positioning without deleting any layouts.
+
+> Templates only move **floating** cams. The 4 docked Cam Panel slots and your own self-cam are fixed by the site and aren't touched.
+
+**How placement works:** when a cam opens — whether you opened it or Auto cam did — it drops into the **next empty slot** of the active layout. Close a cam and its slot frees up. If every slot is full, extra cams open wherever the site puts them.
+
+**Managing templates** — the manager has **+ Add**, **Save** (close; changes save as you make them), and a list with **up / down**, **Edit**, and **delete** per layout.
+
+**Creating or editing a template:**
+
+- **Description** — a name for the layout.
+- **Copy current cam positions** — reads the position and size of every floating cam you currently have open and fills the table. The intended workflow: drag and resize your cams how you like, then click Copy to capture them.
+- Up to **12 slots**, each with **Top**, **Left**, **Height**, **Width** (pixels, from the top-left of the chat area) and **up / down** to reorder. Leave a row blank to use fewer than 12.
+
+---
+
+## Fan mail
+
+Fan Mail used to have its own tab — it now lives here in **Automations**. It lets you save reusable Fan Mail templates and pick one from a dropdown on the site's Fan Mail compose page.
+
+- **Show Fan Mail template picker on the compose page** — master on/off. When OFF, the template dropdown does **not** appear on the site's Fan Mail compose page (`mail_send.php`), and the **Templates…** / **Subjects…** buttons below are hidden.
+
+When ON, two buttons appear:
+
+- **Templates…** — opens a popup listing your saved templates, with a **+ New** button to create one and **move-up / move-down / delete** controls on each row. (Templates are applied via the dropdown on the compose page, so there's no send/play button here.)
+- **Subjects…** — opens the **Random Subjects** manager, the pool of subjects used when a template has no subject of its own.
+
+### Creating or editing a template
+
+- **Description** — required, max 50 characters.
+- **Subject** — optional, max 50 characters. If left blank, a random subject from the Subjects pool is used.
+- **Tokens** — the tokens for the mail.
+- **Message** — required.
+
+### How it's used
+
+With the feature enabled, open a user's profile → **Fan Mail** on the site. A **"— Choose a Fan Mail template —" dropdown** appears next to the Tokens field on the compose page. Picking a template fills in the subject, tokens, and message for you to review and send.
+
+---
+
 > ⚠️ Auto booms and Auto reply post to **main chat** automatically. Overusing chat automations can get you muted by the site — the built-in delays help, but use sensible messages.

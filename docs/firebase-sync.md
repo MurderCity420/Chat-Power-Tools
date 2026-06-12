@@ -10,6 +10,8 @@ It lives on the **Data** tab, under **Google Firebase sync**.
 
 > While Firebase sync is **enabled**, the older profile-field backup is paused — Firebase becomes the single source of truth.
 
+> **Per-account storage:** your data is stored under `cpt/<your-username>` in the database — each chat account gets its own branch (meta / settings / users / logs). This means **multiple chat accounts can share one Firebase database/connection**, since they never collide. The script only connects **after you log in to chat**.
+
 ---
 
 ## What gets synced
@@ -88,8 +90,10 @@ This takes about five minutes. You only do it once; afterward every device just 
    - **Database URL**
    - **Email** (the one you created in step 3)
    - **Password**
-4. Click **Save Credentials**. The status line should turn green: **✅ Connected**.
-5. Click **Setup Database**. Watch the step-by-step log:
+4. Click **Save Credentials**. The status line should turn green: **✅ Connected**. *(Saving, Importing, and Exporting credentials work any time — they don't require being logged in to chat.)*
+5. **Make sure you're logged in to chat**, then click **Setup Database**. Watch the step-by-step log:
+
+> **Database operations require being logged in to chat.** Setup Database, Push, Pull, Sync Now, Export Firebase Backup, and Reset Firebase DB are blocked (with a warning) until you log in, because the data path is keyed to your chat username. Only *Save / Import / Export credentials* work while logged out.
 
 ```
 ✅ Test connection — Authenticated
@@ -101,7 +105,7 @@ This takes about five minutes. You only do it once; afterward every device just 
 
 If any step shows ❌, it names the exact failure — see [Troubleshooting](#troubleshooting) below.
 
-6. On every **other** device, repeat "Connect Chat Power Tools" with the **same four values**. Each device pulls the shared data on login.
+6. On every **other** device, repeat "Connect Chat Power Tools" with the **same four values**. Each device does a one-time pull of the shared data on login.
 
 ---
 
@@ -111,7 +115,11 @@ Once connected, sync is automatic:
 
 - **Auto-sync interval** — choose how often local changes are pushed (`Off`, 30 s, 1 min, 5 min, 15 min). Default is 1 minute.
 - Every change you make is saved locally **instantly** and queued for the next push, so the tool always works even if Firebase is unreachable.
-- On login, each device pulls the latest data and merges it — **the newest change to each record wins**.
+- **On login**, each device does a one-time **pull** (Firebase → local) of users and settings and merges it — **the newest change to each record wins**.
+- The recurring auto-sync timer is **push-only** (local → Firebase); it does **not** auto-pull. To bring down newer users/settings from another device, **reload** the page or use the **Pull FB → Local** button.
+- The **"Last sync"** time updates on every auto-sync tick (even when nothing changed), so it always reflects the most recent push.
+
+> The diagnostic log is also pushed to Firebase on every sync tick — see [Log sync](#log-sync) below.
 
 ### Manual controls
 
@@ -125,10 +133,20 @@ Once connected, sync is automatic:
 
 ---
 
+## Log sync
+
+When Firebase sync is enabled, your diagnostic log is also backed up. On every auto-sync tick the local log is pushed to Firebase under `cpt/<your-username>/logs` — **one-way (local → Firebase)** by default.
+
+To bring log entries *down* from Firebase, use the **↓ Pull Logs** button on the **[Log](logs-and-sync.md)** tab (only shown when Firebase is enabled). It pulls log entries from Firebase and merges them into your local log, **deduped by timestamp** and kept within the same 3-day retention window. This is handy for gathering logs from another device onto the one you're looking at.
+
+---
+
 ## Danger zone
 
-- **Export Firebase Backup** — downloads the entire Firebase database as a JSON file (`cpt-firebase-backup-YYYY-MM-DD.json`).
-- **Reset Firebase DB** — wipes the whole `cpt` node in Firebase. You must type `RESET` to arm the button. After resetting, click **Setup Database** to recreate the structure.
+- **Export Firebase Backup** — downloads your account's Firebase data as a JSON file (`cpt-firebase-backup-YYYY-MM-DD.json`).
+- **Reset Firebase DB** — wipes your account's `cpt/<your-username>` node in Firebase. You must type `RESET` to arm the button. After resetting, click **Setup Database** to recreate the structure.
+
+> Both buttons require being logged in to chat (the data path is keyed to your username).
 
 ---
 

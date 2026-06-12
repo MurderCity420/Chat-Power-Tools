@@ -18,7 +18,7 @@ Type a username and click **Add**, or use the in-chat menu: click a user's name/
 
 ## The Favorites & Friends list
 
-The list shows everyone you've marked, with a **member / guest / mod / verified-model** badge and a colored left edge:
+The list is a fixed-height (260px) scrolling area showing everyone you've marked, with a **member / guest / mod / verified-model** badge and a colored left edge:
 
 - 🟡 **Fav Only** · 🔵 **Friend Only** · 🟢 **Friend & Fav**
 
@@ -43,7 +43,9 @@ Same four styles as [Alerts](alerts.md):
 
 - **Default (gold)**
 - **Use the sender's username color** — matches each favorite's own name color
-- **Custom color** — pick any color; it's contrast-checked against the chat background so it stays readable
+- **Custom color** — pick any color
+
+The "Use sender's username color" and "Custom color" options (with its color swatch) sit on the same row.
 
 Changing the style or color re-applies instantly to messages already on screen.
 
