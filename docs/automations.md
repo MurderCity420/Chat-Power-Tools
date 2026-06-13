@@ -98,17 +98,18 @@ Cams fill the **4 docked Cam Panel slots first**, then **floating cams**. Users 
 Turn saved layouts into **docks** your cams snap to, then drag cams between docks — including the 4 Cam Panel slots — instead of positioning each one by hand. (This was previously called "Automatically position and size floating cams.")
 
 - **Floating Cam Docks** — master on/off.
-- **Templates** — opens the layout manager (shown when the feature is enabled).
-- **Default** — a dropdown (including a built-in **(None)**) that sets which layout becomes active **when you log in**. Changing it does **not** change the layout that's live right now — only what loads next login.
+- **Templates** — opens the layout manager (shown when the feature is enabled). The login **Default** dropdown lives inside this window now (to the right of **+ Add** / **Save**); it sets which layout becomes active **when you log in** and does **not** change the live layout.
+- **Fill first** — when both the Pop Out Window and the in-page floating docks are on, this picks which fills first (**Floating Cam Docks** or **Pop-Out Window Docks**); once those are full, new cams spill into the other.
 - The **live** layout is chosen from the dropdown next to the shield icon in the top bar. Switching it **rearranges the cams already open**; picking **(None)** stops positioning without deleting any layouts.
 
-When a cam opens — whether you opened it or Auto cam did — it drops into the **lowest-numbered free dock** of the active layout. Close a cam and its dock frees up. If every dock is full, extra cams open wherever the site puts them.
+When a cam opens — whether you opened it or Auto cam did — it drops into the **lowest-numbered free dock** per the **Fill first** order. Close a cam and its dock frees up. If every dock is full, extra cams open wherever the site puts them.
 
 #### Dragging cams between docks
 
 With a layout live, every filled position is a **dock**. While you drag a cam, the dock outlines appear (faint, borders only — invisible otherwise) and the dock your cam's centre is over **glows** to show where it'll land:
 
-- **Floating cam → floating dock** — drag it onto another dock to move there; drop on an occupied dock to **swap** the two. Drop between docks and it snaps back to its current dock.
+- **Floating cam → floating dock** — drag it onto another dock to move there; drop on an occupied dock to **swap** the two. Drop **where no dock is glowing** and the cam is **freed** — it stays where you put it and auto-placement leaves it alone.
+- **Free placement (Ctrl)** — hold **Ctrl** while dragging a floating cam to ignore the docks entirely and drop it anywhere; the dock outlines hide while Ctrl is down. (Ctrl doesn't apply to the Pop Out Window, which is purely docked.) Drag a freed cam back onto a dock to re-dock it.
 - **The 4 Cam Panel slots are docks too** — laid out as a 2×2 grid (1 = top-left, 2 = top-right, 3 = bottom-left, 4 = bottom-right). Grab a slot cam by the area **above or below its cam message** (not the message itself, the buttons, or the bottom video controls) — a blue name ghost follows your cursor. You can drop a cam onto any quarter of the panel, including an **empty** slot.
 - **Across types** — slot → floating dock and floating dock → slot both work and **swap** the two cams.
 
@@ -122,13 +123,15 @@ Floating docks stay glued to the cam panel's right edge. When you **resize the b
 
 #### Pop Out Window
 
-The shield-icon dropdown also has a built-in **Pop Out Window** option. Selecting it opens a separate, movable browser window (drag it to a second monitor) and mirrors all your floating cams into a **dock grid**, defaulting to a **2 × 2 (4-dock)** layout (the layout dropdown is sorted fewest → most docks). The window opens at a fixed size you can resize freely afterward.
+Next to the live-template dropdown (left of it, by the shield icon) is a **Pop Out toggle**. Click it to open a separate, movable browser window (drag it to a second monitor) that mirrors your floating cams into a **dock grid**, defaulting to a **2 × 2 (4-dock)** layout (the layout dropdown there is sorted fewest → most docks). The window opens at a fixed size you can resize freely afterward. The toggle glows blue while the window is open.
+
+The Pop Out Window is **independent of the live template** — you can run both at once, and the **Fill first** setting decides which set of docks new cams populate first.
 
 Each tile shows the **name** (always visible, top-left — click it for the full user menu), the **cam message** (centred, on hover), and a control bar (close / profile / private / rate / tip; click a tile to mute). Resizing the window resizes the docks and the cams in them. **Drag a cam** onto another dock to move it (a translucent name ghost shows where it'll land); drop on an occupied dock to **swap**. New cams drop into the lowest-numbered empty dock.
 
-Closing the pop-out window, switching the dropdown back to **(None)** or another layout, or turning the feature off **closes the window and returns the cams to the main chat**.
+Clicking the toggle again, closing the pop-out window, or turning the feature off **closes the window and returns those cams to the main chat** (into floating docks if a template is live).
 
-> Browser limits: the pop-out is a normal pop-up window, so Chrome may show a thin (non-removable) address strip, and it must be opened by **selecting it from the dropdown** (a pop-up can't auto-open at login). If nothing opens, allow pop-ups for the site. Chrome/Edge only.
+> Browser limits: the pop-out is a normal pop-up window, so Chrome may show a thin (non-removable) address strip, and it must be opened by **clicking the toggle** (a pop-up can't auto-open at login, so it won't reopen by itself after a reload). If nothing opens, allow pop-ups for the site. Chrome/Edge only.
 
 #### Default templates
 
