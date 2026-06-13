@@ -1,6 +1,6 @@
 # Chat Power Tools
 
-A feature-rich Tampermonkey userscript for **OMGChat** (cammedia) that adds an unlimited ignore list, tiered blocking, keyword filtering, favorites, mention alerts, automatic guest-blocking, and much more — all stored locally, no backend required.
+A feature-rich Tampermonkey userscript for **cammedia** (OMGChat, Chatville, iWebcam, etc) that adds an unlimited ignore list, tiered blocking, keyword filtering, favorites, mention alerts, automatic guest-blocking, and much more — all stored locally, no backend required.
 
 ![Power Tools panel](screenshots/panel-overview.png)
 
@@ -9,7 +9,7 @@ A feature-rich Tampermonkey userscript for **OMGChat** (cammedia) that adds an u
 ## Quick start
 
 1. **[Install Tampermonkey + the script →](docs/installation.md)**
-2. Reload your OMGChat tab.
+2. Reload your Chat tab.
 3. Click the green **🛡️ shield** icon in the chat top bar to open the panel.
 
 ➡️ **[Install / Update Chat Power Tools](https://raw.githubusercontent.com/MurderCity420/Chat-Power-Tools/main/Chat-Power-Tools.user.js)** (requires Tampermonkey — see the [installation guide](docs/installation.md) first)
