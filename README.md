@@ -34,6 +34,7 @@ A feature-rich Tampermonkey userscript for **OMGChat** (cammedia) that adds an u
 | **My Viewers Sort** | Change the default for how My Viewers is sorted |
 | **Input Helper** | Character counter like twitter |
 | **Holiday Effects** | Holiday icons and effects |
+| **Floating Cam Docks** | Save cam layouts; docks resize responsively, maintain aspect ratio, and never overlap |
 | **Cross-device sync** | Optionally mirrors your settings via your profile + syncs your Stars list |
 
 
@@ -57,7 +58,6 @@ A feature-rich Tampermonkey userscript for **OMGChat** (cammedia) that adds an u
 - **[Advanced](docs/advanced.md)** — ticker filters and chat tweaks
 - **[Data](docs/data.md)** — settings backup/restore and Firebase cross-device sync
 - **[Log & Sync](docs/logs-and-sync.md)** — the diagnostic log, profile sync, and friend sync
-- **[Power](docs/power.md)** — bypass site-enforced rate limits and muting
 
 ---
 
