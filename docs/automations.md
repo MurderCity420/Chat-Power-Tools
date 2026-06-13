@@ -93,26 +93,61 @@ Automatically open the cam of anyone who appears in your **My Viewers** list, so
 
 Cams fill the **4 docked Cam Panel slots first**, then **floating cams**. Users who are already on cam, blocked, ignored, or not currently in the room are skipped, and a cam you manually close won't be reopened for a short while.
 
-### Cam templates
+### Floating Cam Docks
 
-Save reusable layouts for your **floating** cams and have new cams drop into preset positions and sizes. Sits with Auto cam since the two work together.
+Turn saved layouts into **docks** your cams snap to, then drag cams between docks — including the 4 Cam Panel slots — instead of positioning each one by hand. (This was previously called "Automatically position and size floating cams.")
 
-- **Automatically position and size floating cams** — master on/off.
-- **Default** — a dropdown (including a built-in **(None)**) that sets which layout becomes active **when you log in**. Changing it does **not** change the layout that's live right now — only what loads next login.
+- **Floating Cam Docks** — master on/off.
 - **Templates** — opens the layout manager (shown when the feature is enabled).
+- **Default** — a dropdown (including a built-in **(None)**) that sets which layout becomes active **when you log in**. Changing it does **not** change the layout that's live right now — only what loads next login.
 - The **live** layout is chosen from the dropdown next to the shield icon in the top bar. Switching it **rearranges the cams already open**; picking **(None)** stops positioning without deleting any layouts.
 
-> Templates only move **floating** cams. The 4 docked Cam Panel slots and your own self-cam are fixed by the site and aren't touched.
+When a cam opens — whether you opened it or Auto cam did — it drops into the **lowest-numbered free dock** of the active layout. Close a cam and its dock frees up. If every dock is full, extra cams open wherever the site puts them.
 
-**How placement works:** when a cam opens — whether you opened it or Auto cam did — it drops into the **next empty slot** of the active layout. Close a cam and its slot frees up. If every slot is full, extra cams open wherever the site puts them.
+#### Dragging cams between docks
 
-**Managing templates** — the manager has **+ Add**, **Save** (close; changes save as you make them), and a list with **up / down**, **Edit**, and **delete** per layout.
+With a layout live, every filled position is a **dock**. While you drag a cam, the dock outlines appear (faint, borders only — invisible otherwise) and the dock your cam's centre is over **glows** to show where it'll land:
+
+- **Floating cam → floating dock** — drag it onto another dock to move there; drop on an occupied dock to **swap** the two. Drop between docks and it snaps back to its current dock.
+- **The 4 Cam Panel slots are docks too** — laid out as a 2×2 grid (1 = top-left, 2 = top-right, 3 = bottom-left, 4 = bottom-right). Grab a slot cam by the area **above or below its cam message** (not the message itself, the buttons, or the bottom video controls) — a blue name ghost follows your cursor. You can drop a cam onto any quarter of the panel, including an **empty** slot.
+- **Across types** — slot → floating dock and floating dock → slot both work and **swap** the two cams.
+
+> Moving a cam into or out of a Cam Panel slot re-subscribes its stream, so expect a brief black flash on those drags. Floating-to-floating moves are instant.
+
+> The 4 Cam Panel slots aren't template-configurable (the site fixes their size); only the up-to-12 **floating** docks are. Your own self-cam isn't touched.
+
+#### Resizing the window
+
+Floating docks stay glued to the cam panel's right edge. When you **resize the browser window** or drag the **camsDivider** (which resizes the Cam Panel), each floating dock to the right of the panel slides to keep its place and spacing; docks placed *over* the panel stay where they are. Switching templates recalculates positions the same way.
+
+#### Pop Out Window
+
+The shield-icon dropdown also has a built-in **Pop Out Window** option. Selecting it opens a separate, movable browser window (drag it to a second monitor) and mirrors all your floating cams into a **dock grid**, defaulting to a **2 × 2 (4-dock)** layout (the layout dropdown is sorted fewest → most docks). The window opens at a fixed size you can resize freely afterward.
+
+Each tile shows the **name** (always visible, top-left — click it for the full user menu), the **cam message** (centred, on hover), and a control bar (close / profile / private / rate / tip; click a tile to mute). Resizing the window resizes the docks and the cams in them. **Drag a cam** onto another dock to move it (a translucent name ghost shows where it'll land); drop on an occupied dock to **swap**. New cams drop into the lowest-numbered empty dock.
+
+Closing the pop-out window, switching the dropdown back to **(None)** or another layout, or turning the feature off **closes the window and returns the cams to the main chat**.
+
+> Browser limits: the pop-out is a normal pop-up window, so Chrome may show a thin (non-removable) address strip, and it must be opened by **selecting it from the dropdown** (a pop-up can't auto-open at login). If nothing opens, allow pop-ups for the site. Chrome/Edge only.
+
+#### Default templates
+
+The feature ships with three example layouts to start from — use them as-is, **edit**, or **delete** them:
+
+- **4 Cams (2×2 Medium)**
+- **6 Cams (2×2 Medium + 2 Medium)**
+- **11 Cams (3×3 Small + 2 Med)**
+
+#### Managing templates
+
+The manager has **+ Add**, **Save**, and a list with **up / down**, **Edit**, and **delete** per layout.
 
 **Creating or editing a template:**
 
 - **Description** — a name for the layout.
 - **Copy current cam positions** — reads the position and size of every floating cam you currently have open and fills the table. The intended workflow: drag and resize your cams how you like, then click Copy to capture them.
-- Up to **12 slots**, each with **Top**, **Left**, **Height**, **Width** (pixels, from the top-left of the chat area) and **up / down** to reorder. Leave a row blank to use fewer than 12.
+- Up to **12 docks**, each with **Top**, **Left**, **Height**, **Width** (pixels, from the top-left of the chat area) and **up / down** to reorder. Leave a row blank to use fewer than 12.
+- **No overlaps** — if any two filled docks overlap, **Save is blocked** and the offending rows turn **red** until you separate them (touching edges is allowed).
 
 ---
 
