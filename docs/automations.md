@@ -112,6 +112,7 @@ With a layout live, every filled position is a **dock**. While you drag a cam, t
 - **Free placement (Ctrl)** — hold **Ctrl** while dragging a floating cam to ignore the docks entirely and drop it anywhere; the dock outlines hide while Ctrl is down. (Ctrl doesn't apply to the Pop Out Window, which is purely docked.) Drag a freed cam back onto a dock to re-dock it.
 - **The 4 Cam Panel slots are docks too** — laid out as a 2×2 grid (1 = top-left, 2 = top-right, 3 = bottom-left, 4 = bottom-right). Grab a slot cam by the area **above or below its cam message** (not the message itself, the buttons, or the bottom video controls) — a blue name ghost follows your cursor. You can drop a cam onto any quarter of the panel, including an **empty** slot.
 - **Across types** — slot → floating dock and floating dock → slot both work and **swap** the two cams.
+- **Floating docks take priority over Cam Panel slots** — floating docks are drawn on top of any cam panel slot they overlap. When you drag a cam over an area where a floating dock and a cam panel slot share the same space, the **floating dock wins the drop**, not the panel slot behind it.
 
 > Moving a cam into or out of a Cam Panel slot re-subscribes its stream, so expect a brief black flash on those drags. Floating-to-floating moves are instant.
 
@@ -119,7 +120,13 @@ With a layout live, every filled position is a **dock**. While you drag a cam, t
 
 #### Resizing the window
 
-Floating docks stay glued to the cam panel's right edge. When you **resize the browser window** or drag the **camsDivider** (which resizes the Cam Panel), each floating dock to the right of the panel slides to keep its place and spacing; docks placed *over* the panel stay where they are. Switching templates recalculates positions the same way.
+When you **resize the browser window** or drag the **camsDivider** (which resizes the Cam Panel), every floating dock repositions and resizes to stay in the right place relative to the panel:
+
+- **Docks to the right of the panel** slide to maintain their offset from the panel's right edge — as the panel widens or narrows, they follow.
+- **Docks over the panel** (col1 / inside the cam panel area) scale proportionally with the panel's width and height, preserving their position as a fraction of the panel.
+- **All docks** resize proportionally, maintaining their aspect ratio. No dock will shrink below **198 × 148 px** (width × height). Once a dock hits its minimum size, it stops shrinking and bumps the nearest edge rather than overlapping another dock — **docks never overlap each other**, regardless of how small the window gets.
+
+Switching templates recalculates positions the same way.
 
 #### Pop Out Window
 
