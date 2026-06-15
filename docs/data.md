@@ -2,22 +2,38 @@
 
 [← Back to README](../README.md)
 
-The **Data** tab gives you three ways to back up and restore your Chat Power Tools settings. Each one is independent — pick the one that fits how you work.
+The **Data** tab gives you three ways to back up and restore your Chat Power Tools settings. Don't guess which to use — here's the short version:
+
+## Which one should I use?
+
+- **Just want a safety net in case a PC dies?** → **Tampermonkey Cloud backup** (Google Drive / OneDrive). Set it once, it runs on a schedule. → [Setup guide](syncing-settings.md)
+- **Use Chat Power Tools on two or more devices and want them to stay in sync automatically?** → **Firebase live sync**. → [Setup guide](firebase-sync.md)
+- **Moving to a new PC once, or want a quick manual copy before a big change?** → **Export / Import** files (below). No accounts, no setup.
+
+You can pair **Export/Import** (a manual safety copy) with *either* of the other two. Two rules:
+
+> ⚠️ **Don't run Firebase sync and Tampermonkey Cloud backup at the same time** — they write the same data independently and can overwrite each other. Pick one.
+
+> ⚠️ **Don't use Tampermonkey's *Browser Sync* option for Chat Power Tools.** That feature (Settings → *Sync via browser storage*) rides on the browser's tiny sync-storage quota (~100 KB), and CPT's data — your block list, cam templates, and logs — is far larger. It can sync only partially or fail silently. Use **Cloud backup** (Google Drive / OneDrive / Dropbox / WebDAV) instead, which has no such limit. **"Cloud backup" and "Browser Sync" are different Tampermonkey features — use Cloud backup.**
 
 ---
 
 ## Quick comparison
 
-| | Export / Import files | Browser cloud (Google Drive / OneDrive) | Firebase live sync |
+| | Export / Import files | Tampermonkey **Cloud** backup (Google Drive / OneDrive / Dropbox) | Firebase live sync |
 |---|---|---|---|
+| **Type** | Manual snapshot | Scheduled snapshot backup | Live two-way sync |
 | **Setup** | None | ~5 min | ~15 min |
 | **Backs up** | CPT settings + full user list | All Tampermonkey scripts + settings | CPT settings + user list |
-| **Live sync** | ❌ manual only | ❌ scheduled / manual | ✅ near real-time |
+| **Merges devices?** | ❌ overwrites on restore | ❌ newest backup wins on restore | ✅ per-setting, newest-field wins |
+| **Live sync** | ❌ manual only | ❌ scheduled / manual restore | ✅ near real-time |
 | **Works offline** | ✅ | ✅ (restore needs internet) | ❌ needs internet |
 | **Cross-browser** | ✅ copy file anywhere | ✅ same cloud account | ✅ any browser with credentials |
-| **Best for** | One-off transfers / disaster recovery | Most users wanting set-and-forget | Power users on multiple active devices |
+| **Best for** | One-off transfers / disaster recovery | Most users wanting set-and-forget backup | Power users on multiple active devices |
 
-> ⚠️ **Don't run Firebase sync and browser cloud backup at the same time.** They both write to the same stored data independently. If both are active and one device pulls from Firebase while another pushes to the cloud, they can overwrite each other. Pick one.
+> ⚠️ **Don't run Firebase sync and Tampermonkey Cloud backup at the same time.** They both write to the same stored data independently and can overwrite each other. Pick one.
+>
+> ⚠️ **Use Tampermonkey *Cloud* backup, not Tampermonkey *Browser Sync*.** Browser Sync has a ~100 KB storage cap that Chat Power Tools' data exceeds, so it can sync only part of your settings (or none). The Cloud providers (Drive / OneDrive / Dropbox / WebDAV) have no such limit.
 
 ---
 
@@ -40,9 +56,11 @@ The simplest option — no accounts or setup required.
 
 ---
 
-## Browser, Google Drive or OneDrive backup
+## Tampermonkey Cloud backup (Google Drive / OneDrive / Dropbox)
 
-Tampermonkey can automatically sync its entire storage — including the Chat Power Tools script and all its settings — to Google Drive or OneDrive. Once set up, it runs on a schedule without any manual steps.
+Tampermonkey can automatically back up its entire storage — including the Chat Power Tools script and all its settings — to a cloud drive (Google Drive, OneDrive, Dropbox, or WebDAV). Once set up, it runs on a schedule without any manual steps.
+
+> **Use the *Cloud* backup, not *Browser Sync*.** In Tampermonkey's Settings there's both a **Cloud** backup section (this one — use it) and a **Browser Sync** / *sync via browser storage* option (don't use it for CPT — its ~100 KB cap is too small for your block list and logs). This guide uses the **Cloud** section.
 
 **When to use it:**
 - You want a low-effort, always-on backup

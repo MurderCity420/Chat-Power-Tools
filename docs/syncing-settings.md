@@ -15,7 +15,9 @@ Chat Power Tools offers three ways to back up and restore your settings. This pa
 | Live sync | ❌ manual | ❌ scheduled / manual | ✅ near real-time |
 | Best for | One-off transfers | Most users | Multiple active devices |
 
-> ⚠️ Don't use Firebase sync and browser cloud backup at the same time — they can overwrite each other. Pick one.
+> ⚠️ Don't use Firebase sync and Tampermonkey Cloud backup at the same time — they can overwrite each other. Pick one.
+
+> ⚠️ **Cloud backup ≠ Browser Sync.** Tampermonkey has *two* different features: a **Cloud** backup section (Google Drive / OneDrive / Dropbox / WebDAV — what this page sets up) and a separate **Browser Sync** / *sync via browser storage* option. **Use Cloud backup.** Browser Sync rides on the browser's ~100 KB sync-storage limit, which is far too small for Chat Power Tools' block list, cam templates, and logs — it can sync only part of your data or fail silently.
 
 ---
 
@@ -63,7 +65,7 @@ Scroll down to the **Backup** section. You'll see a **Cloud** row with buttons f
 |:---:|
 | ![Backup cloud section](../screenshots/sync-backup-cloud.png) |
 
-> Wording and layout vary slightly between Tampermonkey versions and browsers — look for **Backup**, **Cloud**, or **Sync**.
+> Wording and layout vary slightly between Tampermonkey versions and browsers — look for the **Backup → Cloud** area with provider buttons (Google Drive / OneDrive / Dropbox / WebDAV). If you also see a **Browser Sync** / *sync via browser storage* toggle elsewhere in Settings, leave it off — it's the wrong feature for CPT (see the warning above).
 
 ---
 
