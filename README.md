@@ -14,7 +14,7 @@ A feature-rich Tampermonkey userscript for **cammedia** (OMGChat, Chatville, iWe
 
 ➡️ **[Install / Update Chat Power Tools](https://raw.githubusercontent.com/MurderCity420/Chat-Power-Tools/main/Chat-Power-Tools.user.js)** (requires Tampermonkey — see the [installation guide](docs/installation.md) first)
 
-[![Watch the video](https://youtu.be/dQFGSAmBrNQ)]([dQFGSAmBrNQ](https://youtu.be/dQFGSAmBrNQ))
+[![Watch the video](https://img.youtube.com/vi/dQFGSAmBrNQ/0.jpg)](https://www.youtube.com/watch?v=dQFGSAmBrNQ)
 
 ---
 
