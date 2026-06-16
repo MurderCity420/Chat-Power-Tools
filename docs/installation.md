@@ -4,7 +4,7 @@
 
 Chat Power Tools is a **userscript** — it runs inside the Tampermonkey browser extension. Installing takes about two minutes.
 
-**Installation Instructions Video**
+
 [![Watch the video](https://img.youtube.com/vi/dQFGSAmBrNQ/0.jpg)](https://www.youtube.com/watch?v=dQFGSAmBrNQ)
 
 ---
