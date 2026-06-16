@@ -122,7 +122,7 @@ On the second computer or browser:
 |:---:|
 | ![Restore from cloud](../screenshots/sync-restore-cloud.png) |
 
-Refresh OMGChat — Chat Power Tools and all your settings appear, identical to your other device.
+Refresh the Chat Site — Chat Power Tools and all your settings appear, identical to your other device.
 
 > **Heads-up:** *Restore* replaces that device's Tampermonkey data with the cloud copy. If both devices have settings you care about, back up the "good" one and restore *onto* the other — not the reverse.
 
@@ -131,7 +131,7 @@ Refresh OMGChat — Chat Power Tools and all your settings appear, identical to 
 ## Keeping devices in sync going forward
 
 - With **Automatic** backup on, the device where you make changes uploads them on a schedule.
-- On the other device, run **Restore from cloud** when you want to pull the latest, then refresh OMGChat.
+- On the other device, run **Restore from cloud** when you want to pull the latest, then refresh the Chat Site.
 - Tampermonkey does **not** merge two devices — the most recent backup wins. Pick one device as your "main" and restore onto the others.
 
 ---
@@ -141,7 +141,7 @@ Refresh OMGChat — Chat Power Tools and all your settings appear, identical to 
 | Synced ✅ | Not synced ❌ |
 |---|---|
 | The Chat Power Tools script | Anything outside Tampermonkey |
-| All your settings (favorites, tiers, keywords, alerts, fan mail…) | Your OMGChat login/session |
+| All your settings (favorites, tiers, keywords, alerts, fan mail…) | Your Chat Site login/session |
 | Other userscripts you have | — |
 | The 3-day diagnostic log *(if present at backup time)* | — |
 
@@ -151,12 +151,12 @@ Refresh OMGChat — Chat Power Tools and all your settings appear, identical to 
 
 - **Don't see the Cloud buttons?** Set **Config mode** to **Advanced** at the top of the Settings tab, then re-check the Backup section.
 - **Sign-in window blocked?** Allow pop-ups for the Tampermonkey dashboard, then try again.
-- **Settings didn't change after Restore?** Refresh (or fully close and reopen) your OMGChat tab — Tampermonkey applies restored data on the next page load.
-- **Two accounts in one browser?** Tampermonkey storage is shared across all OMGChat accounts in that browser, so a restore brings settings for all of them.
+- **Settings didn't change after Restore?** Refresh (or fully close and reopen) your Chat Site tab — Tampermonkey applies restored data on the next page load.
+- **Two accounts in one browser?** Tampermonkey storage is shared across all Chat Site accounts in that browser, so a restore brings settings for all of them.
 
 ---
 
-> **No-setup alternative:** the script can also mirror your settings through your OMGChat **profile** automatically (same account, any device) — see [Log & Sync](logs-and-sync.md). The cloud method on this page is broader: it backs up the whole script + settings and works across different accounts and browsers.
+> **No-setup alternative:** the script can also mirror your settings through your Chat Site **profile** automatically (same account, any device) — see [Log & Sync](logs-and-sync.md). The cloud method on this page is broader: it backs up the whole script + settings and works across different accounts and browsers.
 
 > **Live multi-device sync:** for near-real-time syncing with automatic newest-wins merging, set up **[Firebase Sync](firebase-sync.md)** on the Data tab. Don't use both Firebase and cloud backup at the same time.
 

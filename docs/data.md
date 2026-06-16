@@ -69,7 +69,7 @@ Tampermonkey can automatically back up its entire storage — including the Chat
 
 **What it backs up:** everything Tampermonkey stores — the CPT script, all CPT settings, and any other userscripts you have.
 
-**What it doesn't back up:** your OMGChat login session or anything outside Tampermonkey.
+**What it doesn't back up:** your Chat Site login session or anything outside Tampermonkey.
 
 **Setup:** see the full step-by-step guide → [Syncing your settings](syncing-settings.md)
 

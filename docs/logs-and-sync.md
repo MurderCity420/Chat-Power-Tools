@@ -30,7 +30,7 @@ This is the first thing to grab when reporting a problem — open the tab, **Cop
 
 ## Profile sync *(cross-device settings)*
 
-Optionally mirrors your settings to your OMGChat **profile** ("More About Me") as a hidden, obfuscated comment.
+Optionally mirrors your settings to your Chat Site **profile** ("More About Me") as a hidden, obfuscated comment.
 
 - **On login:** if the profile copy is newer than your local copy (e.g. saved from another device), it's restored.
 - **Periodically:** your current settings are written back to the profile.

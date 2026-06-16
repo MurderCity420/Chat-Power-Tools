@@ -60,7 +60,7 @@ Click **Install** on the confirmation page.
 
 ---
 
-## Step 5 — Reload OMGChat
+## Step 5 — Reload the Chat Site
 
 Refresh your chat tab. The green **🛡️ shield** icon appears in the top bar — click it to open the panel. You're done!
 

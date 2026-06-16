@@ -1,6 +1,6 @@
 # Chat Power Tools
 
-A feature-rich Tampermonkey userscript for **cammedia** (OMGChat, Chatville, iWebcam, etc) that adds an unlimited ignore list, tiered blocking, keyword filtering, favorites, mention alerts, automatic guest-blocking, and much more — all stored locally, no backend required.
+A feature-rich Tampermonkey userscript for the **Chat Site** that adds an unlimited ignore list, tiered blocking, keyword filtering, favorites, mention alerts, automatic guest-blocking, and much more — all stored locally, no backend required.
 
 ![Power Tools panel](screenshots/panel-overview.png)
 

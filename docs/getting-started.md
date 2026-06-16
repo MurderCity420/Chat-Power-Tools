@@ -2,7 +2,7 @@
 
 [← Back to README](../README.md)
 
-Once installed, Chat Power Tools adds a single control to OMGChat: a green **🛡️ shield** icon in the chat top bar.
+Once installed, Chat Power Tools adds a single control to the Chat Site: a green **🛡️ shield** icon in the chat top bar.
 
 | The shield opens the Power Tools panel |
 |:---:|
@@ -52,7 +52,7 @@ Every toggle and list is stored locally by Tampermonkey the moment you change it
 
 > Want the same settings on another computer or browser? See **[Syncing your settings](syncing-settings.md)** — back them up to OneDrive or Google Drive.
 
-> **Multiple accounts, one browser?** Tampermonkey storage is shared across every OMGChat account you use in the same browser. Block-related auto-actions are **account-scoped** so one account won't act on another's lists, but favorites/keywords/etc. are shared. See [Ignored & Blocks](ignore-and-blocks.md) for details.
+> **Multiple accounts, one browser?** Tampermonkey storage is shared across every Chat Site account you use in the same browser. Block-related auto-actions are **account-scoped** so one account won't act on another's lists, but favorites/keywords/etc. are shared. See [Ignored & Blocks](ignore-and-blocks.md) for details.
 
 ---
 
