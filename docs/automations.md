@@ -161,6 +161,28 @@ The manager has **+ Add**, **Save**, and a list with **up / down**, **Edit**, an
 
 ---
 
+### IM Pop-Out Window
+
+**Combine IMs into a pop-out window** adds a 💬 toggle to the nav bar, right next to the cam **Pop-Out Window** button. (The checkbox only reveals the toggle — it doesn't open anything by itself.)
+
+Click the 💬 toggle to open a single separate window where every IM you have open becomes its own **tab**, laid out as a real IM — nameplate, user list, chat history, text box, smileys, saved-messages and scroll-lock buttons. New IMs are added as tabs automatically when they open, and a tab disappears when its IM is closed. Click the toggle again to hide the window and bring every IM back to the main page.
+
+- **Your own IM** — always the first tab (it's always open on the site).
+- **Tab order** — choose **Order opened** or **Alphabetical** in the checkbox's options; your own IM stays first either way.
+- **Tab rows** — three tabs per row; more IMs wrap onto new rows.
+- **Missed-message counter** — a blue circle on a tab you're not viewing counts new messages, and clears when you switch to it.
+- **User list** — the 👥 icon in a tab's header expands/collapses the list of everyone in that IM (avatar, name, badge).
+- **Sending** — type and press **Enter**, exactly like the on-page IM box.
+- **Smileys** — the same CPT picker as the main chat.
+- **Scroll lock** — locks auto-scroll; a **▾ New messages** button appears when new lines arrive while you're scrolled up.
+- **Closing** — the **×** on a tab (or in its header) closes that IM.
+
+While the window is open the original IM windows are hidden from the main page (still connected, just mirrored into the tabs).
+
+> **After a page reload** the window won't re-open on its own (browsers block pop-ups that aren't opened by a click) — click the 💬 nav toggle to bring it back.
+
+---
+
 ## Fan mail
 
 Fan Mail used to have its own tab — it now lives here in **Automations**. It lets you save reusable Fan Mail templates and pick one from a dropdown on the site's Fan Mail compose page.
