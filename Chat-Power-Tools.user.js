@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Chat Power Tools
 // @namespace    chat.powertools
-// @version      0.2.89
+// @version      0.2.91
 // @description  Unlimited ignore list, keyword filter, favorites, mention alerts, and more for Chat
 // @author       you
 // @match        https://www2.cammedia.com/*
@@ -19,7 +19,7 @@
 // @updateURL    https://raw.githubusercontent.com/MurderCity420/Chat-Power-Tools/main/Chat-Power-Tools.user.js
 // ==/UserScript==
 
-unsafeWindow.PT_VERSION = "0.2.89";
+unsafeWindow.PT_VERSION = "0.2.91";
 unsafeWindow.PT_ICONS = {
     // Smiley picker tab icons (these are all emoji, so they render in the header text and survive the obfuscation without needing to be in the loader)
     smileyTabs: {

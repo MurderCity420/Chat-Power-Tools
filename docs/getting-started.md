@@ -16,8 +16,7 @@ Click it to open (or close) the **Power Tools** panel.
 
 The panel is organized into tabs. Click a tab to switch to it; the data-backed tabs refresh automatically every time you open the panel or click the tab.
 
-Left to right, the tabs are: **Alerts, Favorites, Filters, Automations, Ignored, Blocks, Settings**<!-- PT:ADMIN-START -->**, Admin**<!-- PT:ADMIN-END -->. Settings holds **Features, Advanced, Power, Data,** and **Log** as sub-tabs (Power is hidden by default).<!-- PT:ADMIN-START --> The **Admin** tab holds testing tools as sub-tabs and is visible by default; you can hide it from **Admin → Visibility**.<!-- PT:ADMIN-END -->
-
+Left to right, the tabs are: **Alerts, Favorites, Filters, Automations, Ignored, Blocks, Settings**. Settings holds **Features, Advanced, Power, Data,** and **Log** as sub-tabs (Power is hidden by default).
 | Tab | Purpose |
 |---|---|
 | **Alerts** | Get pinged when your name/keywords appear — [docs](alerts.md) |
