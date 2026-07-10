@@ -8,23 +8,23 @@ These two tabs work together to manage who you mute and who you block. They shar
 
 ## The tier system
 
-Each user can be placed in one of three cumulative tiers, set with checkboxes on the **Ignored** tab:
+Each user can be placed in one of these tiers. The **Ignored** tab manages the two app-side tiers (**Alerts** and **Ignored**); the site-level **Blocked** tier is managed on the **Blocks** tab.
 
-| Tier | Effect | Includes |
-|---|---|---|
-| **Alerts** | Suppresses notifications from them only | — |
-| **Ignored** | Hides all their messages | + Alerts |
-| **Blocked** | Server-side block (they can't see you, you can't see them) | + Ignored + Alerts |
+| Tier | Effect | Includes | Managed on |
+|---|---|---|---|
+| **Alerts** | Suppresses notifications from them only | — | Ignored tab |
+| **Ignored** | Hides all their messages | + Alerts | Ignored tab |
+| **Blocked** | Server-side block (they can't see you, you can't see them) | + Ignored + Alerts | Blocks tab |
 
-The tiers are **cumulative** — checking **Ignored** auto-checks **Alerts**; checking **Blocked** auto-checks both lower boxes. Unchecking a lower box clears the higher ones. If you uncheck **Alerts** on someone who's Ignored or Blocked, you'll get a confirmation first (since it removes them from that list entirely).
+On the Ignored tab, **Alerts** and **Ignored** are **cumulative** — checking **Ignored** auto-checks **Alerts**; unchecking **Alerts** clears **Ignored** (you'll get a confirmation first, since it removes them from the list entirely). **Remove** clears both.
 
-Checking **Blocked** also **blocks the user on the site** and adds them to your Blocks tab. Unchecking it **unblocks them on the server** again.
+**Blocking never removes anyone from the site except one way:** the **Blocks tab → Unblock** button. Lowering someone's Alerts/Ignored tier — or any other automatic path — will **never** unblock them on the site. This is a deliberate safety guard so an accidental click or a lost local list can't wipe your server block list. See [Features → Blocking](features.md#blocking) for the full block-list safety behavior (master list beyond the 100-cap, "site is authoritative when the app is behind," and the automatic freeze on a sudden collapse).
 
-Each row shows a **member / guest / mod / verified-model** badge and a colored left edge by tier (🟡 Alerts · 🟠 Ignored · 🔴 Blocked). **Click a username** to open their profile in a new tab; **hover** it to see any former usernames (renames are tracked). You can also **highlight a name and Ctrl+C** to copy it. **Click a column header** (Alerts / Ignored / Blocked) to filter the list to that tier; click the active header again to show all.
+Each row shows a **member / guest / mod / verified-model** badge and a colored left edge by tier (🟡 Alerts · 🟠 Ignored). **Click a username** to open their profile in a new tab; **hover** it to see any former usernames (renames are tracked). You can also **highlight a name and Ctrl+C** to copy it. **Click a column header** (Alerts / Ignored) to filter the list to that tier; click the active header again to show all.
 
-> **Blocking moderators:** the site only lets mods/models block another moderator. For everyone else the Blocked checkbox on a mod row is **disabled**. To block mods anyway, turn on **Allow Mod Blocking** on the **[Features → Blocking](features.md)** tab — that block is session-only (it doesn't use a server slot) and is re-applied at each login. If you're a mod/model yourself, you can block mods without that setting.
+> **Blocking moderators:** the site only lets mods/models block another moderator; for everyone else, blocking a mod silently fails server-side. To block mods anyway, turn on **Allow Mod Blocking** on the **[Features → Blocking](features.md)** tab — that block is session-only (it doesn't use a server slot) and is re-applied at each login. If you're a mod/model yourself, you can block mods without that setting.
 
-| The Ignored tab — Name / Alerts / Ignored / Blocked / Remove |
+| The Ignored tab — Name / Alerts / Ignored / Remove |
 |:---:|
 | ![Ignored tab tier table](../screenshots/ignored-tab.png) |
 

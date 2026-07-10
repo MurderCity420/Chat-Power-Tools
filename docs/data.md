@@ -73,6 +73,8 @@ Tampermonkey can automatically back up its entire storage — including the Chat
 
 **Setup:** see the full step-by-step guide → [Syncing your settings](syncing-settings.md)
 
+> **Shortcut to the settings page:** the Data tab has a **🔗 Tampermonkey settings link** button. It copies the correct Tampermonkey settings-page link for your browser (Chrome/Edge). Browsers don't let a web page *open* extension pages directly, so **paste the copied link into a new tab's address bar** and press Enter. On **Firefox** the link is unique to each install and can't be built, so open Tampermonkey from its **toolbar icon → Dashboard → Settings** instead.
+
 Once you've finished setup, tick **"Disable warning for Browser, Google Drive or OneDrive backup"** in the Data tab to hide the reminder in the panel header.
 
 ---

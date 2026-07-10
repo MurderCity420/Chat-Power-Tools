@@ -17,12 +17,12 @@ The **Log** tab records what Chat Power Tools *does* — syncs, blocks, unblocks
 - **Format:** one human-readable line per event — `YYYY-MM-DD HH:MM:SS - Module - message`.
 - **Retention:** 3 days (older lines auto-prune).
 - **Modules:** `Init`, `Blocks`, `Guests`, `Sync`, `Profile`, `Friends`, `Cam`, `Rate`, `Members`, `Scrape`.
-- **Controls:** Filter, **Refresh**, **Download .txt**, **Copy all**, **Clear log**. The log view is a fixed height (390px).
-- **↓ Pull Logs** *(only shown when [Firebase Sync](firebase-sync.md) is enabled)* — pulls log entries from Firebase and merges them into your local log, deduped by timestamp and kept within the 3-day window. Useful for gathering logs from another device.
+- **Controls:** Filter, **Refresh**, **Download .txt**, **Clear log**.
+- **↑ Push Logs / ↓ Pull Logs** *(greyed out unless [Firebase Sync](firebase-sync.md) is on and set up)* — send your log to Firebase, or pull another device's entries down and merge them (deduped by timestamp, kept within the 3-day window).
 
-> **Log sync:** when Firebase sync is on, the diagnostic log is pushed to Firebase (under `cpt/<your-username>/logs`) on every sync tick — one-way (local → Firebase) by default. Use **↓ Pull Logs** to bring entries back down.
+> **Local-only by default:** the diagnostic log lives **only on this device** and is **no longer auto-synced**. It's cheap to keep locally but was by far the biggest consumer of Firebase storage/bandwidth, so it's now push-on-demand. Use **↑ Push Logs** when you actually want to gather logs from several devices in one place, then **↓ Pull Logs** on the other device.
 
-This is the first thing to grab when reporting a problem — open the tab, **Copy all**, and paste it into your bug report.
+This is the first thing to grab when reporting a problem — open the tab, **Download .txt**, and attach it to your bug report.
 
 > The Log tab also has a collapsed **Pre-wipe snapshots** section: whenever the chat is wiped, the visible chat is saved here first (last 10).
 

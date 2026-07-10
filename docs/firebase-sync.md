@@ -119,7 +119,7 @@ Once connected, sync is automatic:
 - The recurring auto-sync timer is **push-only** (local → Firebase); it does **not** auto-pull. To bring down newer users/settings from another device, **reload** the page or use the **Pull FB → Local** button.
 - The **"Last sync"** time updates on every auto-sync tick (even when nothing changed), so it always reflects the most recent push.
 
-> The diagnostic log is also pushed to Firebase on every sync tick — see [Log sync](#log-sync) below.
+> The auto-sync moves **settings and users only**. Your diagnostic **log** and **viewers** list are **local-only** and are *not* auto-synced — push/pull them on demand from their own tabs. See [Log & Viewer sync](#log--viewer-sync) below.
 
 ### Manual controls
 
@@ -133,11 +133,16 @@ Once connected, sync is automatic:
 
 ---
 
-## Log sync
+## Log & Viewer sync
 
-When Firebase sync is enabled, your diagnostic log is also backed up. On every auto-sync tick the local log is pushed to Firebase under `cpt/<your-username>/logs` — **one-way (local → Firebase)** by default.
+The diagnostic **log** and the **viewers** list are **local-only** — they are **not** part of the automatic sync. They were previously pushed on every tick and grew without bound in the cloud (the log alone was ~79% of Firebase storage), so they're now **manual, on-demand** only.
 
-To bring log entries *down* from Firebase, use the **↓ Pull Logs** button on the **[Log](logs-and-sync.md)** tab (only shown when Firebase is enabled). It pulls log entries from Firebase and merges them into your local log, **deduped by timestamp** and kept within the same 3-day retention window. This is handy for gathering logs from another device onto the one you're looking at.
+Each of the **[Log](logs-and-sync.md)** and **Viewers** tabs has its own pair of buttons, **greyed out unless Firebase sync is on and set up**:
+
+- **↑ Push Logs / ↑ Push Viewers** — send this device's entries up to Firebase (`cpt/<your-username>/logs` and `/viewers`).
+- **↓ Pull Logs / ↓ Pull Viewers** — pull entries down and merge them into your local copy, **deduped by timestamp** (logs keep the 3-day window; viewers keep ~1 month in the cloud).
+
+Use these when you deliberately want to gather logs/viewers from several devices onto one. For normal use you never need them — the local copies are all you require.
 
 ---
 
