@@ -2,7 +2,7 @@
 
 [← Back to README](../README.md) · [All docs](getting-started.md)
 
-The **Favorites** tab highlights messages from people you care about so they never get lost in a busy room.
+The **Favorites** tab highlights messages from people you care about so they never get lost in a busy room. The highlight applies to **both Favorites and Friends** (your site star list) — in chat and, optionally, in the user & viewers lists.
 
 | The Favorites tab |
 |:---:|
@@ -47,6 +47,10 @@ Five styles:
   - **Subtle / Strong / Box** — the colours **cycle**, one per message (message 1 = colour 1, message 2 = colour 2, …).
   - **Pixie dust** — every sparkle particle takes a different colour from the set.
   - **Bold** — the name's letters are **rainbowed** across the colours.
+
+### Who gets highlighted
+
+Under the colour picker, a **Highlight** radio chooses who the highlight applies to: **Both** (default), **Favorites only**, or **Friends only**.
 
 ### Per-person override
 

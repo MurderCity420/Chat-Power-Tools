@@ -37,7 +37,7 @@ Choose how a message that mentions you is marked:
 | **Box** | Full border around the message |
 
 
-**Highlight color** can be the default gold, the **sender's username color**, or a **custom color**. The "Use sender's username color" and "Custom color" options (with its color swatch) sit on the same row.
+**Highlight color** works exactly like the [Favorites](favorites.md#highlight-style--color) tab: pick **Senders color** (the mentioner's own name colour) or **Custom color** with up to **6** colours (the small **+** adds one, each swatch has a **×**). **One colour** = a flat colour; **2–6** switch on the multi-colour effects — Subtle/Strong/Box **cycle** one colour per message, **Pixie dust** uses all at once, and **Bold** rainbows the letters.
 
 
 ---
