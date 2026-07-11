@@ -44,10 +44,14 @@ Choose how a message that mentions you is marked:
 
 ## Alert behavior
 
-- **Chime when mentioned** — a soft two-note bell. Sits beside **Alert when rated** in a two-column layout.
+- **Chime when mentioned** — plays your chosen chime. Sits beside **Alert when rated** in a two-column layout.
 - **Alert when rated** — fires the same chime/flash whenever you receive a rating (any score), so you know who just rated you.
-- **Flash the browser tab title** — flashes `🔔 Mention!` when the tab is in the background.
-- A small **▶ play button** to the right of the **Alert behavior** heading plays the alert sound so you can check your volume.
+
+### Chime sound
+
+Next to the **▶ play button** is a **chime picker** with many options — Classic, Tri-tone, Facebook Pop, Messenger Ding, Over the Horizon, Windows Ding, Windows Error, Google Pop, Skype Message, Ding-Dong, Westminster, Store Entry, Microwave Beep-Beep, Harp, and Horns. Picking one saves it and plays a quick preview. *(All chimes are synthesized in the browser — original approximations of each sound, not the actual recordings.)*
+- **Flash the Browser tab** — flashes `🔔 Mention!` in the tab title when the tab is in the background.
+- A small **▶ play button** to the right of the **Alert behavior** heading plays the selected chime so you can check your volume.
 
 | Alert highlights in chat |
 |:---:|

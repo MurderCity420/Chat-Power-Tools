@@ -30,7 +30,7 @@ Click any of those labels at the top to **filter** the list to that group; click
 
 ## Highlight style & color
 
-Same four styles as [Alerts](alerts.md):
+Five styles:
 
 | Style | Look |
 |---|---|
@@ -38,16 +38,27 @@ Same four styles as [Alerts](alerts.md):
 | **Strong highlight** | Solid background tint |
 | **Bold** | Bold text |
 | **Box** | Full border around the message |
+| **Pixie dust** | Animated sparkles over the name |
 
-**Highlight color** options:
+**Highlight color** has two sources:
 
-- **Default (gold)**
-- **Use the sender's username color** — matches each favorite's own name color
-- **Custom color** — pick any color
+- **Senders color** — matches each favorite's own username color.
+- **Custom color** — pick your own. The colours sit in a single row; the small **+** to the right of the last swatch adds another (up to **6**), and each swatch has a corner **×** to remove it. **One colour** = a single flat colour; **2–6 colours** switch on the multi-colour effects, which depend on the style:
+  - **Subtle / Strong / Box** — the colours **cycle**, one per message (message 1 = colour 1, message 2 = colour 2, …).
+  - **Pixie dust** — every sparkle particle takes a different colour from the set.
+  - **Bold** — the name's letters are **rainbowed** across the colours.
 
-The "Use sender's username color" and "Custom color" options (with its color swatch) sit on the same row.
+### Per-person override
 
-Changing the style or color re-applies instantly to messages already on screen.
+Each row in the Favorites & Friends list has a **🎨** button (in its own column). It opens a (wide) editor where you pick **Default** (use the global colour) or **Custom color** — then add/remove up to 6 colours in a single row exactly like the tab above (1 = single, 2–6 = multi), independent of everyone else. A coloured underline on the 🎨 button means an override is set.
+
+### Highlight in the user & viewers lists
+
+Tick **"Also highlight favorite names in the user list & viewers list"** to apply the same style and colours (including pixie dust, letter-rainbow, and any per-person override) to favourite names in the room's **user list** and your **My Viewers** list — not just chat messages.
+
+A couple of list-specific notes: **Subtle** and **Strong** render the same in the lists (the rows are too tight for the border/shift), and with multiple colours the region styles (Subtle / Strong / Box) **stripe** by position — the first favourite gets colour 1, the next colour 2, and so on, wrapping around the palette. The stripe is recomputed only when the favourite set or order actually changes, so it stays put (no flicker) while the room ticks.
+
+Changing any style or colour re-applies instantly to messages already on screen.
 
 | A favorited user's message highlighted |
 |:---:|

@@ -33,7 +33,7 @@ Your Chat Power Tools settings — favorites, ignore/block tiers, keywords, aler
 
 This syncs **everything Tampermonkey stores** — the Chat Power Tools script itself *and* all of its saved settings.
 
-> Until you've done this, the panel header shows a **⚠ Set up settings backup** reminder. Once you've finished, tick **"Disable warning for Browser, Google Drive or OneDrive backup"** in the **Data** tab to hide it.
+> Until you've done this, the panel header shows a **⚠ Set up settings backup** reminder (and a warning pops up after login once your stored data passes ~100 KB). Once you've finished, tick **"I've set up a cloud backup — stop reminding me"** under the **Storage usage** meter on the **Settings → Data** tab to hide it.
 
 ---
 

@@ -2,7 +2,7 @@
 
 [← Back to README](../README.md)
 
-The **Data** tab gives you three ways to back up and restore your Chat Power Tools settings. Don't guess which to use — here's the short version:
+The **Data** tab (Settings → Data) gives you three ways to back up and restore your Chat Power Tools settings, each on its own sub-tab — **Import / Export**, **Cloud Backup**, and **Firebase** — with a **Storage usage** meter across the top. Don't guess which to use — here's the short version:
 
 ## Which one should I use?
 
@@ -75,7 +75,9 @@ Tampermonkey can automatically back up its entire storage — including the Chat
 
 > **Shortcut to the settings page:** the Data tab has a **🔗 Tampermonkey settings link** button. It copies the correct Tampermonkey settings-page link for your browser (Chrome/Edge). Browsers don't let a web page *open* extension pages directly, so **paste the copied link into a new tab's address bar** and press Enter. On **Firefox** the link is unique to each install and can't be built, so open Tampermonkey from its **toolbar icon → Dashboard → Settings** instead.
 
-Once you've finished setup, tick **"Disable warning for Browser, Google Drive or OneDrive backup"** in the Data tab to hide the reminder in the panel header.
+Once you've finished setup, tick **"I've set up a cloud backup — stop reminding me"** (under the **Storage usage** meter at the top of the Data tab) to hide the reminder in the panel header and stop the login pop-up.
+
+> **Login reminder:** if Chat Power Tools is storing more than ~100 KB in this browser and you haven't set up a backup (or enabled Firebase sync), a warning pops up shortly after you log in, offering **Cloud Backup (Recommended)** or **Firebase (Advanced)**. Its **Never show this again** checkbox does the same thing as the checkbox above.
 
 ---
 

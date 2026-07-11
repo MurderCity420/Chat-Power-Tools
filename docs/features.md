@@ -18,6 +18,7 @@ The controls appear in this order:
 - **Smiley picker** — replaces the default smiley popup with a modern, categorized, searchable picker (works in main chat and IM windows).
 - **Input helpers** — shows a live character counter by the input; turns red as you approach the ~200-char server limit.
 - **Hide Ignored/Blocked users** — hides anyone in your Ignored or Blocked tier from the room user list.
+- **Watching My Viewer dot** — on the **My Viewers** list, shows a green dot on anyone who is watching you **and** whose cam you also have open (docked or floating) — i.e. you're watching each other. On by default.
 - **Holiday color effects** — colors usernames with a holiday palette on special days. The holiday icon/tooltip stay regardless of this toggle.
 - **Floating Cam Docks** — saved cam layouts your cams snap to; the **Templates** button (same row) opens the layout manager. See [Floating Cam Docks](#floating-cam-docks).
 - **Pop-Out Cam Window** — mirrors your floating cams into a separate, movable window. See [Pop-Out Cam Window](#pop-out-cam-window).
