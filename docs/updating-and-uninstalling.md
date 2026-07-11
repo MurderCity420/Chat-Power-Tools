@@ -6,7 +6,9 @@
 
 ## Updating
 
-The script checks for updates automatically through Tampermonkey. To update manually:
+**In the panel header** there's a **↻ Check** button (next to the version number). It checks GitHub for a newer version on demand — it briefly shows **Checking…**, then **✓ Up to date** or, if a newer version exists, turns green and becomes an **Upgrade** button (Chat Power Tools also runs this check automatically shortly after you log in). Clicking **Upgrade** reminds you to back up first, then opens the install page.
+
+The script also checks for updates automatically through Tampermonkey. To update manually:
 
 1. Click the **Tampermonkey icon** in your toolbar.
 2. Select **Dashboard**.
