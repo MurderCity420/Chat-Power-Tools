@@ -15,9 +15,9 @@ The **Log** tab records what Chat Power Tools *does* — syncs, blocks, unblocks
 | ![Log tab](../screenshots/log-tab.png) |
 
 - **Format:** one human-readable line per event — `YYYY-MM-DD HH:MM:SS - Module - message`.
-- **Retention:** 3 days (older lines auto-prune).
+- **Retention:** choose **1 (default) / 2 / 3 / 5 / 7 days** from the dropdown — older lines auto-prune. Shortening it prunes immediately instead of waiting for the next log entry.
 - **Modules:** `Init`, `Blocks`, `Guests`, `Sync`, `Profile`, `Friends`, `Cam`, `Rate`, `Members`, `Scrape`.
-- **Controls:** Filter, **Refresh**, **Download .txt**, **Clear log**.
+- **Controls:** Retention dropdown, Filter, **Refresh**, **Download .txt**, **Clear log**.
 - **↑ Push Logs / ↓ Pull Logs** *(greyed out unless [Firebase Sync](firebase-sync.md) is on and set up)* — send your log to Firebase, or pull another device's entries down and merge them (deduped by timestamp, kept within the 3-day window).
 
 > **Local-only by default:** the diagnostic log lives **only on this device** and is **no longer auto-synced**. It's cheap to keep locally but was by far the biggest consumer of Firebase storage/bandwidth, so it's now push-on-demand. Use **↑ Push Logs** when you actually want to gather logs from several devices in one place, then **↓ Pull Logs** on the other device.
