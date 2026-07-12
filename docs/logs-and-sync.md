@@ -30,12 +30,12 @@ This is the first thing to grab when reporting a problem — open the tab, **Dow
 
 ## Profile sync *(cross-device settings)*
 
-Optionally mirrors your settings to your Chat Site **profile** ("More About Me") as a hidden, obfuscated comment.
+Optionally mirrors your settings to your Chat Site **profile** ("More About Me") as a hidden, encoded comment.
 
 - **On login:** if the profile copy is newer than your local copy (e.g. saved from another device), it's restored.
 - **Periodically:** your current settings are written back to the profile.
 
-This lets you keep the same favorites, ignore tiers, keywords, etc. across browsers/devices that share the same account. It's lightweight obfuscation, not encryption — don't store secrets in your profile.
+This lets you keep the same favorites, ignore tiers, keywords, etc. across browsers/devices that share the same account. It's lightweight encoding, not encryption — don't store secrets in your profile.
 
 > **Superseded by Firebase:** when you enable **[Firebase Sync](firebase-sync.md)** on the Data tab, profile sync is paused automatically — Firebase becomes the single source of truth, with live newest-wins merging across devices.
 

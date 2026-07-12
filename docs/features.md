@@ -2,7 +2,7 @@
 
 [← Back to README](../README.md) · [All docs](getting-started.md)
 
-The **Features** tab collects the optional enhancements, grouped into **Features** (user-interface tweaks plus the cam/IM pop-out windows) and **Blocking**.
+The **Features** tab collects the general optional enhancements. Everything about the **webcam area** — your own cam's position & height, floating cam docks, the pop-out windows, the mutual-watch dot, and the viewer/user-list controls — now lives on its own **[Cams](#cams-tab)** sub-tab (next to Features).
 
 | The Features tab |
 |:---:|
@@ -18,19 +18,30 @@ The controls appear in this order:
 - **Smiley picker** — replaces the default smiley popup with a modern, categorized, searchable picker (works in main chat and IM windows).
 - **Input helpers** — shows a live character counter by the input; turns red as you approach the ~200-char server limit.
 - **Hide Ignored/Blocked users** — hides anyone in your Ignored or Blocked tier from the room user list.
-- **Watching My Viewer dot** — on the **My Viewers** list, shows a green dot on anyone who is watching you **and** whose cam you also have open (docked or floating) — i.e. you're watching each other. On by default.
+- **Bulk Mail Manager** — adds checkboxes and Bulk Delete / Bulk Move to the site's Mail page.
 - **Holiday color effects** — colors usernames with a holiday palette on special days. The holiday icon/tooltip stay regardless of this toggle.
-- **Floating Cam Docks** — saved cam layouts your cams snap to; the **Templates** button (same row) opens the layout manager. See [Floating Cam Docks](#floating-cam-docks).
-- **Pop-Out Cam Window** — mirrors your floating cams into a separate, movable window. See [Pop-Out Cam Window](#pop-out-cam-window).
-- **Pop-Out Multi-IM** — combines your open IMs into one tabbed window; the **Tab order** dropdown (same row) sets the tab order. See [Pop-Out Multi-IM](#pop-out-multi-im).
+- **Fan Mail template picker** — Templates & Subjects for fan mail.
 - **Conversions** — detects measurements and money in chat and shows them in your preferred units; the two dropdowns pick the **unit system** and the **currency**.
 - **Scroll Lock** — a floating jump-to-bottom arrow appears when scroll lock is on and you've scrolled up. Optional **auto-disable after N seconds** (box on the same row).
-- **User list filter** — see below.
-- **Viewer list sort** — sort your "Watching Me" viewers by **none / name / gender / cam-on**.
 
 | Modern emoji picker |
 |:---:|
 | ![Emoji picker](../screenshots/emoji-picker.png) |
+
+---
+
+## Cams tab
+
+The **Cams** sub-tab (in Settings, next to Features) holds everything about the webcam area:
+
+- **Self Cam Position** — moves your own webcam preview, and its "My Webcam" control bar above it, **left / center / right** instead of the site's default centered spot. The control bar always stays centered directly above the preview, whichever side it's on.
+- **Self Cam Height** — tick to set the **starting height** of your own webcam preview, then enter a value from **110 to 600 px**. It's applied when you log in and re-applied when you turn your cam on/off (which otherwise resets it). You can still drag the divider to resize afterward — this only sets the size it *starts* at.
+- **Floating Cam Docks** — saved cam layouts your cams snap to; the **Templates** button (same row) opens the layout manager. See [Floating Cam Docks](#floating-cam-docks).
+- **Pop-Out Cam Window** — mirrors your floating cams into a separate, movable window. See [Pop-Out Cam Window](#pop-out-cam-window).
+- **Pop-Out Multi-IM** — combines your open IMs into one tabbed window; the **Tab order** dropdown (same row) sets the tab order. See [Pop-Out Multi-IM](#pop-out-multi-im).
+- **Watching "My Viewer" dot** — on the **My Viewers** list, shows a green dot on anyone who is watching you **and** whose cam you also have open (docked or floating) — i.e. you're watching each other. On by default.
+- **Viewer list sort** — sort your "Watching Me" viewers by **none / name / gender / cam-on**.
+- **User list filter** — see below.
 
 ### User list filter
 

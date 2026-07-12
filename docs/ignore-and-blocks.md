@@ -22,7 +22,7 @@ On the Ignored tab, **Alerts** and **Ignored** are **cumulative** — checking *
 
 Each row shows a **member / guest / mod / verified-model** badge and a colored left edge by tier (🟡 Alerts · 🟠 Ignored). **Click a username** to open their profile in a new tab; **hover** it to see any former usernames (renames are tracked). You can also **highlight a name and Ctrl+C** to copy it. **Click a column header** (Alerts / Ignored) to filter the list to that tier; click the active header again to show all.
 
-> **Blocking moderators:** the site only lets mods/models block another moderator; for everyone else, blocking a mod silently fails server-side. To block mods anyway, turn on **Allow Mod Blocking** on the **[Features → Blocking](features.md)** tab — that block is session-only (it doesn't use a server slot) and is re-applied at each login. If you're a mod/model yourself, you can block mods without that setting.
+> **Blocking moderators:** the site only lets mods/models block another moderator; for everyone else it hides the Block button. When it's hidden, the in-chat **user menu** shows a red **BLOCK / UNBLOCK** (under *Temp Block*) that blocks the mod **client-side** — it stays in your **You Block** list and is re-applied at each login (it doesn't use a server slot). If you're a mod/verified model yourself, the site's own Block button is shown, so nothing extra is added. (You can also turn on **Allow Mod Blocking** on the **[Features → Blocking](features.md)** tab for the same effect via the tiers.)
 
 | The Ignored tab — Name / Alerts / Ignored / Remove |
 |:---:|
@@ -84,6 +84,24 @@ To run that sweep **automatically** on a schedule, turn on **Auto Unblock Guest 
 | Manual guest cleanup button |
 |:---:|
 | ![Guest block cleanup button](../screenshots/blocks-guest-cleanup.png) |
+
+---
+
+## Temp Block (members)
+
+Like the guest auto-block, but for **normal users** you choose. Once someone is temp-blocked, **every time they watch your cam** they're auto-blocked for the same duration as your **Auto Unblock Guest Blocks → every N min** setting, then released — but they **stay on the list** and get re-blocked the next time they watch.
+
+**Turn it on/off in two places:**
+- **User Menu** — a **TEMP BLOCK / TEMP UNBLOCK** item between *Report* and *Block*.
+- **Their profile page** — a **Temp Block / Temp Unblock** button in the top action bar, between *Fan* and *Block*.
+
+They always appear in your **You Block** list with a **T** badge next to *Unblock*:
+- **🔴 red T** — currently blocked on the server (with a live release countdown, like a guest);
+- **🟢 green T** — on the temp-block list but not currently blocked.
+
+The **Unblock** button works as normal (a one-time release). To stop temp-blocking someone entirely, use **Temp Unblock** in the User Menu or on their profile.
+
+> The temp-block list is **browser-wide** (shared across chat accounts in the same browser) so the profile-page button — which runs on a page that isn't logged into chat — can reach it.
 
 ---
 

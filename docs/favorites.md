@@ -58,9 +58,9 @@ Each row in the Favorites & Friends list has a **🎨** button (in its own colum
 
 ### Highlight in the user & viewers lists
 
-Tick **"Also highlight favorite names in the user list & viewers list"** to apply the same style and colours (including pixie dust, letter-rainbow, and any per-person override) to favourite names in the room's **user list** and your **My Viewers** list — not just chat messages.
+Tick **"Also highlight favorite names in the user list & viewers list"** to apply the same style and colours (including pixie dust, letter-rainbow, and any per-person override) to favourite names in the room's **user list** — not just chat messages.
 
-A couple of list-specific notes: **Subtle** and **Strong** render the same in the lists (the rows are too tight for the border/shift), and with multiple colours the region styles (Subtle / Strong / Box) **stripe** by position — the first favourite gets colour 1, the next colour 2, and so on, wrapping around the palette. The stripe is recomputed only when the favourite set or order actually changes, so it stays put (no flicker) while the room ticks.
+Applies to the **room user list only** (not the My Viewers list). A couple of list-specific notes: **Subtle** and **Strong** tint the **whole row** — play button, avatar, name and watcher count — matching the site's own grey "watching" highlight; **Box / Bold / Pixie dust** stay on the name. With multiple colours the region styles **stripe** by position — the first favourite gets colour 1, the next colour 2, and so on, wrapping around the palette. The stripe is recomputed only when the favourite set or order actually changes, so it stays put (no flicker) while the room ticks.
 
 Changing any style or colour re-applies instantly to messages already on screen.
 
