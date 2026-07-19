@@ -8,8 +8,6 @@ It lives on the **Data** tab, under **Google Firebase sync**.
 
 > **Do you need this?** If you only use one browser, you don't. For a simpler hands-off backup, or to move settings between two browsers occasionally, the file **Download / Upload Settings** buttons (also on the Data tab) are enough. Firebase is for live, automatic, multi-device sync.
 
-> While Firebase sync is **enabled**, the older profile-field backup is paused — Firebase becomes the single source of truth.
-
 > **Per-account storage:** your data is stored under `cpt/<your-username>` in the database — each chat account gets its own branch (meta / settings / users / logs). This means **multiple chat accounts can share one Firebase database/connection**, since they never collide. The script only connects **after you log in to chat**.
 
 ---

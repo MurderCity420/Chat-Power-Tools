@@ -51,4 +51,4 @@ To remove the script **and all its saved data**:
 
 The Tampermonkey extension itself stays installed — only Chat Power Tools is removed.
 
-> **Note:** uninstalling deletes your locally stored lists (favorites, tiers, keywords, logs). If you use [profile sync](logs-and-sync.md), a copy may still exist on your Chat Site profile.
+> **Note:** uninstalling deletes your locally stored lists (favorites, tiers, keywords, logs). If you use [Firebase Sync](firebase-sync.md), a copy still exists in your Firebase database.
