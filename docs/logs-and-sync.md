@@ -16,7 +16,7 @@ The **Log** tab records what Chat Power Tools *does* — syncs, blocks, unblocks
 
 - **Format:** one human-readable line per event — `YYYY-MM-DD HH:MM:SS - Module - message`.
 - **Retention:** choose **1 (default) / 2 / 3 / 5 / 7 days** from the dropdown — older lines auto-prune. Shortening it prunes immediately instead of waiting for the next log entry.
-- **Modules:** `Init`, `Blocks`, `Guests`, `Sync`, `Profile`, `Friends`, `Cam`, `Rate`, `Members`, `Scrape`.
+- **Modules:** `Init`, `Blocks`, `Guests`, `Sync`, `Profile`, `Friends`, `Cam`, `Rate`, `Members`, `Scrape`, `Jerk`, `Translate`.
 - **Controls:** Retention dropdown, Filter, **Refresh**, **Download .txt**, **Clear log**.
 - **↑ Push Logs / ↓ Pull Logs** *(greyed out unless [Firebase Sync](firebase-sync.md) is on and set up)* — send your log to Firebase, or pull another device's entries down and merge them (deduped by timestamp, kept within the 3-day window).
 
