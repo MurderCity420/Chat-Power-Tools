@@ -41,7 +41,7 @@ The **Cams** sub-tab (in Settings, next to Features) holds everything about the 
 - **Self Cam Height** — tick to set the **starting height** of your own webcam preview, then enter a value from **110 to 600 px**. It's applied when you log in and re-applied when you turn your cam on/off (which otherwise resets it). You can still drag the divider to resize afterward — this only sets the size it *starts* at.
 - **Floating Cam Docks** — saved cam layouts your cams snap to; the **Templates** button (same row) opens the layout manager. See [Floating Cam Docks](#floating-cam-docks).
 - **Pop-Out Cam Window** — mirrors your floating cams into a separate, movable window. See [Pop-Out Cam Window](#pop-out-cam-window).
-- **Pop-Out Multi-IM** — combines your open IMs into one tabbed window; the **Tab order** dropdown (same row) sets the tab order. See [Pop-Out Multi-IM](#pop-out-multi-im).
+- **Multi-IM** — combines your open IMs into one tabbed panel; the **Tab order** dropdown (same row) sets the tab order, and the **Style** dropdown picks a pop-out window or an in-page draggable box. See [Multi-IM](#multi-im).
 - **Watching "My Viewer" dot** — on the **My Viewers** list, shows a green dot on anyone who is watching you **and** whose cam you also have open (docked or floating) — i.e. you're watching each other. On by default.
 - **Viewer list sort** — sort your "Watching Me" viewers by **none / name / gender / cam-on**.
 - **User list filter** — see below.
@@ -85,10 +85,13 @@ Mirrors your floating cams into a separate, movable browser window (drag it to a
 
 > The pop-out is a normal pop-up window, so it must be opened by **clicking the toggle** (it can't auto-open after a reload) and Chrome may show a thin address strip. Allow pop-ups for the site if nothing opens. Chrome/Edge only.
 
-## Pop-Out Multi-IM
+## Multi-IM
 
-Combines your open IMs into one tabbed window. Ticking the box adds a **💬 toggle** next to the cam pop-out button; click it to open/close the window.
+Combines your open IMs into one tabbed panel. Ticking the box adds a **💬 toggle** next to the cam pop-out button; click it to open/close the panel.
 
+- **Style** — the dropdown chooses how the 💬 button opens the panel:
+  - **Pop-out window** — a separate, movable browser window (drag it to a second monitor).
+  - **In-page panel** — a **draggable, resizable box on the chat page** (no separate window). Drag it by its **title bar**, resize from the **bottom-right corner**; its position and size are remembered per device. Same tabs and features as the window.
 - **Tabs** — each open IM is a tab, **three per row**, wrapping to new rows. Your **own IM is always the first tab**.
 - **Tab order** — the dropdown on the same row chooses **Order opened** or **Alphabetical** (your own IM stays first either way).
 - **Missed-message counter** — a blue circle on a tab you're not viewing counts new messages and clears when you switch to it.
