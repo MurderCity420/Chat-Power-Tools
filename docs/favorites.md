@@ -65,6 +65,14 @@ A **Transparency** slider next to the swatches controls how see-through the fill
 
 Each sub-tab has its own **Highlight** radio choosing who it applies to: **Both** (default), **Favorites only**, or **Friends only** — so (for example) chat can highlight everyone while the user list highlights only Favorites.
 
+### Room-entry ticker
+
+In the Chat Highlight color section, below the color swatches, is **Show ticker when friend/Fav joins room**. It has no scope of its own — it follows the same **Highlight: Both / Favorites only / Friends only** radio directly below it, so "who" is answered in one place for both the highlight and the ticker.
+
+When on, the moment a matching friend or favorite joins the room a small banner appears at the top-center of the screen — their name in gold (Favorite), blue (Friend), or green (Friend & Favorite) — and fades out after a few seconds. Several joins in quick succession stack; the newest few stay on screen and older ones age out.
+
+This only fires for someone actually **joining while you're already in the room** — it does not fire for the room's existing roster when you first log in or switch rooms (that would be a wall of banners, not a useful signal), and it never fires for your own account. A short cooldown per person also prevents a flaky connection from re-announcing the same rejoin repeatedly.
+
 ### User List Highlight notes
 
 Applies to the **room user list only** (not the My Viewers list). **Subtle** and **Strong** tint the **whole row** — play button, avatar, name and watcher count — matching the site's own grey "watching" highlight; **Box / Bold / Pixie dust** stay on the name. With multiple colours the region styles **stripe** by position — the first favourite gets colour 1, the next colour 2, and so on, wrapping around the palette. The stripe is recomputed only when the favourite set or order actually changes, so it stays put (no flicker) while the room ticks.
